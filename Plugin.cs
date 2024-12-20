@@ -34,7 +34,7 @@ public class Plugin : BasePlugin
 
         Log = base.Log;
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-        Log.LogInfo($"Using custom server at {SERVER_URL}");
+        //Log.LogInfo($"Using custom server at {SERVER_URL}");
 
         //foreach (var x in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
         //{
@@ -2222,6 +2222,25 @@ public class Plugin : BasePlugin
                 AddPassive(10911, 9014503, 4);
                 AddPassive(10911, 9014803, 4);
 
+
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1091101).skillData[2].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnWinDuel", buffData = new BuffReferenceData { buffKeyword = "BloomingThornsRodionFirst", target = "Self", stack = 2, value = 0.0f } });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1091101).levelList[2].desc += "\n[WinDuel] Gain 2 [BloomingThornsRodionFirst]";
+
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1091102).skillData[2].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnWinDuel", buffData = new BuffReferenceData { buffKeyword = "BloomingThornsRodionFirst", target = "Self", stack = 3, value = 0.0f } });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1091102).levelList[2].desc += "\n[WinDuel] Gain 3 [BloomingThornsRodionFirst]";
+
+
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1091101).skillData[2].coinList)
+                {
+                    x.scale += 1;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1091102).skillData[2].coinList)
+                {
+                    x.scale += 2;
+                }
+
                 foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1091103).skillData[0].coinList)
                 {
                     x.scale += 2;
@@ -2243,6 +2262,14 @@ public class Plugin : BasePlugin
                     x.scale += 13;
                     x.color = "GREY";
                 }
+
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1091103).skillData[0].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttack", buffData = new BuffReferenceData { buffKeyword = "BloomingThornsRodionFirst", target = "Self", turn = 2, value = 0.0f } });
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1091103).skillData[0].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttack", buffData = new BuffReferenceData { buffKeyword = "BloomingThornsRodionFirst", target = "Self", turn = 2, value = 0.0f } });
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1091103).skillData[0].coinList[2].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttack", buffData = new BuffReferenceData { buffKeyword = "BloomingThornsRodionFirst", target = "Self", turn = 3, value = 0.0f } });
+
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1091103).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "<style=\"highlight\">[OnSucceedAttack] Gain 2 blooming[thornyfall_panicRodionFirst]</style>" });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1091103).levelList[1].coinlist[1].coindescs.Add(new TextData_Skill_CoinDesc { desc = "<style=\"highlight\">[OnSucceedAttack] Gain 2 BloomingThornsRodionFirst</style>" });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1091103).levelList[1].coinlist[2].coindescs.Add(new TextData_Skill_CoinDesc { desc = "<style=\"highlight\">[OnSucceedAttack] Gain 3 blooming[thornyfall_panicRodionSecond]</style>" });
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1091105).skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "ForceToActivateBuffOSAOnRC_NONE4", buffData = new BuffReferenceData { buffKeyword = "Laceration", target = "Target", turn = 1, value = 0.0f } });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1091105).skillData[1].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "ForceToActivateBuffOSAOnRC_NONE4", buffData = new BuffReferenceData { buffKeyword = "Laceration", target = "Target", turn = 1, value = 0.0f } });
