@@ -322,27 +322,27 @@ public class Plugin : BasePlugin
     //static internal System.Collections.Generic.List<object> pss = new System.Collections.Generic.List<object>();
     public static System.Collections.Generic.Dictionary<float, System.Collections.Generic.List<object>> pss = new System.Collections.Generic.Dictionary<float, System.Collections.Generic.List<object>>();
 
-    public static float GetSid(BattleUnitModel model)
-    {
-        float sid = model.UnitDataModel.ClassInfo.ID;
-        return sid;
-    }
+    //public static float GetSid(BattleUnitModel model)
+    //{
+    //    float sid = model.UnitDataModel.ClassInfo.ID;
+    //    return sid;
+    //}
 
-    public static void AssignPassive(BattleUnitModel model, int id)
-    {
-        float sid = GetSid(model);
-        Log.LogInfo($"{sid}:{id}");
-        if (!pss.ContainsKey(sid))
-        {
-            pss.Add(sid, new System.Collections.Generic.List<object>());
-        }
+    //public static void AssignPassive(BattleUnitModel model, int id)
+    //{
+    //    float sid = GetSid(model);
+    //    Log.LogInfo($"{sid}:{id}");
+    //    if (!pss.ContainsKey(sid))
+    //    {
+    //        pss.Add(sid, new System.Collections.Generic.List<object>());
+    //    }
 
-        if (id == -1)
-        {
-            var p = new PassiveAbility_1();
-            p.Init(model, null, null);
-            pss[sid].Add(p);
-        }
+    //    if (id == -1)
+    //    {
+    //        var p = new PassiveAbility_1();
+    //        p.Init(model, null, null);
+    //        pss[sid].Add(p);
+    //    }
 
         //var ps = Type.GetType($"PassiveAbility_1{Math.Abs(id)}");
         //if (ps != null)
@@ -355,132 +355,132 @@ public class Plugin : BasePlugin
         //{
         //    Log.LogFatal($"{id} is null");
         //}
-    }
+    //}
 
     // reset passives + set the passive -1 to the abno part not unit!
-    public static void NukePassives(BattleUnitModel model)
-    {
-        float sid = GetSid(model);
-        Log.LogInfo($"{sid}");
-        if (pss.ContainsKey(sid))
-        {
-            pss.Remove(sid);
-        }
-    }
+    //public static void NukePassives(BattleUnitModel model)
+    //{
+    //    float sid = GetSid(model);
+    //    Log.LogInfo($"{sid}");
+    //    if (pss.ContainsKey(sid))
+    //    {
+    //        pss.Remove(sid);
+    //    }
+    //}
 
-    public static System.Collections.Generic.List<PassiveAbility> GetPassives(BattleUnitModel model = null, float bsid = 0f)
-    {
-        float sid;
-        if (model == null)
-        {
-            sid = bsid;
-        } else
-        {
-            sid = GetSid(model);
-        }
-        System.Collections.Generic.List<PassiveAbility> list = new System.Collections.Generic.List<PassiveAbility>();
-        Log.LogInfo($"{sid}");
-        if (pss.ContainsKey(sid))
-        {
-            foreach (var x in pss[sid])
-            {
-                list.Add(x as PassiveAbility);
-            }
-            return list;
-        }
-        else
-        {
-            return list;
-        }
-    }
+    //public static System.Collections.Generic.List<PassiveAbility> GetPassives(BattleUnitModel model = null, float bsid = 0f)
+    //{
+    //    float sid;
+    //    if (model == null)
+    //    {
+    //        sid = bsid;
+    //    } else
+    //    {
+    //        sid = GetSid(model);
+    //    }
+    //    System.Collections.Generic.List<PassiveAbility> list = new System.Collections.Generic.List<PassiveAbility>();
+    //    Log.LogInfo($"{sid}");
+    //    if (pss.ContainsKey(sid))
+    //    {
+    //        foreach (var x in pss[sid])
+    //        {
+    //            list.Add(x as PassiveAbility);
+    //        }
+    //        return list;
+    //    }
+    //    else
+    //    {
+    //        return list;
+    //    }
+    //}
 
-    [HarmonyPatch(typeof(BattleUnitModel), "Init")]
-    [HarmonyPostfix]
-    public static void Scaffold_Init(BattleUnitModel __instance)
-    {
-        foreach (var psd in __instance._passiveDetail.PassiveList)
-        {
-            if (psd.GetID() < 0)
-            {
-                AssignPassive(__instance, psd.GetID());
-            }
-        }
-    }
+    //[HarmonyPatch(typeof(BattleUnitModel), "Init")]
+    //[HarmonyPostfix]
+    //public static void Scaffold_Init(BattleUnitModel __instance)
+    //{
+    //    foreach (var psd in __instance._passiveDetail.PassiveList)
+    //    {
+    //        if (psd.GetID() < 0)
+    //        {
+    //            AssignPassive(__instance, psd.GetID());
+    //        }
+    //    }
+    //}
 
-    [HarmonyPatch(typeof(BattleUnitModel), "OnDie")]
-    [HarmonyPostfix]
-    public static void Scaffold_OnDie(BattleUnitModel __instance)
-    {
-        NukePassives(__instance);
-    }
+    //[HarmonyPatch(typeof(BattleUnitModel), "OnDie")]
+    //[HarmonyPostfix]
+    //public static void Scaffold_OnDie(BattleUnitModel __instance)
+    //{
+    //    NukePassives(__instance);
+    //}
 
-    [HarmonyPatch(typeof(BattleUnitModel), "BeforeGiveAttackDamage")]
-    [HarmonyPrefix]
-    public static void Scaffold_BeforeGiveAttackDamage(BattleUnitModel __instance, BattleActionModel action, CoinModel coin, BattleUnitModel target, BATTLE_EVENT_TIMING timing)
-    {
-        foreach (var ps in GetPassives(__instance))
-        {
-            ps.BeforeGiveAttackDamage(action, coin, target, timing);
-        }
-    }
+    //[HarmonyPatch(typeof(BattleUnitModel), "BeforeGiveAttackDamage")]
+    //[HarmonyPrefix]
+    //public static void Scaffold_BeforeGiveAttackDamage(BattleUnitModel __instance, BattleActionModel action, CoinModel coin, BattleUnitModel target, BATTLE_EVENT_TIMING timing)
+    //{
+    //    foreach (var ps in GetPassives(__instance))
+    //    {
+    //        ps.BeforeGiveAttackDamage(action, coin, target, timing);
+    //    }
+    //}
 
-    [HarmonyPatch(typeof(BattleUnitModel), "OnTakeAttackDamage")]
-    [HarmonyPrefix]
-    public static void Scaffold_OnTakeAttackDamage(BattleUnitModel __instance, BattleActionModel action, CoinModel coin, int realDmg, int hpDamage, BATTLE_EVENT_TIMING timing, bool isCritical)
-    {
-        foreach (var ps in GetPassives(__instance))
-        {
-            ps.OnTakeAttackDamage(action, realDmg, hpDamage, timing);
-        }
-    }
+    //[HarmonyPatch(typeof(BattleUnitModel), "OnTakeAttackDamage")]
+    //[HarmonyPrefix]
+    //public static void Scaffold_OnTakeAttackDamage(BattleUnitModel __instance, BattleActionModel action, CoinModel coin, int realDmg, int hpDamage, BATTLE_EVENT_TIMING timing, bool isCritical)
+    //{
+    //    foreach (var ps in GetPassives(__instance))
+    //    {
+    //        ps.OnTakeAttackDamage(action, realDmg, hpDamage, timing);
+    //    }
+    //}
 
-    [HarmonyPatch(typeof(BattleUnitModel), "GetParryingResultAdder")]
-    [HarmonyPrefix]
-    public static void Scaffold_GetParryingResultAdder(BattleUnitModel __instance, BattleActionModel action, int actorResult, BattleActionModel oppoAction, int oppoResult, int parryingCount)
-    {
-        foreach (var ps in GetPassives(__instance))
-        {
-            actorResult = ps.GetParryingResultAdder(action, actorResult, oppoAction, oppoResult, parryingCount);
-        }
-    }
+    //[HarmonyPatch(typeof(BattleUnitModel), "GetParryingResultAdder")]
+    //[HarmonyPrefix]
+    //public static void Scaffold_GetParryingResultAdder(BattleUnitModel __instance, BattleActionModel action, int actorResult, BattleActionModel oppoAction, int oppoResult, int parryingCount)
+    //{
+    //    foreach (var ps in GetPassives(__instance))
+    //    {
+    //        actorResult = ps.GetParryingResultAdder(action, actorResult, oppoAction, oppoResult, parryingCount);
+    //    }
+    //}
 
-    [HarmonyPatch(typeof(BattleUnitModel), "OnRoundEnd")]
-    [HarmonyPrefix]
-    public static void Scaffold_OnRoundEnd(BattleUnitModel __instance, BATTLE_EVENT_TIMING timing)
-    {
-        foreach (var ps in GetPassives(__instance))
-        {
-            ps.OnRoundEnd(timing);
-        }
-    }
+    //[HarmonyPatch(typeof(BattleUnitModel), "OnRoundEnd")]
+    //[HarmonyPrefix]
+    //public static void Scaffold_OnRoundEnd(BattleUnitModel __instance, BATTLE_EVENT_TIMING timing)
+    //{
+    //    foreach (var ps in GetPassives(__instance))
+    //    {
+    //        ps.OnRoundEnd(timing);
+    //    }
+    //}
 
-    [HarmonyPatch(typeof(BattleUnitModel), "GetActionSlotAdder")]
-    [HarmonyPrefix]
-    public static bool Scaffold_GetActionSlotAdder(BattleUnitModel __instance, ref int __result)
-    {
-        //bsid = GetSid(__instance);
+    //[HarmonyPatch(typeof(BattleUnitModel), "GetActionSlotAdder")]
+    //[HarmonyPrefix]
+    //public static bool Scaffold_GetActionSlotAdder(BattleUnitModel __instance, ref int __result)
+    //{
+    //    //bsid = GetSid(__instance);
 
-        int total = 0;
-        foreach (var ps in GetPassives(__instance))
-        {
-            total += ps.GetActionSlotAdder();
-        }
-        Log.LogFatal(total);
-        if (__instance._buffDetail != null)
-        {
-            total += __instance._buffDetail.GetActionSlotAdder();
-        }
-        Log.LogFatal(total);
+    //    int total = 0;
+    //    foreach (var ps in GetPassives(__instance))
+    //    {
+    //        total += ps.GetActionSlotAdder();
+    //    }
+    //    Log.LogFatal(total);
+    //    if (__instance._buffDetail != null)
+    //    {
+    //        total += __instance._buffDetail.GetActionSlotAdder();
+    //    }
+    //    Log.LogFatal(total);
 
-        if (__instance._passiveDetail != null)
-        {
-            total += __instance._passiveDetail.GetActionSlotAdder();
-        }
+    //    if (__instance._passiveDetail != null)
+    //    {
+    //        total += __instance._passiveDetail.GetActionSlotAdder();
+    //    }
 
-        Log.LogFatal(total);
-        __result = total;
-        return false;
-    }
+    //    Log.LogFatal(total);
+    //    __result = total;
+    //    return false;
+    //}
 
     //internal static float bsid = 0f;
 
@@ -751,39 +751,39 @@ public class Plugin : BasePlugin
     //    //return true;
     //}
 
-    [HarmonyPatch(typeof(BattleUnitModel), "Init")]
-    [HarmonyPostfix]
-    public static void egogift(BattleUnitModel __instance)
-    {
-        if (__instance.GetCharacterID() != -1)
-        {
-            foreach ((int eid, int pr, int id) in egolist["Player"])
-            {
-                if (id != 0 && id == __instance.UnitDataModel._classInfo.ID)
-                {
-                    __instance.AddEgoGiftAbility(Singleton<StaticDataManager>.Instance.EgoGiftDataMediator.GetEgoGiftAbilityById(eid, pr));
-                }
-                else if (id == 0)
-                {
-                    __instance.AddEgoGiftAbility(Singleton<StaticDataManager>.Instance.EgoGiftDataMediator.GetEgoGiftAbilityById(eid, pr));
-                }
-            }
-        }
-        else
-        {
-            foreach ((int eid, int pr, int id) in egolist["Enemy"])
-            {
-                if (id != 0 && id == __instance.UnitDataModel._classInfo.ID)
-                {
-                    __instance.AddEgoGiftAbility(Singleton<StaticDataManager>.Instance.EgoGiftDataMediator.GetEgoGiftAbilityById(eid, pr));
-                }
-                else if (id == 0)
-                {
-                    __instance.AddEgoGiftAbility(Singleton<StaticDataManager>.Instance.EgoGiftDataMediator.GetEgoGiftAbilityById(eid, pr));
-                }
-            }
-        }
-    }
+    //[HarmonyPatch(typeof(BattleUnitModel), "Init")]
+    //[HarmonyPostfix]
+    //public static void egogift(BattleUnitModel __instance)
+    //{
+    //    if (__instance.GetCharacterID() != -1)
+    //    {
+    //        foreach ((int eid, int pr, int id) in egolist["Player"])
+    //        {
+    //            if (id != 0 && id == __instance.UnitDataModel._classInfo.ID)
+    //            {
+    //                __instance.AddEgoGiftAbility(Singleton<StaticDataManager>.Instance.EgoGiftDataMediator.GetEgoGiftAbilityById(eid, pr));
+    //            }
+    //            else if (id == 0)
+    //            {
+    //                __instance.AddEgoGiftAbility(Singleton<StaticDataManager>.Instance.EgoGiftDataMediator.GetEgoGiftAbilityById(eid, pr));
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        foreach ((int eid, int pr, int id) in egolist["Enemy"])
+    //        {
+    //            if (id != 0 && id == __instance.UnitDataModel._classInfo.ID)
+    //            {
+    //                __instance.AddEgoGiftAbility(Singleton<StaticDataManager>.Instance.EgoGiftDataMediator.GetEgoGiftAbilityById(eid, pr));
+    //            }
+    //            else if (id == 0)
+    //            {
+    //                __instance.AddEgoGiftAbility(Singleton<StaticDataManager>.Instance.EgoGiftDataMediator.GetEgoGiftAbilityById(eid, pr));
+    //            }
+    //        }
+    //    }
+    //}
 
     [HarmonyPatch(typeof(StageController), "InitStage")]
     [HarmonyPrefix]
@@ -846,6 +846,7 @@ public class Plugin : BasePlugin
             Log.LogFatal($"DungeonFixer: {DungeonProgressManager.IsRailwayDungeon}");
             _egostage = true;
         }
+    }
         //else if (__instance.StageModel.ClassInfo.ID == 3)
         //{
         //    DungeonProgressManager._isOnDungeon = true;
@@ -884,68 +885,68 @@ public class Plugin : BasePlugin
         //    Log.LogFatal($"DungeonFixer: {DungeonProgressManager.IsRailwayDungeon}");
         //    _egostage = true;
         //}
-    }
+        //}
 
-    //[HarmonyPatch(typeof(MirrorDungeonProgressBridge), "GetAdditionalEgoGiftAbilityNames")]
-    //[HarmonyPrefix]
-    //public static bool DungeonFixer77(Il2CppSystem.Collections.Generic.List<EgoGiftAbilityNameData> __result)
-    //{
-    //    Log.LogInfo("DungeonFixer77");
-    //    __result = new Il2CppSystem.Collections.Generic.List<EgoGiftAbilityNameData>();
-    //    __result.Add(new EgoGiftAbilityNameData("hi lol", EGO_GIFT_ABILITY_NAME_TYPES.ITEM));
-    //    return true;
-    //}
+        //[HarmonyPatch(typeof(MirrorDungeonProgressBridge), "GetAdditionalEgoGiftAbilityNames")]
+        //[HarmonyPrefix]
+        //public static bool DungeonFixer77(Il2CppSystem.Collections.Generic.List<EgoGiftAbilityNameData> __result)
+        //{
+        //    Log.LogInfo("DungeonFixer77");
+        //    __result = new Il2CppSystem.Collections.Generic.List<EgoGiftAbilityNameData>();
+        //    __result.Add(new EgoGiftAbilityNameData("hi lol", EGO_GIFT_ABILITY_NAME_TYPES.ITEM));
+        //    return true;
+        //}
 
-    [HarmonyPatch(typeof(BattleUIRoot), "Init")]
-    [HarmonyPrefix]
-    public static void DungeonFixer1()
-    {
-        if (_egostage)
+        [HarmonyPatch(typeof(BattleUIRoot), "Init")]
+        [HarmonyPrefix]
+        public static void DungeonFixer1()
         {
-            Log.LogInfo("DungeonFixer1");
-            DungeonProgressManager._isOnDungeon = false;
+            if (_egostage)
+            {
+                Log.LogInfo("DungeonFixer1");
+                DungeonProgressManager._isOnDungeon = false;
+            }
+            //return false;
         }
-        //return false;
-    }
 
-    [HarmonyPatch(typeof(StageController), "CreateAllyUnits")]
-    [HarmonyPrefix]
-    public static void DungeonFixer2()
-    {
-        if (_egostage)
+        [HarmonyPatch(typeof(StageController), "CreateAllyUnits")]
+        [HarmonyPrefix]
+        public static void DungeonFixer2()
         {
-            Log.LogInfo("DungeonFixer2");
-            DungeonProgressManager._isOnDungeon = false;
+            if (_egostage)
+            {
+                Log.LogInfo("DungeonFixer2");
+                DungeonProgressManager._isOnDungeon = false;
+            }
+            //return false;
         }
-        //return false;
-    }
 
-    [HarmonyPatch(typeof(VoiceGenerator), "Init_Battle")]
-    [HarmonyPrefix]
-    public static void DungeonFixer3()
-    {
-        if (_egostage)
+        [HarmonyPatch(typeof(VoiceGenerator), "Init_Battle")]
+        [HarmonyPrefix]
+        public static void DungeonFixer3()
         {
-            Log.LogInfo("DungeonFixer3");
-            DungeonProgressManager._isOnDungeon = true;
+            if (_egostage)
+            {
+                Log.LogInfo("DungeonFixer3");
+                DungeonProgressManager._isOnDungeon = true;
+            }
+            //return false;
         }
-        //return false;
-    }
-    [HarmonyPatch(typeof(GlobalGameManager), "LeaveStage")]
-    [HarmonyPrefix]
-    public static void DungeonFixer4()
-    {
-        pss.Clear();
-        if (_egostage)
+        [HarmonyPatch(typeof(GlobalGameManager), "LeaveStage")]
+        [HarmonyPrefix]
+        public static void DungeonFixer4()
         {
-            Log.LogInfo("DungeonFixer4");
-            DungeonProgressManager._isOnDungeon = false;
-            DungeonProgressManager.ClearData();
-            _egostage = false;
+            pss.Clear();
+            if (_egostage)
+            {
+                Log.LogInfo("DungeonFixer4");
+                DungeonProgressManager._isOnDungeon = false;
+                DungeonProgressManager.ClearData();
+                _egostage = false;
+            }
+            //return false;
         }
-        //return false;
-    }
-
+       
 
     [HarmonyPatch(typeof(MainLobbyUIPanel), "Initialize")]
     [HarmonyPostfix]
@@ -2301,17 +2302,19 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10710).resistInfo.atkResistList[1].value = 0.75f;
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10710).resistInfo.atkResistList[2].value = 0.5f;
 
-
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].targetNum = 3;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].defaultValue = 134;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].coinList[0].scale = 67;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].coinList[1].scale = 33;
 
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].defaultValue = 62;
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].coinList[0].scale = 26;
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].coinList[1].scale = 26;
 
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].targetNum = 5;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071003).skillData[1].targetNum = 3;
-
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071003).skillData[0].defaultValue = 8;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071003).skillData[1].defaultValue = 12;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071003).skillData[1].targetNum = 5;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071003).skillData[0].defaultValue = 12;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071003).skillData[1].defaultValue = 24;
 
                 // heir gregor
 
