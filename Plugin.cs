@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
@@ -1598,20 +1598,7 @@ public class Plugin : BasePlugin
 
             //LoadPersonality("theredmist.json");
             //LoadPersonality("thewavesthatwuther.json");
-            //LoadBuffStatic("SlotAdder.json");
-
-            Singleton<StaticDataManager>.Instance.BuffList.GetData("Sinking").maxStack = -1;
-            Singleton<StaticDataManager>.Instance.BuffList.GetData("Sinking").maxTurn = -1;
-
-            Singleton<StaticDataManager>.Instance.BuffList.GetData("Combustion").maxStack = -1;
-            Singleton<StaticDataManager>.Instance.BuffList.GetData("Combustion").maxTurn = -1;
-
-            Singleton<StaticDataManager>.Instance.BuffList.GetData("Burst").maxStack = -1;
-            Singleton<StaticDataManager>.Instance.BuffList.GetData("Burst").maxTurn = -1;
-
-            Singleton<StaticDataManager>.Instance.BuffList.GetData("Laceration").maxStack = -1;
-            Singleton<StaticDataManager>.Instance.BuffList.GetData("Laceration").maxTurn = -1;
-
+            //LoadBuffStatic("SlotAdder.#
             Singleton<TextDataSet>.Instance.EnemyList._dic.Add("-3001", new TextData_Enemy { name = "The Red Mist", desc = "Core (teehee~)", id = "-3001" });
             Singleton<TextDataSet>.Instance.EnemyList._dic.Add("-3002", new TextData_Enemy { name = "Every Catherine", desc = "Core (teehee~)", id = "-3002" });
             Singleton<TextDataSet>.Instance.EnemyList._dic.Add("-3003", new TextData_Enemy { name = "Don Quixote (real)", desc = "Core (teehee~)", id = "-3003" });
