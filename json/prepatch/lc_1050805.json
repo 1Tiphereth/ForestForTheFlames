@@ -1,0 +1,88 @@
+{
+  "a": 0,
+  "id": "1050805",
+  "levelList": [
+    {
+      "level": 1,
+      "desc": "[BeforeAttack] At 10+ [Breath], Atk Weight +1\n[WhenUse] Until this Skill ends, this unit cannot be Staggered from taking damage\n[WhenUse] Deal +2% more damage on Critical Hit for every Poise Potency on self (Max 50%)\n+20% Damage on Critical Hit\nDeal +0.5% more damage for every 1% missing HP on self (Max 25%)",
+      "name": "To Claim Their Bones",
+      "rawDesc": "",
+      "abName": "",
+      "coinlist": [
+        {
+          "coindescs": [
+            [
+              {
+                "desc": "[OnSucceedAttack] Heal by 5% of damage dealt"
+              }
+            ]
+          ]
+        },
+        {
+          "coindescs": [
+            [
+              {
+                "desc": "[OnSucceedAttack] Heal by 5% of damage dealt"
+              }
+            ]
+          ]
+        },
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttack] Heal by 5% of damage dealt"
+            }
+          ]
+        },
+        {
+          "coindescs": [
+            { "desc": "[OnSucceedAttack] Inflict 3 Bleed", "summary": "" },
+            {
+              "desc": "[OnSucceedAttack] Inflict 5 Paralyze next turn",
+              "summary": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "desc": "<style=\"highlight\">[BeforeAttack] For every 7 [Breath] on self, Atk Weight +1 (Max +2)</style>\n[WhenUse] Until this Skill ends, this unit cannot be Staggered from taking damage\n[WhenUse] Deal +2% more damage on Critical Hit for every Poise Potency on self (Max 50%)\n+<style=\"highlight\">30</style>% Damage on Critical Hit\nDeal +0.5% more damage for every 1% missing HP on self (Max 25%)\n<style=\"highlight\">If this Skill targets only a single enemy, deal +100% more damage (In Focused Encounters, a single Part)</style>",
+      "name": "To Claim Their Bones",
+      "rawDesc": "",
+      "abName": "",
+      "coinlist": [
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttack] Heal by 10% of damage dealt"
+            }
+          ]
+        },
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttack] Heal by 10% of damage dealt"
+            }
+          ]
+        },
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttack] Heal by 10% of damage dealt"
+            }
+          ]
+        },
+        {
+          "coindescs": [
+            { "desc": "[OnSucceedAttack] Inflict 3 Bleed", "summary": "" },
+            {
+              "desc": "[OnSucceedAttack] Inflict 5 Paralyze next turn",
+              "summary": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

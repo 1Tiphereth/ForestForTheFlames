@@ -1,0 +1,39 @@
+{
+    "a": 0,
+    "id": "9990302",
+    "levelList": [
+      {
+        "level": 1,
+        "desc": "[WhenUse] At 2+ Reson., Order the ally on this units immediate right(on the Dashboard) to use [CoverAttack] this turn.\n[WhenUse] Base Power +1 for every 3 [Laceration] on the target (max 3)\n[WhenUse] Coin Power +1 for every 10 [BloodArmor] (max 3)\n[DefeatDuel] Consume 4 [BloodArmor] to gain 20 Shield HP",
+        "name": "Don Quixote Hardblood Arts 11 - Impaling",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] Inflict +2 [Laceration] Count",
+                "summary": ""
+              }
+            ]
+          },
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] Inflict +2 [Laceration] Count",
+                "summary": ""
+              }
+            ]
+          },
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttackHead] Gain 4 [BloodArmor]",
+                "summary": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

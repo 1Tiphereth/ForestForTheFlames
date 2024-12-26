@@ -1,0 +1,36 @@
+{
+    "a": 0,
+    "id": "9990305",
+    "levelList": [
+      {
+        "level": 1,
+        "desc": "[WinDuel] Inflict 6 [Laceration]\n[WinDuel] Damage +50%",
+        "name": "La Aventura Ha Terminado",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [
+          {
+            "coindescs": [
+              { "desc": "[SuperCoin]", "summary": "" },
+              {
+                "desc": "[OnSucceedAttack] Deal +10% more damage for every [Laceration] on the target (max 200%)",
+                "summary": ""
+              },
+              {
+                "desc": "[OnSucceedAttack] Deal +10% more damage for every [BloodDinner] (max 100%)",
+                "summary": ""
+              },
+              {
+                "desc": "[OnSucceedAttack] Inflict 3 [Laceration] and +2 [Laceration] Count",
+                "summary": ""
+              },
+              {
+                "desc": "[OnSucceedAttack] Activate [Laceration] on the target equal to its Count. Use up the target's [Laceration] Count down to 1",
+                "summary": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

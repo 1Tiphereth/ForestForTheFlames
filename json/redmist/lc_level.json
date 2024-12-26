@@ -1,0 +1,38 @@
+{
+    "id": 9990102,
+    "levelList": [
+        {
+            "level": 1,
+            "name": "Level Slash",
+            "desc": "[StartBattle] This Skill gains 1 'Offense Level' by (highest A-Reson./2) (Max 6)\nIf the highest A-Reson is Envy A-Reson., boost the 'Offense Level' gained by the above effect by 50% (rounded down)\nGain double the 'Offense Level' from the above effects in Focused Encounters with 7 or fewer Participant Limits.\r\n<style=\"highlight\">If this unit's Speed is faster than the main target's, gain Coin Power +1 for every 2 Speed difference (max 2)</style>\r\nIf the target has 6+ [Laceration], Coin Power +1\r\nClash Power +1 for every 3 [Laceration] on the target (max 2)",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Inflict +2 [Laceration] Count"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Gain 2 [Breath]"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 2 [MarkOfButler]"
+                        }
+                    ]
+                },
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Inflict +2 [Laceration] Count"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Gain +1 [Breath] Count"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 1 [MarkOfButler]"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

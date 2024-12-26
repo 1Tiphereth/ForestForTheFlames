@@ -1,0 +1,85 @@
+{
+  "a": 0,
+  "id": "1110702",
+  "levelList": [
+    {
+      "level": 1,
+      "desc": "If target has 6+ [Combustion], Coin Power +1",
+      "name": "Detonate Magic Bullet",
+      "rawDesc": "",
+      "abName": "",
+      "coinlist": [
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttack] At less than 4 [FreischutzShotCount], gain 1 [FreischutzShotCount]; then, inflict [DarkFlame] equal to [FreischutzShotCount] next turn",
+              "summary": ""
+            }
+          ]
+        },
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttackHead] Inflict [Combustion] equal to [DarkFlame] on target",
+              "summary": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "desc": "Coin Power +1 for every 6 [Combustion] on target (Max 2)",
+      "name": "Detonate Magic Bullet",
+      "rawDesc": "",
+      "abName": "",
+      "coinlist": [
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttack] At less than 4 [FreischutzShotCount], gain 1 [FreischutzShotCount]; then, inflict [DarkFlame] equal to [FreischutzShotCount] next turn",
+              "summary": ""
+            }
+          ]
+        },
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttack] Inflict [Combustion] equal to [DarkFlame] on target",
+              "summary": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "desc": "Coin Power +1 for every 6 [Combustion] on target (Max 3)",
+      "name": "Detonate Magic Bullet",
+      "rawDesc": "",
+      "abName": "",
+      "coinlist": [
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttack] At less than 4 [FreischutzShotCount], gain 1 [FreischutzShotCount]; then, inflict [DarkFlame] equal to [FreischutzShotCount] next turn",
+              "summary": ""
+            }
+          ]
+        },
+        {
+          "coindescs": [
+            {
+              "desc": "[OnSucceedAttackHead] Inflict 2 [DarkFlame]",
+              "summary": ""
+            },
+            {
+              "desc": "[OnSucceedAttack] Inflict [Combustion] equal to [DarkFlame] on target",
+              "summary": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

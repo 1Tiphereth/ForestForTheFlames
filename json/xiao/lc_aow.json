@@ -1,0 +1,34 @@
+{
+    "id": 9990201,
+    "levelList": [
+        {
+            "level": 1,
+            "desc": "[WinDuel] Heal 10 SP\nIf the target has 6+ [Combustion], Clash Power +2\n<style=\"highlight\">If the target has 10+ [Combustion], Coin Power +1 </style>",
+            "name": "All-out War",
+            "rawDesc": "",
+            "abName": "",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 2 [Combustion]",
+                            "summary": ""
+                        }
+                    ]
+                },
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 2 [Combustion]",
+                            "summary": ""
+                        },
+                        {
+                            "desc": "[OnSucceedAttackHead] Inflict +1 [Combustion] Count",
+                            "summary": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

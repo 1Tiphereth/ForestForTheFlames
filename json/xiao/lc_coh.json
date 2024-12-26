@@ -1,0 +1,34 @@
+{
+  "id": 9990204,
+  "levelList": [
+    {
+      "level": 3,
+      "desc": "<style=\"highlight\">Coin Power +5 for every 5 [Combustion] on target (Max 5)\nIf the target has 6+ [Combustion] and [Combustion] Count, deal +75% more Damage</style>",
+      "name": "Court Of Hell",
+      "rawDesc": "",
+      "abName": "",
+      "coinlist": [
+        {
+          "coindescs": [
+            {
+              "desc": "[SuperCoin]",
+              "summary": ""
+            },
+            {
+              "desc": "[OnSucceedAttack] Inflict 5 [Combustion]",
+              "summary": ""
+            },
+            {
+              "desc": "[OnSucceedAttack] Inflict +3 [Combustion] Count",
+              "summary": ""
+            },
+            {
+              "desc": "[OnSucceedAttack] Inflict Wrath Affinity damage equal to [Combustion] Potency on target. (Max 99)",
+              "summary": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+    "id": 9990105,
+    "levelList": [
+        {
+            "level": 2,
+            "name": "Greater Split: Vertical",
+            "desc": "[WinDuel] Damage +100%\r\n[WhenUse] Gain +3 [Breath] Count\r\n[WhenUse] Gain 7 [Breath]\r\nIf the target has 12+ [Laceration], Coin Power +3\r\nIf this unit has 15+ [Breath], Coin Power +2",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[SuperCoin]"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict +3 [Laceration] Count"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict Lust Affinity damage equal to [Laceration] Potency on target",
+                            "summary": "[OnSucceedAttack] Deal Lust Affinity damage based on [Laceration] on target"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Heal by 30% of damage dealt"
+                        },
+                        {
+                            "desc": "[EnemyKill] If this Skill or its Coin effects dealt damage that exceeds the target's(In Focused Encounters, the Core's) remaining HP, deal the excess damage as fixed damage between all enemies.",
+                            "summary": "[EnemyKill] Inflict the excess damage between all enemies."
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

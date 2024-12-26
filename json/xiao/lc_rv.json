@@ -1,0 +1,22 @@
+{
+    "id": 9990205,
+    "levelList": [
+        {
+            "level": -1,
+            "name": "Reverse Scale",
+            "desc": "[DuelCounter]",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Heal by 100% of damage dealt"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict +1 [Combustion] Count"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

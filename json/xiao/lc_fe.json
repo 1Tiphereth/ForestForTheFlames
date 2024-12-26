@@ -1,0 +1,50 @@
+{
+    "id": 9990203,
+    "levelList": [
+        {
+            "level": 3,
+            "desc": "<style=\"highlight\">Coin Power +1 for every 5 [Combustion] on target (Max 5)\nIf the target has 6+ [Combustion] and [Combustion] Count, deal +50% more Damage</style>",
+            "name": "Fervid Emotions",
+            "rawDesc": "",
+            "abName": "",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[SuperCoin]",
+                            "summary": ""
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 7 [Combustion]",
+                            "summary": ""
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict +3 [Combustion] Count",
+                            "summary": ""
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] If the target has 6+ [Combustion] Count, apply 3 [Combustion] to 2 targets with no [Combustion] or with the least [Combustion] Count.",
+                            "summary": ""
+                        }
+                    ]
+                },
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[SuperCoin]",
+                            "summary": ""
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict Wrath Affinity damage equal to [Combustion] Potency on target. (Max 99)",
+                            "summary": ""
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] If target has 6+ Burn Count, raise Stagger Threshold by 30% of damage dealt",
+                            "summary": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

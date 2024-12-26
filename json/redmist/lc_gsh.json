@@ -1,0 +1,31 @@
+{
+    "id": 9990106,
+    "levelList": [
+        {
+            "level": 3,
+            "name": "Greater Split: Horizontal",
+            "desc": "[StartBattle] Gain Atk Weight equal to the number of enemies with [MarkOfButler]\r\n[StartBattle] This Skill gains 1 'Offense Level' by (highest A-Reson./2) (Max 6)\nIf the highest A-Reson is Envy A-Reson., boost the 'Offense Level' gained by the above effect by 50% (rounded down)\nGain double the 'Offense Level' from the above effects in Focused Encounters with 7 or fewer Participant Limits.\r\n[WinDuel] Damage +70%\r\nIf this unit has 7+ [Breath] Count, Coin Power +7",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[SuperCoin]"
+                        },
+                        {
+                            "desc": "[EndSkill] Evenly inflict <style=\"highlight\">15</style> [Laceration] between all targets"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict +3 [Laceration] Count"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 3 [MentalCrack] next turn"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Heal by 5% of damage dealt"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

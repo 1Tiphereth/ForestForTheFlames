@@ -1,0 +1,22 @@
+{
+    "a": 0,
+    "id": "1110704",
+    "levelList": [
+      {
+        "level": 1,
+        "desc": "[WhenUse] Gain 1 [FreischutzShotCount] (Once per turn)\n[EndSkillAll] Lose SP equal to [FreischutzShotCount]",
+        "name": "The Price of a Bullet",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [{ "coindescs": [] }]
+      },
+      {
+        "level": 4,
+        "desc": "[StartBattle] Gain 1 [FreischutzShotCount] (Once per turn)\n[WhenUse] Gain Final Power equal to ([FreischutzShotCount] x2)\n[EndSkillAll] Lose SP equal to [FreischutzShotCount]",
+        "name": "The Price of a Bullet",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [{ "coindescs": [] }]
+      }
+    ]
+  }

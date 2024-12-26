@@ -1,0 +1,203 @@
+{
+    "id": 2,
+    "stageLevel": 50,
+    "stageType": "Abnormality",
+    "isBatonPassOn": false,
+    "stageEnemyType": "",
+    "battleCameraInfo": {
+      "defaultPosX": 0.0,
+      "defaultPosY": 0.0,
+      "defaultPosZ": 35.0
+    },
+    "includeBoss": 0,
+    "staminaType": "",
+    "staminaCost": 30,
+    "recommendedLevel": 50,
+    "story": { "enter": [], "exit": [], "others": [] },
+    "questlist": [{ "args": ["10"], "localizeId": 1 }],
+    "dangerLevel": 0,
+    "attributeType": "NONE",
+    "attackType": "",
+    "abnormalityEventList": [],
+    "stageScriptList": ["a1c7Abnormality"],
+    "eventScriptName": "",
+    "participantInfo": { "min": 7, "max": 7, "mustIncludeIdList": [] },
+    "waveList": [
+      {
+        "battleMapInfo": { "mapName": "Cp7_LamanchaAreaC_1", "mapSize": -1.0 },
+        "unitList": [
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8580,
+            "unitLevel": 45
+          },
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8579,
+            "unitLevel": 43
+          },
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8581,
+            "unitLevel": 40
+          }
+        ],
+        "subUnitList": [],
+        "supportUnitList": [],
+        "isBatonPassOn": false,
+        "bgmList": ["Battle_Cp6_Heathcliff_2"],
+        "allyPositionID": 48,
+        "enemyPositionID": 47
+      },
+      {
+        "battleMapInfo": { "mapName": "Cp7_DonquixoteMansion", "mapSize": -1.0 },
+        "unitList": [
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8528,
+            "unitLevel": 43
+          },
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8529,
+            "unitLevel": 40
+          },
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8530,
+            "unitLevel": 40
+          },
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8527,
+            "unitLevel": 45
+          }
+        ],
+        "subUnitList": [],
+        "supportUnitList": [],
+        "isBatonPassOn": false,
+        "bgmList": ["Battle_Cp6_Heathcliff_2"],
+        "allyPositionID": 48,
+        "enemyPositionID": 83
+      },
+      {
+        "battleMapInfo": { "mapName": "Cp7_DonquixoteMansion", "mapSize": 28.0 },
+        "unitList": [
+          {
+            "unitID": 8582,
+            "unitLevel": 45,
+            "unitCount": 1,
+            "isHide": false
+          }
+        ],
+        "subUnitList": [],
+        "supportUnitList": [],
+        "isBatonPassOn": false,
+        "bgmList": ["Battle_Cp6_Heathcliff_2"],
+        "allyPositionID": 1,
+        "enemyPositionID": 13
+      },
+      {
+        "battleMapInfo": { "mapName": "Cp7_LamanchaAreaC_1", "mapSize": -1.0 },
+        "unitList": [
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8394,
+            "unitLevel": 50
+          },
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8375,
+            "unitLevel": 50
+          }
+        ],
+        "subUnitList": [],
+        "supportUnitList": [],
+        "isBatonPassOn": false,
+        "bgmList": ["Battle_Cp6_Heathcliff_2"],
+        "allyPositionID": 48,
+        "enemyPositionID": 47
+      },
+      {
+        "battleMapInfo": { "mapName": "Cp7_LamanchaAreaC_2", "mapSize": -1.0 },
+        "unitList": [
+          {
+            "unitID": 8389,
+            "unitLevel": 5,
+            "unitCount": 1,
+            "isHide": false
+          }
+        ],
+        "subUnitList": [],
+        "supportUnitList": [],
+        "isBatonPassOn": false,
+        "bgmList": ["Battle_Cp6_Heathcliff_2"],
+        "allyPositionID": 1,
+        "enemyPositionID": 13
+      },
+      {
+        "battleMapInfo": { "mapName": "Cp7_LamanchaAreaC_3", "mapSize": -1.0 },
+        "unitList": [
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8396,
+            "unitLevel": 65
+          },
+          {
+            "isHide": false,
+            "unitCount": 1,
+            "unitID": 8395,
+            "unitLevel": 65
+          }
+        ],
+        "subUnitList": [],
+        "supportUnitList": [],
+        "isBatonPassOn": false,
+        "bgmList": ["Battle_Cp1_Ally_2", "Battle_Cp1_Enemy_2"],
+        "allyPositionID": 48,
+        "enemyPositionID": 47
+      },
+      {
+        "battleMapInfo": { "mapName": "Cp7_DonquixoteMansion", "mapSize": -1.0 },
+        "unitList": [
+          {
+            "unitID": 8585,
+            "unitLevel": 45,
+            "unitCount": 1,
+            "isHide": false
+          }
+        ],
+        "subUnitList": [],
+        "supportUnitList": [],
+        "isBatonPassOn": false,
+        "bgmList": ["Battle_Cp6_Heathcliff_2"],
+        "allyPositionID": 1,
+        "enemyPositionID": 79
+      }
+    ],
+    "turnLimit": 1000,
+    "rewardList": [
+      { "type": "ITEM", "rewardId": 1, "num": 1, "prob": 0.5 },
+      { "type": "EXP", "rewardId": 1, "num": 1, "prob": 1.0 },
+      { "type": "ITEM", "rewardId": 1, "num": 100, "prob": 1.0 }
+    ],
+    "blockEnemyInfo": false,
+    "forceAllyFormation": false,
+    "hasGoldenBough": false,
+    "hasGoldenBoughGray": false,
+    "unlockDanteAbility": false,
+    "abstainSupporterCharacterIds": [],
+    "lobotomyStageType": 0,
+    "libraryOfRuinaStageType": 0,
+    "sprName": ""
+  }

@@ -1,0 +1,22 @@
+{
+    "id": 9990104,
+    "levelList": [
+        {
+            "level": -1,
+            "name": "Focus Spirit",
+            "desc": "[DuelCounter]\r\nAt 4+ Envy Reson., Coin Power +1\r\nClash Power +1 for every 2 [Laceration] Count on the target (max 3)",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Heal by 50% of damage dealt"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 2 [Binding] next turn"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

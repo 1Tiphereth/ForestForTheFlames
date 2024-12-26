@@ -1,0 +1,74 @@
+{
+    "a": 0,
+    "id": "1100503",
+    "levelList": [
+      {
+        "level": 3,
+        "desc": "[WhenUse] Lose 15 SP\nIf this unit is Fanatic, deal +15% damage\nIf target is a <Mechanical Amalgam>, deal +10% damage",
+        "name": "Self-destructive Purge",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [
+          { "coindescs": [] },
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] Raise Stagger Threshold by 50% of damage dealt",
+                "summary": ""
+              }
+            ]
+          },
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] If target has 5+ Bleed, inflict 5 Burn",
+                "summary": ""
+              },
+              {
+                "desc": "[EnemyKill] Gain 1 Blunt Power Up next turn",
+                "summary": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "desc": "- [WhenUse] Lose 15 SP\n- If this unit is Fanatic, deal +15% damage\n- If target is a <Mechanical Amalgam>, deal +10% damage",
+        "name": "Self-destructive Purge",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [
+          { "coindescs": [] },
+          {
+            "coindescs": [
+              {
+                "desc": "[SuperCoin]",
+                "summary": ""
+              },
+              {
+                "desc": "[OnSucceedAttack] Raise Stagger Threshold by 50% of damage dealt",
+                "summary": ""
+              }
+            ]
+          },
+          {
+            "coindescs": [
+              {
+                "desc": "[SuperCoin]",
+                "summary": ""
+              },
+              {
+                "desc": "[OnSucceedAttack] If target has 5+ Bleed, inflict 7 Burn",
+                "summary": ""
+              },
+              {
+                "desc": "[EnemyKill] Gain 1 Blunt Power Up next turn",
+                "summary": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+}

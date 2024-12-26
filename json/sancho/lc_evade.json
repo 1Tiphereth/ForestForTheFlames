@@ -1,0 +1,14 @@
+{
+    "a": 0,
+    "id": "9990304",
+    "levelList": [
+      {
+        "level": 1,
+        "desc": "[OnSucceedEvade] Inflict 1 [Laceration]",
+        "name": "Variant Don Quixote Style",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [{ "coindescs": [] }]
+      }
+    ]
+  }

@@ -1,0 +1,46 @@
+{
+    "id": 9990101,
+    "levelList": [
+        {
+            "level": 1,
+            "name": "Spear",
+            "desc": "[WhenUse] If the target has [MarkOfButler], Clash Power +1\r\n[WhenUse] Gain +3 [Breath] Count\r\nIf the target has 6+ [Laceration], Coin Power +1\r\nAt 4+ Envy Reson., Coin Power +1",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 2 [MarkOfButler]"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 2 [Laceration]"
+                        }
+                    ]
+                },
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Gain 3 [Breath]"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict +1 [Laceration] Count"
+                        }
+
+                    ]
+                },
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Gain 2 [Breath]"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 1 [MarkOfButler]"
+                        },
+                        {
+                            "desc": "[OnSucceedAttack] Gain 2 [Agility] next scene"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

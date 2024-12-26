@@ -1,0 +1,35 @@
+{
+    "a": 0,
+    "id": "9990311",
+    "levelList": [
+      {
+        "level": 1,
+        "desc": "[WhenUse] Gain 4 [BloodArmor]\n[WhenUse] If the target has 6+ [Laceration], Coin Power +1\n[WinDuel] With this Skill, deal +20% more damage for every 5 [BloodArmor] (max 60%)\n[DefeatDuel] Consume 4 [BloodArmor] to gain 20 Shield HP",
+        "name": "Don Quixote Hardblood Arts 4 - Sundering",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] Inflict 2 [Laceration]",
+                "summary": ""
+              }
+            ]
+          },
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] Inflict 1 [Laceration]",
+                "summary": ""
+              },
+              {
+                "desc": "[OnSucceedAttack] Gain 2 [BloodArmor]",
+                "summary": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

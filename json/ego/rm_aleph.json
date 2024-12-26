@@ -1,0 +1,32 @@
+{
+    "id": 20499,
+    "characterId": 4,
+    "egoType": "ALEPH",
+    "season": 5,
+    "additionalAttachment": "",
+    "attributeResistList": [
+      { "type": "CRIMSON", "value": 1.0 },
+      { "type": "SCARLET", "value": 0.5 },
+      { "type": "AMBER", "value": 2.0 },
+      { "type": "SHAMROCK", "value": 0.5 },
+      { "type": "AZURE", "value": 2.0 },
+      { "type": "INDIGO", "value": 0.75 },
+      { "type": "VIOLET", "value": 1.0 },
+      { "type": "WHITE", "value": 2.0 },
+      { "type": "BLACK", "value": 2.0 }
+    ],
+    "requirementList": [
+      { "attributeType": "CRIMSON", "num": 3 },
+      { "attributeType": "VIOLET", "num": 5 }
+    ],
+    "corrosionSectionList": [
+      { "section": 0.5, "probability": 0.25 },
+      { "section": 0.25, "probability": 0.75 },
+      { "section": 0.0, "probability": 1.0 }
+    ],
+    "awakeningPassiveList": [2030711],
+    "awakeningSkillId": 2030711,
+    "corrosionSkillId": 2030721,
+    "egoKeywordList": [],
+    "walpurgisType": ""
+  }

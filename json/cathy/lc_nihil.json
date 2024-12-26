@@ -1,0 +1,23 @@
+{
+    "a": 0,
+    "id": "9993201",
+    "levelList": [
+      {
+        "level": 1,
+        "desc": "Prioritize an unstaggered ally. If the target is an ally, gain Clash Power +10, and fix the damage to 0 at all times\nClash Power +1 for every 3 [Laceration] on the target (max 3)",
+        "name": "Nihil",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] Inflict 3 [Laceration]",
+                "summary": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

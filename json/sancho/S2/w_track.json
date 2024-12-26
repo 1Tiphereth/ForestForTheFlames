@@ -1,0 +1,241 @@
+{
+    "id": 9990312,
+    "textID": -1,
+    "skillTier": 2,
+    "skillData": [
+      {
+        "actionScript": "",
+        "iconID": "838008",
+        "gaksungLevel": 1,
+        "informationID": -1,
+        "attributeType": "CRIMSON",
+        "atkType": "SLASH",
+        "defType": "ATTACK",
+        "skillMotion": "S8",
+        "viewType": "ENCOUNTER",
+        "parryingCloseType": "NONE",
+        "canDuel": "true",
+        "canChangeTarget": "true",
+        "targetNum": 3,
+        "defaultValue": 5,
+        "abilityScriptList": [
+            {
+                "scriptName": "CoinScaleAdderViaBuffCheckDevideByTurnWithLimit3",
+                "buffData": {
+                    "buffKeyword": "BloodArmor",
+                    "target": "",
+                    "buffOwner": "Self",
+                    "stack": 5,
+                    "turn": 0,
+                    "activeRound": 0,
+                    "value": 1,
+                    "limit": 0
+                }
+            },
+            {
+                "scriptName": "AttackDmgUpOnlyWinDuelByRatio50",
+                "buffData": {
+                    "buffKeyword": "",
+                    "target": "",
+                    "buffOwner": "",
+                    "stack": 0,
+                    "turn": 0,
+                    "activeRound": 0,
+                    "value": 0,
+                    "limit": 0
+                },
+                "conditionalData": {
+                    "category": "",
+                    "value": "",
+                    "conditionBuffData": {
+                        "buffKeyword": "",
+                        "target": "",
+                        "buffOwner": "",
+                        "stack": 0,
+                        "turn": 0,
+                        "activeRound": 0,
+                        "value": 0,
+                        "limit": 0
+                    },
+                    "type": "",
+                    "resultValue": "",
+                    "resultBuffData": {
+                        "buffKeyword": "",
+                        "target": "",
+                        "buffOwner": "",
+                        "stack": 0,
+                        "turn": 0,
+                        "activeRound": 0,
+                        "value": 0,
+                        "limit": 0
+                    }
+                }
+            }
+        ],
+        "mpUsage": -1,
+        "skillLevelCorrection": 3,
+        "range": -1.0,
+        "arearange": 1.0,
+        "skillTargetType": "FRONT",
+        "canTeamKill": "false",
+        "coinList": [
+          {
+            "operatorType": "ADD",
+            "color": "GOLD",
+            "grade": 1,
+            "abilityScriptList": [
+              {
+                "scriptName": "GiveBuffOnSucceedAttack",
+                "buffData": {
+                  "buffKeyword": "Laceration",
+                  "target": "Target",
+                  "buffOwner": "",
+                  "stack": 6,
+                  "turn": 0,
+                  "activeRound": 0,
+                  "value": 0.0,
+                  "limit": 0
+                },
+                "conditionalData": {
+                  "category": "",
+                  "value": "",
+                  "conditionBuffData": {
+                    "buffKeyword": "",
+                    "target": "",
+                    "buffOwner": "",
+                    "stack": 0,
+                    "turn": 0,
+                    "activeRound": 0,
+                    "value": 0.0,
+                    "limit": 0
+                  },
+                  "type": "",
+                  "resultValue": "",
+                  "resultBuffData": {
+                    "buffKeyword": "",
+                    "target": "",
+                    "buffOwner": "",
+                    "stack": 0,
+                    "turn": 0,
+                    "activeRound": 0,
+                    "value": 0.0,
+                    "limit": 0
+                  }
+                }
+              }
+            ],
+            "scale": 7,
+            "prob": 0.5,
+            "actionIndex": -1,
+            "cutsceneStart": false
+          },
+          {
+            "operatorType": "ADD",
+            "color": "GREY",
+            "grade": 1,
+            "abilityScriptList": [
+                {
+                    "scriptName": "Empty[necessary:BloodArmor:5]",
+                    "buffData": {
+                      "buffKeyword": "",
+                      "target": "",
+                      "buffOwner": "",
+                      "stack": 0,
+                      "turn": 0,
+                      "activeRound": 0,
+                      "value": 0.0,
+                      "limit": 0
+                    },
+                    "conditionalData": {
+                      "category": "",
+                      "value": "",
+                      "conditionBuffData": {
+                        "buffKeyword": "",
+                        "target": "",
+                        "buffOwner": "",
+                        "stack": 0,
+                        "turn": 0,
+                        "activeRound": 0,
+                        "value": 0.0,
+                        "limit": 0
+                      },
+                      "type": "",
+                      "resultValue": "",
+                      "resultBuffData": {
+                        "buffKeyword": "",
+                        "target": "",
+                        "buffOwner": "",
+                        "stack": 0,
+                        "turn": 0,
+                        "activeRound": 0,
+                        "value": 0.0,
+                        "limit": 0
+                      }
+                    }
+                  },
+              {
+                "scriptName": "DamageMultiplierPerConsumeBloodArmor_mul10",
+                "buffData": {
+                  "buffKeyword": "Binding",
+                  "target": "Target",
+                  "buffOwner": "",
+                  "stack": 1,
+                  "turn": 0,
+                  "activeRound": 0,
+                  "value": 0.0,
+                  "limit": 0
+                },
+                "conditionalData": {
+                  "category": "",
+                  "value": "",
+                  "conditionBuffData": {
+                    "buffKeyword": "",
+                    "target": "",
+                    "buffOwner": "",
+                    "stack": 0,
+                    "turn": 0,
+                    "activeRound": 0,
+                    "value": 0.0,
+                    "limit": 0
+                  },
+                  "type": "",
+                  "resultValue": "",
+                  "resultBuffData": {
+                    "buffKeyword": "",
+                    "target": "",
+                    "buffOwner": "",
+                    "stack": 0,
+                    "turn": 0,
+                    "activeRound": 0,
+                    "value": 0.0,
+                    "limit": 0
+                  }
+                }
+              },
+              {
+                "scriptName": "GiveAdditionalBuffStackAttributeDmgOnSuccessAttackWithLimit30_SCARLET",
+                "buffData": {
+                    "buffKeyword": "Laceration",
+                    "target": "Target",
+                    "buffOwner": "Target",
+                    "stack": 0,
+                    "turn": 0,
+                    "activeRound": 0,
+                    "value": 1,
+                    "limit": 0
+                }
+            }
+            ],
+            "scale": 7,
+            "prob": 0.5,
+            "actionIndex": -1,
+            "cutsceneStart": false
+          }
+        ],
+        "actionList": []
+      }
+    ],
+    "requireIDList": [],
+    "skillTagList": [],
+    "skillType": "SKILL"
+  }

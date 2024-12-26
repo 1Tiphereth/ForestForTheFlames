@@ -1,0 +1,46 @@
+{
+    "id": 9990202,
+    "levelList": [
+        {
+            "level": 2,
+            "desc": "<style=\"highlight\">Coin Power +1 for every 6 [Combustion] on target (Max 3)</style>",
+            "name": "Fiery Dragon Slash",
+            "rawDesc": "",
+            "abName": "",
+            "coinlist": [
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 2 [Combustion]",
+                            "summary": ""
+                        }
+                    ]
+                },
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 1 [Combustion]",
+                            "summary": ""
+                        },
+                        {
+                            "desc": "[OnSucceedAttackHead] Inflict 1 [Combustion]",
+                            "summary": ""
+                        }
+                    ]
+                },
+                {
+                    "coindescs": [
+                        {
+                            "desc": "[OnSucceedAttack] Inflict 1 [Combustion]",
+                            "summary": ""
+                        },
+                        {
+                            "desc": "[OnSucceedAttackHead] If target has 6+ [Combustion], inflict 2 [Combustion]",
+                            "summary": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

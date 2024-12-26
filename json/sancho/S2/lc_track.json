@@ -1,0 +1,35 @@
+{
+    "a": 0,
+    "id": "9990312",
+    "levelList": [
+      {
+        "level": 2,
+        "desc": "[WhenUse] Coin Power +1 for every 5 [BloodArmor] (max 3)\n[WinDuel] Damage +50%",
+        "name": "Variant Don Quixote Style: Sancho Arts 4 - Track",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] Inflict 6 [Laceration]",
+                "summary": ""
+              }
+            ]
+          },
+          {
+            "coindescs": [
+              {
+                "desc": "Consume 5 [BloodArmor]\n[OnSucceedAttack] Deal +10% more damage for every value of [BloodArmor] consumed by this Skill",
+                "summary": ""
+              },
+              {
+                "desc": "[OnSucceedAttack] Inflict Lust Affinity damage equal to [Laceration] Potency on target (Max 30)",
+                "summary": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

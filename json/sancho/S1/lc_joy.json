@@ -1,0 +1,27 @@
+{
+    "a": 0,
+    "id": "9990301",
+    "levelList": [
+      {
+        "level": 1,
+        "desc": "[WhenUse] Gain 4 [BloodArmor] and heal 6 SP\n[WhenUse] Coin Power +1 for every 10 [BloodArmor] (max 2)",
+        "name": "Sanguine Joy",
+        "rawDesc": "",
+        "abName": "",
+        "coinlist": [
+          {
+            "coindescs": [
+              {
+                "desc": "[OnSucceedAttack] Deal +10% more damage for every [Laceration] on the target (max 100%)",
+                "summary": ""
+              },
+              {
+                "desc": "[OnSucceedAttack] Inflict 3 [Laceration] and +1 [Laceration] Count",
+                "summary": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
