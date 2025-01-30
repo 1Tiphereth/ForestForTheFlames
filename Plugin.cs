@@ -13,6 +13,7 @@ using SD;
 using ServerConfig;
 using Dungeon;
 using Il2CppSystem.Collections.Generic;
+using Utils;
 
 namespace ForestForTheFlames;
 
@@ -50,22 +51,22 @@ public class Plugin : BasePlugin
         egolist.Add("Player", new System.Collections.Generic.List<(int, int, int)>());
     }
 
-    [HarmonyPatch(typeof(HttpApiRequester), "AddRequest")]
-    [HarmonyPrefix]
-    public static bool AddRequest(HttpApiRequester __instance, HttpApiSchema httpApiSchema, int priority = 0)
-    {
-        if (!_skip1)
-        {
-            //httpApiSchema._url.Replace("https://www.limbuscompanyapi.com", SERVER_URL);
-            Log.LogInfo(httpApiSchema._url + " : " + httpApiSchema.RequestJson);
+    //[HarmonyPatch(typeof(HttpApiRequester), "AddRequest")]
+    //[HarmonyPrefix]
+    //public static bool AddRequest(HttpApiRequester __instance, HttpApiSchema httpApiSchema, int priority = 0)
+    //{
+    //    if (!_skip1)
+    //    {
+    //        //httpApiSchema._url.Replace("https://www.limbuscompanyapi.com", SERVER_URL);
+    //        Log.LogInfo(httpApiSchema._url + " : " + httpApiSchema.RequestJson);
 
-            // change httpApiSchema._url you redirect it to your own host
-            // _url -> full url
-            __instance._requestQueue.Enqueue(httpApiSchema, priority);
-            __instance.ProceedRequest();
-        }
-        return false;
-    }
+    //        // change httpApiSchema._url you redirect it to your own host
+    //        // _url -> full url
+    //        __instance._requestQueue.Enqueue(httpApiSchema, priority);
+    //        __instance.ProceedRequest();
+    //    }
+    //    return false;
+    //}
 
     public static void Callback(object any)
     {
@@ -807,19 +808,19 @@ public class Plugin : BasePlugin
             //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(1))); // Phlebotomy Pack - only works via old method
 
 
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9004))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9014))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9017))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9021))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9058))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9068))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9118))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9153))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9419))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9423))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9710))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9739))); // Phlebotomy Pack - only works via old method
-            gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9154))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9004))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9014))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9017))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9021))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9058))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9068))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9118))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9153))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9419))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9423))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9710))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9739))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9154))); // Phlebotomy Pack - only works via old method
 
 
             //gifts.Add(new DungeonMapEgoGift(9004)); // Phlebotomy Pack - only works via old method
@@ -1905,7 +1906,6 @@ public class Plugin : BasePlugin
             Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetBattlePassiveIDList(10601, 3).Add(1030101);
             Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetBattlePassiveIDList(10601, 3).Add(1030401);
 
-
             //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList.Add(new InitBuffPerLevel { level = 3, list = new Il2CppSystem.Collections.Generic.List<InitBuff>() });
             //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList[0].list.Add(new InitBuff { buff = "HonorableDuel_Don", stack = 1 });
             //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList[0].list.Add(new InitBuff { buff = "RecklessDuel", stack = 1 });
@@ -2443,25 +2443,44 @@ public class Plugin : BasePlugin
             // burn
             {
                 // outis burn
-                Log.LogWarning(1);
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList.Add(new InitBuffPerLevel { level = 3, list = new Il2CppSystem.Collections.Generic.List<InitBuff>() });
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList[1].list.Add(new InitBuff { buff = "FreischutzShotCount", stack = 2 });
-
-                Log.LogWarning(11);
-
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList[1].list.Add(new InitBuff { buff = "FreishutzOutisEgoBullet_1st", stack = 1 });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].scale = 1;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].operatorType = "MUL";
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110704).skillData[1].defaultValue = 15;
-                Log.LogWarning(111);
+
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[2].mpUsage = 5;
+                try
+                {
+                    Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].targetNum = 7;
+                    Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].defaultValue = 44;
+                    Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].coinList[0].operatorType = "NONE";
+                }
+                catch
+                {
+                    Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].targetNum = 7;
+                }
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110704).skillData[1].abilityScriptList[0].scriptName = "GiveBuffOnBattleStart(limit:1)";
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110702).skillData[2].coinList[1].abilityScriptList.Insert(0, new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "DarkFlame", target = "Target", buffOwner = "", stack = 2, turn = 0, activeRound = 0, value = 0, limit = 0 } });
-                Log.LogWarning(1111);
 
-                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110704).levelList[1].desc.Replace("[WhenUse] Gain 1", "[StartBattle] Gain 1");
-                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
-                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 2 [DarkFlame]";
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1110702).skillData[2].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 3, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].abilityScriptList.Insert(0, new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 0, turn = 3, activeRound = 0, value = 0, limit = 0 } });
+
+
+
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1110704).levelList[1].desc.Replace("[WhenUse] Gain 1", "[StartBattle] Gain 1");
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 2 [DarkFlame]";
+
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 3 [Smoke]";
+
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1110703).levelList[1].coinlist[0].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1110703).levelList[1].coinlist[0].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 5 [Smoke] Count";
+
 
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).resistInfo.atkResistList[0].value = 1.75f;
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).resistInfo.atkResistList[1].value = 0.50f;
@@ -2469,6 +2488,7 @@ public class Plugin : BasePlugin
 
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).hp._securedIncrementByLevel += new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(0.789431f);
                 //GiveBuffOnSucceedAttackHead
+
                 // burn sinclair
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1100901).skillData[1].defaultValue = 7;
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1100901).skillData[1].coinList[0].scale = 3;
