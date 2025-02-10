@@ -51,22 +51,27 @@ public class Plugin : BasePlugin
         egolist.Add("Player", new System.Collections.Generic.List<(int, int, int)>());
     }
 
-    //[HarmonyPatch(typeof(HttpApiRequester), "AddRequest")]
-    //[HarmonyPrefix]
-    //public static bool AddRequest(HttpApiRequester __instance, HttpApiSchema httpApiSchema, int priority = 0)
-    //{
-    //    if (!_skip1)
-    //    {
-    //        //httpApiSchema._url.Replace("https://www.limbuscompanyapi.com", SERVER_URL);
-    //        Log.LogInfo(httpApiSchema._url + " : " + httpApiSchema.RequestJson);
+    [HarmonyPatch(typeof(HttpApiRequester), "AddRequest")]
+    [HarmonyPrefix]
+    public static bool AddRequest(HttpApiRequester __instance, NHKJCKGBINH EPOPCLCFHAH, int NMNLMHNBHJP = 0)
+    {
+        //httpApiSchema._url.Replace("https://www.limbuscompanyapi.com", SERVER_URL);
+        var httpApiSchema = EPOPCLCFHAH;
+        var priority = NMNLMHNBHJP;
 
-    //        // change httpApiSchema._url you redirect it to your own host
-    //        // _url -> full url
-    //        __instance._requestQueue.Enqueue(httpApiSchema, priority);
-    //        __instance.ProceedRequest();
-    //    }
-    //    return false;
-    //}
+        Log.LogInfo(httpApiSchema.IACPOGGNDNB + " : " + httpApiSchema.IIDDMEPKBBO);
+        //Log.LogInfo("FGHICPDEIBK: " + httpApiSchema.FGHICPDEIBK);
+        //Log.LogInfo("GLCKBAANBKG: " + httpApiSchema.GLCKBAANBKG);
+        //Log.LogInfo("IACPOGGNDNB: " + httpApiSchema.IACPOGGNDNB);
+        //Log.LogInfo("IIDDMEPKBBO: " + httpApiSchema.IIDDMEPKBBO);
+
+        // change httpApiSchema._url you redirect it to your own host
+        // _url -> full url
+        //__instance.BMKBMAHPKNI
+        __instance.BMKBMAHPKNI.Enqueue(httpApiSchema, priority);
+            __instance.ProceedRequest();
+        return false;
+    }
 
     public static void Callback(object any)
     {
@@ -1585,11 +1590,6 @@ public class Plugin : BasePlugin
             PrepareExpStage(3, "br_3.json");
             InitExpStage();
 
-            //Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(8301).overridePersonalityId = 10301;
-
-            //Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(8301).overridePersonalityId = 10301;
-
-
             LoadAbnoUnit("br_3_1.json");
             LoadAbnoUnit("br_3_2.json");
             LoadAbnoUnit("br_3_3.json");
@@ -1614,12 +1614,6 @@ public class Plugin : BasePlugin
             Singleton<TextDataSet>.Instance.EnemyList._dic.Add("-3002", new TextData_Enemy { name = "Every Catherine", desc = "Core (teehee~)", id = "-3002" });
             Singleton<TextDataSet>.Instance.EnemyList._dic.Add("-3003", new TextData_Enemy { name = "Don Quixote (real)", desc = "Core (teehee~)", id = "-3003" });
 
-
-            //Singleton<StaticDataManager>.Instance.EgoList.GetData(20101).awakeningSkillId = 2010711;
-            //Singleton<StaticDataManager>.Instance.EgoList.GetData(20101).requirementList.Clear();
-            //Singleton<StaticDataManager>.Instance.EgoList.GetData(20101).requirementList.Add(new EgoSkillRequirement { attributeType = "INDIGO", num = 1 });
-
-
             Singleton<StaticDataManager>.Instance.PassiveList.list.Add(new PassiveStaticData { id = -1 });
             Singleton<TextDataSet>.Instance.PassiveList._dic.Add("-1", new TextData_Passive { id = "-1", desc = "Solemn", name = "Lament" });
             AddPassive(10301, -1);
@@ -1633,8 +1627,8 @@ public class Plugin : BasePlugin
                 aplist.Add(10104, ("SD_Abnormality", "8044_Camellia_AwakenAppearance"));
                 //aplist.Add(10601, ("SD_Personality", "400001_JiashichunAppearance"));
                 aplist.Add(10508, ("SD_Abnormality", "8153_KimSatGat_ErodeAppearance"));
-                //aplist.Add(-3001, ("SD_Personality", "10410_Ryoshu_SpiderBudAppearance"));
-                aplist.Add(-3001, ("SD_Personality", "10106_Yisang_WCorpAppearance"));
+                aplist.Add(-3001, ("SD_Personality", "10410_Ryoshu_SpiderBudAppearance"));
+                //aplist.Add(-3001, ("SD_Personality", "10106_Yisang_WCorpAppearance"));
                 //aplist.Add(-3002, ("SD_Enemy", "91014_JosephineAppearance"));
 
                 //aplist.Add(10710, ("SD_Abnormality", "8173_MaouHeathclif_RideAppearance"));
@@ -1709,15 +1703,13 @@ public class Plugin : BasePlugin
 
             }
 
-            //Log.LogFatal($"abno: {Singleton<StaticDataManager>.Instance.EnemyUnitList.GetData(9874).ID}");
-
             // exp3
             {
                 // the red mist
                 {
                     int rm_id = 10401;
-                    int rm_ds = 750;
-                    float rm_il = 32.79f;
+                    int rm_ds = 571;
+                    float rm_il = 13.71f;
                     int rm_aggro = 5;
 
                     Singleton<TextDataSet>.Instance.PersonalityList.GetData(rm_id).title = "The Red Mist";
@@ -1788,8 +1780,8 @@ public class Plugin : BasePlugin
             {
                 //aplist.Add(10301, ("SD_Abnormality", "8390_RealDon_1pAppearance"));
                 int sh_id = 10307;
-                int sh_ds = 197;
-                float sh_il = 3f;
+                int sh_ds = 132;
+                float sh_il = 1.1f;
                 int sh_aggro = 0;
 
                 Singleton<TextDataSet>.Instance.PersonalityList.GetData(sh_id).title = "Sancho";
@@ -1831,7 +1823,7 @@ public class Plugin : BasePlugin
                 {
                     sectionList = new Il2CppSystem.Collections.Generic.List<int>()
                 };
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).breakSection.sectionList.Add(35);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).breakSection.sectionList.Add(55);
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).breakSection.sectionList.Add(25);
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).breakSection.sectionList.Add(10);
                 var dss = new Il2CppSystem.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>();
@@ -1964,7 +1956,7 @@ public class Plugin : BasePlugin
             // solemn lament ego
             {
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).GetAwakeningSkill().skillData[1].defaultValue = 12;
-                Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).GetAwakeningSkill().skillData[2].defaultValue = 16;
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).GetAwakeningSkill().skillData[2].defaultValue = 12;
 
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).GetAwakeningSkill().skillData[1].mpUsage = 15;
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).GetAwakeningSkill().skillData[2].mpUsage = 10;
@@ -2026,8 +2018,8 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1080304).skillData[1].coinList.Add(Singleton<StaticDataManager>.Instance.SkillList.GetData(1080304).skillData[1].coinList[0]);
 
                 AddPassive(10808, 810601);
-                AddPassive(10808, 810606);
-                AddPassive(10808, 9009801);
+                //AddPassive(10808, 810606);
+                //AddPassive(10808, 9009801);
                 //AddPassive(10808, 810601);
 
 
@@ -2063,8 +2055,8 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[0].targetNum = 3;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[1].targetNum = 5;
 
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[0].defaultValue = 6;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[1].defaultValue = 8;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[0].defaultValue = 5;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[1].defaultValue = 5;
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[0].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio5" });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[0].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio5" });
@@ -2074,21 +2066,20 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[1].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio10" });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1050805).skillData[1].coinList[2].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio10" });
 
-
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1050803).skillData[0].defaultValue = 8;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1050803).skillData[1].defaultValue = 8;
 
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1050803).skillData[0].coinList[0].color = "GREY";
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(4.3f);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).hp.incrementByLevel = 4.3f;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(2.2f);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).hp.incrementByLevel = 2.2f;
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(131);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).hp.defaultStat = 131;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(99);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).hp.defaultStat = 99;
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).resistInfo.atkResistList[0].value = 0.35f;
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).resistInfo.atkResistList[1].value = 0.65f;
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).resistInfo.atkResistList[2].value = 1f;
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).resistInfo.atkResistList[0].value = 0.35f;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).resistInfo.atkResistList[1].value = 0.75f;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).resistInfo.atkResistList[2].value = 0.25f;
 
                 //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508)._securedDefenseSkillIDList.RemoveAt(0);
                 //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10508).defenseSkillIDList.RemoveAt(0);
@@ -2142,50 +2133,49 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1030605).skillData[1].defaultValue = 6;
 
                 // ring sang - guard -> counter with S2 coins
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1010904).levelList = Singleton<TextDataSet>.Instance.SkillList.GetData(1010902).levelList;
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10109).resistInfo.atkResistList[0].value = 0.75f;
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10109).resistInfo.atkResistList[1].value = 1f;
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10109).resistInfo.atkResistList[2].value = 1.25f;
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1010904).levelList = Singleton<TextDataSet>.Instance.SkillList.GetData(1010902).levelList;
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10109).resistInfo.atkResistList[0].value = 0.75f;
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10109).resistInfo.atkResistList[1].value = 1f;
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10109).resistInfo.atkResistList[2].value = 1.25f;
 
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010901).skillData[1].defaultValue = 3;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010901).skillData[2].defaultValue = 4;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010901).skillData[1].defaultValue = 3;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010901).skillData[2].defaultValue = 4;
 
-                AddPassive(10109, 1110901, 2);
-                AddPassive(10109, 1110911, 4);
-                //RemovePassive(10109, 1010902);
+                //AddPassive(10109, 1110901, 2);
+                //AddPassive(10109, 1110911, 4);
+                ////RemovePassive(10109, 1010902);
 
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].coinList[0].operatorType = "MUL";
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].coinList[0].scale = 2;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].coinList[0].operatorType = "MUL";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].coinList[0].scale = 2;
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[2].coinList[0].operatorType = "MUL";
                 //Log.LogInfo(9);
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[2].coinList[0].scale = 2;
 
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010903).skillData[0].coinList[0].scale = 4;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010903).skillData[1].coinList[0].scale = 5;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010903).skillData[1].targetNum = 3;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010903).skillData[0].coinList[0].scale = 4;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010903).skillData[1].coinList[0].scale = 5;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010903).skillData[1].targetNum = 3;
 
 
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].attributeType = "SCARLET";
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].iconID = "1010902";
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].atkType = "SLASH";
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].defType = "COUNTER";
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].iconID = Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].iconID;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].coinList = Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].coinList;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].attributeType = "SCARLET";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].iconID = "1010902";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].atkType = "SLASH";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].defType = "COUNTER";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].iconID = Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].iconID;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[0].coinList = Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].coinList;
 
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].attributeType = "SCARLET";
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].iconID = "1010902";
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].atkType = "SLASH";
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].defType = "COUNTER";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].attributeType = "SCARLET";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].iconID = "1010902";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].atkType = "SLASH";
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].defType = "COUNTER";
 
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].iconID = Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].iconID;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].coinList = Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[2].coinList;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].iconID = Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].iconID;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010904).skillData[1].coinList = Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[2].coinList;
 
 
                 // nclair
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1100501).skillData[2].defaultValue = 12;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1100502).skillData[2].defaultValue = 20;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1100503).skillData[1].defaultValue = 35;
-
 
                 foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1100501).skillData[2].coinList)
                 {
@@ -2265,9 +2255,9 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1091103).skillData[0].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttack", buffData = new BuffReferenceData { buffKeyword = "BloomingThornsRodionFirst", target = "Self", turn = 2, value = 0.0f } });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1091103).skillData[0].coinList[2].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttack", buffData = new BuffReferenceData { buffKeyword = "BloomingThornsRodionFirst", target = "Self", turn = 3, value = 0.0f } });
 
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1091103).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "<style=\"highlight\">[OnSucceedAttack] Gain 2 blooming[thornyfall_panicRodionFirst]</style>" });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1091103).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "<style=\"highlight\">[OnSucceedAttack] Gain 2 BloomingThornsRodionFirst</style>" });
                 Singleton<TextDataSet>.Instance.SkillList.GetData(1091103).levelList[1].coinlist[1].coindescs.Add(new TextData_Skill_CoinDesc { desc = "<style=\"highlight\">[OnSucceedAttack] Gain 2 BloomingThornsRodionFirst</style>" });
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1091103).levelList[1].coinlist[2].coindescs.Add(new TextData_Skill_CoinDesc { desc = "<style=\"highlight\">[OnSucceedAttack] Gain 3 blooming[thornyfall_panicRodionSecond]</style>" });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(1091103).levelList[1].coinlist[2].coindescs.Add(new TextData_Skill_CoinDesc { desc = "<style=\"highlight\">[OnSucceedAttack] Gain 3 BloomingThornsRodionFirst</style>" });
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1091105).skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "ForceToActivateBuffOSAOnRC_NONE4", buffData = new BuffReferenceData { buffKeyword = "Laceration", target = "Target", turn = 1, value = 0.0f } });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1091105).skillData[1].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "ForceToActivateBuffOSAOnRC_NONE4", buffData = new BuffReferenceData { buffKeyword = "Laceration", target = "Target", turn = 1, value = 0.0f } });
@@ -2300,8 +2290,8 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10710).resistInfo.atkResistList[2].value = 0.5f;
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].targetNum = 3;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].defaultValue = 134;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].coinList[0].scale = 67;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].defaultValue = 67;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].coinList[0].scale = 33;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].coinList[1].scale = 33;
 
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1071005).skillData[1].defaultValue = 62;
@@ -2446,8 +2436,8 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList.Add(new InitBuffPerLevel { level = 3, list = new Il2CppSystem.Collections.Generic.List<InitBuff>() });
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList[1].list.Add(new InitBuff { buff = "FreischutzShotCount", stack = 2 });
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList[1].list.Add(new InitBuff { buff = "FreishutzOutisEgoBullet_1st", stack = 1 });
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].scale = 1;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].operatorType = "MUL";
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].scale = 15;
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].operatorType = "MUL";
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110704).skillData[1].defaultValue = 15;
 
@@ -2466,20 +2456,20 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110704).skillData[1].abilityScriptList[0].scriptName = "GiveBuffOnBattleStart(limit:1)";
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110702).skillData[2].coinList[1].abilityScriptList.Insert(0, new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "DarkFlame", target = "Target", buffOwner = "", stack = 2, turn = 0, activeRound = 0, value = 0, limit = 0 } });
 
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1110702).skillData[2].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 3, turn = 0, activeRound = 0, value = 0, limit = 0 } });
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].abilityScriptList.Insert(0, new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 0, turn = 3, activeRound = 0, value = 0, limit = 0 } });
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1110702).skillData[2].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 3, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].abilityScriptList.Insert(0, new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 0, turn = 3, activeRound = 0, value = 0, limit = 0 } });
 
 
 
                 Singleton<TextDataSet>.Instance.SkillList.GetData(1110704).levelList[1].desc.Replace("[WhenUse] Gain 1", "[StartBattle] Gain 1");
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 2 [DarkFlame]";
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 2 [DarkFlame]";
 
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 3 [Smoke]";
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 3 [Smoke]";
 
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1110703).levelList[1].coinlist[0].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
-                Singleton<TextDataSet>.Instance.SkillList.GetData(1110703).levelList[1].coinlist[0].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 5 [Smoke] Count";
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110703).levelList[1].coinlist[0].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1110703).levelList[1].coinlist[0].coindescs[0].desc = "[OnSucceedAttackHead] Inflict 5 [Smoke] Count";
 
 
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).resistInfo.atkResistList[0].value = 1.75f;
@@ -2532,6 +2522,16 @@ public class Plugin : BasePlugin
             // etc
             {
 
+                // soda hong lu
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 6, turn = 2, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningSkillId).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttackHead] Inflict 6 [Smoke] and +2 [Smoke] Count" });
+                
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[2].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 7, turn = 3, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningSkillId).levelList[2].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttackHead] Inflict 7 [Smoke] and +3 [Smoke] Count" });
+
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningPassiveList.Add(2050311);
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningPassiveList.Add(2050111);
+
                 // lob ryoshu S3 - Final
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1041005).skillData[0].defaultValue = 7;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1041005).skillData[1].defaultValue = 8;
@@ -2557,8 +2557,6 @@ public class Plugin : BasePlugin
 
             // base ego
             {
-
-
                 // crow's eye view
                 Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20101).awakeningSkillId).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Inflict 2 [Curse]" });
                 Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20101).awakeningSkillId).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Gain 1 [PlusCoinValueUp] next turn" });
@@ -2667,7 +2665,6 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(21201).GetAwakeningSkill().skillData[2].coinList[0].scale = 3;
             }
 
-
             patched = true;
             Log.LogInfo("Patching sucessful!");
         
@@ -2715,7 +2712,7 @@ public class Plugin : BasePlugin
                 int vg_id = 10507;
                 int vg_ds = 350;
                 float vg_il = 15f;
-                int vg_aggro = 1;
+                int vg_aggro = 100;
                 //aplist.Add(vg_id, ("SD_Personality", "9999_VergiliusAppearance"));
                 aplist.Add(vg_id, ("SD_Personality", "9999_Vergilius_EgoAppearance"));
 
@@ -2752,6 +2749,11 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).attributeList.Add(new UnitAttribute { skillId = 9990408, number = 1 });
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).attributeList.Add(new UnitAttribute { skillId = 9990409, number = 1 });
 
+                foreach (var skill in Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).attributeList)
+                {
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(skill.skillId).skillData[0].targetNum = 7;
+                }
+
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(vg_ds);
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(vg_il);
 
@@ -2762,7 +2764,26 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(20);
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(15);
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(10);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(9);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(8);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(7);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(6);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(5);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(4);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(3);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(2);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(1);
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).breakSection.sectionList.Add(0);
+
+                var dss = new Il2CppSystem.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>();
+                dss.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(1021105));
+
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedDefenseSkillIDList = dss;
+
+
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedAggro = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(vg_aggro);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMinSpeedList[0] = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(100);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMaxSpeedList[0] = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(200);
             }
 
             // xiao
@@ -2806,8 +2827,8 @@ public class Plugin : BasePlugin
                 var dss = new Il2CppSystem.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>();
                 dss.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(9990205));
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(xi_id)._securedAggro = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(xi_aggro);
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(xi_id)._securedDefenseSkillIDList = dss;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(xi_id)._securedAggro = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(xi_aggro);
             }
 
             Log.LogInfo("Patch done!");

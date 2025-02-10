@@ -40,11 +40,7 @@
     "phaseIDList": [],
     "overridePersonalityId": 10401,
     "egoList": [
-        { "egoID": 20405, "egoLevel": 4 },
-        { "egoID": 20403, "egoLevel": 4 },
-        { "egoID": 20404, "egoLevel": 4 },
-        { "egoID": 20407, "egoLevel": 4 },
-        { "egoID": 20499, "egoLevel": 4 }
+        { "egoID": 20405, "egoLevel": 1 }
     ],
     "hasMp": true,
     "isOriginNormalEnemy": true,

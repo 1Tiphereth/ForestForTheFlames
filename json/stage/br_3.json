@@ -28,7 +28,7 @@
       "unitList": [
           {
             "unitID": -3003,
-            "unitLevel": 50,
+            "unitLevel": 40,
             "unitCount": 1,
             "unitSyncLevel": 4,
             "isHide": false
@@ -46,14 +46,7 @@
       "unitList": [
           {
             "unitID": -3001,
-            "unitLevel": 50,
-            "unitCount": 1,
-            "unitSyncLevel": 4,
-            "isHide": false
-          },
-          {
-            "unitID": -3002,
-            "unitLevel": 50,
+            "unitLevel": 45,
             "unitCount": 1,
             "unitSyncLevel": 4,
             "isHide": false
