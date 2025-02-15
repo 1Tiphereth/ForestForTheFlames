@@ -53,22 +53,25 @@ public class Plugin : BasePlugin
 
     [HarmonyPatch(typeof(HttpApiRequester), "AddRequest")]
     [HarmonyPrefix]
-    public static bool AddRequest(HttpApiRequester __instance, NHKJCKGBINH EPOPCLCFHAH, int NMNLMHNBHJP = 0)
+    public static bool AddRequest(HttpApiRequester __instance, NCIBNHFMPNN INGELIPCNOG, int BGJPKKBEMHH = 0)
     {
         //httpApiSchema._url.Replace("https://www.limbuscompanyapi.com", SERVER_URL);
-        var httpApiSchema = EPOPCLCFHAH;
-        var priority = NMNLMHNBHJP;
+        var httpApiSchema = INGELIPCNOG;
+        var priority = BGJPKKBEMHH;
 
-        Log.LogInfo(httpApiSchema.IACPOGGNDNB + " : " + httpApiSchema.IIDDMEPKBBO);
-        //Log.LogInfo("FGHICPDEIBK: " + httpApiSchema.FGHICPDEIBK);
-        //Log.LogInfo("GLCKBAANBKG: " + httpApiSchema.GLCKBAANBKG);
-        //Log.LogInfo("IACPOGGNDNB: " + httpApiSchema.IACPOGGNDNB);
-        //Log.LogInfo("IIDDMEPKBBO: " + httpApiSchema.IIDDMEPKBBO);
+        Log.LogInfo(httpApiSchema.PEPIMBJEMFA + " : " + httpApiSchema.OLKNGBDMFDF);
+        //Log.LogInfo("GEDGMMDKFAK: " + httpApiSchema.GEDGMMDKFAK);
+        //Log.LogInfo("KLGHBFKCAJO: " + httpApiSchema.KLGHBFKCAJO);
+        //Log.LogInfo("OLDFIAJEMFB: " + httpApiSchema.OLDFIAJEMFB);
+        //Log.LogInfo("OLKNGBDMFDF: " + httpApiSchema.OLKNGBDMFDF);
+        //Log.LogInfo("PEDEKMKJFAB: " + httpApiSchema.PEDEKMKJFAB);
+        //Log.LogInfo("PEPIMBJEMFA: " + httpApiSchema.PEPIMBJEMFA);
+
 
         // change httpApiSchema._url you redirect it to your own host
         // _url -> full url
         //__instance.BMKBMAHPKNI
-        __instance.BMKBMAHPKNI.Enqueue(httpApiSchema, priority);
+        __instance.CDKBEJDBJDC.Enqueue(httpApiSchema, priority);
             __instance.ProceedRequest();
         return false;
     }
@@ -1622,12 +1625,18 @@ public class Plugin : BasePlugin
             // custom skins
             {
                 aplist.Add(10301, ("SD_Abnormality", "8410_RealDon_2pAppearance"));
-                aplist.Add(10307, ("SD_Abnormality", "8380_SanchoAppearance"));
+                //aplist.Add(10307, ("SD_Abnormality", "8380_SanchoAppearance"));
+                
+                aplist.Add(10307, ("SD_Enemy", "1079_Sancho_BerserkAppearance"));
+
                 aplist.Add(10204, ("SD_Abnormality", "8029_CromerAppearance"));
                 aplist.Add(10104, ("SD_Abnormality", "8044_Camellia_AwakenAppearance"));
                 //aplist.Add(10601, ("SD_Personality", "400001_JiashichunAppearance"));
                 aplist.Add(10508, ("SD_Abnormality", "8153_KimSatGat_ErodeAppearance"));
                 aplist.Add(-3001, ("SD_Personality", "10410_Ryoshu_SpiderBudAppearance"));
+
+                // 1079
+
                 //aplist.Add(-3001, ("SD_Personality", "10106_Yisang_WCorpAppearance"));
                 //aplist.Add(-3002, ("SD_Enemy", "91014_JosephineAppearance"));
 
@@ -1729,16 +1738,16 @@ public class Plugin : BasePlugin
                     Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(rm_id).attributeList.Add(new UnitAttribute { skillId = 9990106, number = 1 });
 
                     //AddPassive(rm_id, 809903);
-                    AddPassive(rm_id, -1);
-                    Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(8042).passiveSet.AddBattlePassive(-1);
-                    Singleton<StaticDataManager>.Instance.AbnormalityPartList.GetData(804201).passiveSet.AddBattlePassive(-1);
+                    //AddPassive(rm_id, -1);
+                    //Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(8042).passiveSet.AddBattlePassive(-1);
+                    //Singleton<StaticDataManager>.Instance.AbnormalityPartList.GetData(804201).passiveSet.AddBattlePassive(-1);
 
                     AddPassive(rm_id, 860506);
                     //AddPassive(rm_id, 1040301);
                     AddPassive(rm_id, 2040211);
                     AddPassive(rm_id, 836301);
                     //AddPassive(rm_id, 1060201);
-                    AddPassive(rm_id, 1070201);
+                    //AddPassive(rm_id, 1070201);
                     AddPassive(rm_id, 1080101);
                     AddPassive(rm_id, 1080301);
                     //AddPassive(rm_id, 1100201);
@@ -2355,6 +2364,8 @@ public class Plugin : BasePlugin
 
             // rupture
             {
+                // lce yi sang
+                AddPassive(10111, 2050111);
 
                 // 7 outis
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110401).skillData[0].coinList.Add(Singleton<StaticDataManager>.Instance.SkillList.GetData(1110401).skillData[0].coinList[0]);
@@ -2782,8 +2793,16 @@ public class Plugin : BasePlugin
 
 
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedAggro = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(vg_aggro);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMinSpeedList[0] = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(100);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMaxSpeedList[0] = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(200);
+
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMinSpeedList.Clear();
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMaxSpeedList.Clear();
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).minSpeedList.Clear();
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).maxSpeedList.Clear();
+
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMinSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(100));
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMaxSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(200));
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).minSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(100));
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).maxSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(200));
             }
 
             // xiao

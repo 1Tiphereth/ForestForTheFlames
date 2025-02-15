@@ -17,7 +17,7 @@
             "canDuel": "true",
             "canChangeTarget": "true",
             "targetNum": 3,
-            "defaultValue": 8,
+            "defaultValue": 6,
             "abilityScriptList": [
                 {
                     "scriptName": "1050703_3",

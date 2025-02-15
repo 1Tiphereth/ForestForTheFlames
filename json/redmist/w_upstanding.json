@@ -17,7 +17,7 @@
             "canDuel": "true",
             "canChangeTarget": "true",
             "targetNum": 1,
-            "defaultValue": 8,
+            "defaultValue": 6,
             "abilityScriptList": [
                 {
                     "scriptName": "GiveBuffOnUse",
