@@ -1,0 +1,38 @@
+# The Morally Good Agenda License - 1.1
+
+Original license by Nicole Tietz-Sokolskaya
+Derivative by Yui <3
+
+Copyright (c) 2025 Yui <3 <Tiphereth@outlook.kr>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+  - The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+  - The grantee shall actively support rights for all LGBTQIA+ people, respecting
+    their gender identities and sexual orientations.
+
+The license is immediately revoked if one or more of the following conditions occur:
+- if the grantee supports restricting the
+rights of LGBTQIA+ people and or any other human right.
+- if the grantee is ever to support the annexation or government annexing a sovereign state.
+- if the grantee is to have committed and or been charged with either one of the following criminal offences:
+- Sexual Assault
+- Sexual Harassment 
+- Arson
+- Reckless Driving
+- Public nudity
+- Possession of illegal pornographic material
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
