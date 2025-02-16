@@ -14,6 +14,12 @@ using ServerConfig;
 using Dungeon;
 using Il2CppSystem.Collections.Generic;
 using Utils;
+using System;
+using System.Reflection;
+using BepInEx.Core.Logging.Interpolation;
+using static Cpp2IL.Core.Logging.Logger;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 namespace ForestForTheFlames;
 
@@ -29,9 +35,23 @@ public class Plugin : BasePlugin
     internal static bool _skip1 = false;
     internal static bool _egostage = false;
 
+
+    [HarmonyPatch(typeof(Debug), "Log")]
+    [HarmonyPrefix]
+    public static void FancyLog(ManualLogSource __instance, LogLevel level, ref object data)
+    {
+        foreach (var x in new StackTrace().GetFrames())
+        {
+            Console.WriteLine(x.GetMethod().Name);
+        }
+        data = "hii";
+        //data = $"[{level}] {new StackTrace().GetFrame(2).GetMethod().DeclaringType.FullName + " " + new StackTrace().GetFrame(2).GetMethod().Name}: {(string)data}";
+    }
+
     public override void Load()
     {
         Harmony.CreateAndPatchAll(typeof(Plugin));
+        Harmony.CreateAndPatchAll(typeof(Scaffold));
 
         Log = base.Log;
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
@@ -329,193 +349,7 @@ public class Plugin : BasePlugin
 
 
     //static internal System.Collections.Generic.List<object> pss = new System.Collections.Generic.List<object>();
-    public static System.Collections.Generic.Dictionary<float, System.Collections.Generic.List<object>> pss = new System.Collections.Generic.Dictionary<float, System.Collections.Generic.List<object>>();
-
-    //public static float GetSid(BattleUnitModel model)
-    //{
-    //    float sid = model.UnitDataModel.ClassInfo.ID;
-    //    return sid;
-    //}
-
-    //public static void AssignPassive(BattleUnitModel model, int id)
-    //{
-    //    float sid = GetSid(model);
-    //    Log.LogInfo($"{sid}:{id}");
-    //    if (!pss.ContainsKey(sid))
-    //    {
-    //        pss.Add(sid, new System.Collections.Generic.List<object>());
-    //    }
-
-    //    if (id == -1)
-    //    {
-    //        var p = new PassiveAbility_1();
-    //        p.Init(model, null, null);
-    //        pss[sid].Add(p);
-    //    }
-
-        //var ps = Type.GetType($"PassiveAbility_1{Math.Abs(id)}");
-        //if (ps != null)
-        //{
-        //    var p = (Activator.CreateInstance(ps) as PassiveAbility);
-        //    p.Init(model, null, null);
-        //    pss[sid].Add(p);
-        //}
-        //else
-        //{
-        //    Log.LogFatal($"{id} is null");
-        //}
-    //}
-
-    // reset passives + set the passive -1 to the abno part not unit!
-    //public static void NukePassives(BattleUnitModel model)
-    //{
-    //    float sid = GetSid(model);
-    //    Log.LogInfo($"{sid}");
-    //    if (pss.ContainsKey(sid))
-    //    {
-    //        pss.Remove(sid);
-    //    }
-    //}
-
-    //public static System.Collections.Generic.List<PassiveAbility> GetPassives(BattleUnitModel model = null, float bsid = 0f)
-    //{
-    //    float sid;
-    //    if (model == null)
-    //    {
-    //        sid = bsid;
-    //    } else
-    //    {
-    //        sid = GetSid(model);
-    //    }
-    //    System.Collections.Generic.List<PassiveAbility> list = new System.Collections.Generic.List<PassiveAbility>();
-    //    Log.LogInfo($"{sid}");
-    //    if (pss.ContainsKey(sid))
-    //    {
-    //        foreach (var x in pss[sid])
-    //        {
-    //            list.Add(x as PassiveAbility);
-    //        }
-    //        return list;
-    //    }
-    //    else
-    //    {
-    //        return list;
-    //    }
-    //}
-
-    //[HarmonyPatch(typeof(BattleUnitModel), "Init")]
-    //[HarmonyPostfix]
-    //public static void Scaffold_Init(BattleUnitModel __instance)
-    //{
-    //    foreach (var psd in __instance._passiveDetail.PassiveList)
-    //    {
-    //        if (psd.GetID() < 0)
-    //        {
-    //            AssignPassive(__instance, psd.GetID());
-    //        }
-    //    }
-    //}
-
-    //[HarmonyPatch(typeof(BattleUnitModel), "OnDie")]
-    //[HarmonyPostfix]
-    //public static void Scaffold_OnDie(BattleUnitModel __instance)
-    //{
-    //    NukePassives(__instance);
-    //}
-
-    //[HarmonyPatch(typeof(BattleUnitModel), "BeforeGiveAttackDamage")]
-    //[HarmonyPrefix]
-    //public static void Scaffold_BeforeGiveAttackDamage(BattleUnitModel __instance, BattleActionModel action, CoinModel coin, BattleUnitModel target, BATTLE_EVENT_TIMING timing)
-    //{
-    //    foreach (var ps in GetPassives(__instance))
-    //    {
-    //        ps.BeforeGiveAttackDamage(action, coin, target, timing);
-    //    }
-    //}
-
-    //[HarmonyPatch(typeof(BattleUnitModel), "OnTakeAttackDamage")]
-    //[HarmonyPrefix]
-    //public static void Scaffold_OnTakeAttackDamage(BattleUnitModel __instance, BattleActionModel action, CoinModel coin, int realDmg, int hpDamage, BATTLE_EVENT_TIMING timing, bool isCritical)
-    //{
-    //    foreach (var ps in GetPassives(__instance))
-    //    {
-    //        ps.OnTakeAttackDamage(action, realDmg, hpDamage, timing);
-    //    }
-    //}
-
-    //[HarmonyPatch(typeof(BattleUnitModel), "GetParryingResultAdder")]
-    //[HarmonyPrefix]
-    //public static void Scaffold_GetParryingResultAdder(BattleUnitModel __instance, BattleActionModel action, int actorResult, BattleActionModel oppoAction, int oppoResult, int parryingCount)
-    //{
-    //    foreach (var ps in GetPassives(__instance))
-    //    {
-    //        actorResult = ps.GetParryingResultAdder(action, actorResult, oppoAction, oppoResult, parryingCount);
-    //    }
-    //}
-
-    //[HarmonyPatch(typeof(BattleUnitModel), "OnRoundEnd")]
-    //[HarmonyPrefix]
-    //public static void Scaffold_OnRoundEnd(BattleUnitModel __instance, BATTLE_EVENT_TIMING timing)
-    //{
-    //    foreach (var ps in GetPassives(__instance))
-    //    {
-    //        ps.OnRoundEnd(timing);
-    //    }
-    //}
-
-    //[HarmonyPatch(typeof(BattleUnitModel), "GetActionSlotAdder")]
-    //[HarmonyPrefix]
-    //public static bool Scaffold_GetActionSlotAdder(BattleUnitModel __instance, ref int __result)
-    //{
-    //    //bsid = GetSid(__instance);
-
-    //    int total = 0;
-    //    foreach (var ps in GetPassives(__instance))
-    //    {
-    //        total += ps.GetActionSlotAdder();
-    //    }
-    //    Log.LogFatal(total);
-    //    if (__instance._buffDetail != null)
-    //    {
-    //        total += __instance._buffDetail.GetActionSlotAdder();
-    //    }
-    //    Log.LogFatal(total);
-
-    //    if (__instance._passiveDetail != null)
-    //    {
-    //        total += __instance._passiveDetail.GetActionSlotAdder();
-    //    }
-
-    //    Log.LogFatal(total);
-    //    __result = total;
-    //    return false;
-    //}
-
-    //internal static float bsid = 0f;
-
-    //[HarmonyPatch(typeof(BuffDetail), "GetActionSlotAdder")]
-    //[HarmonyPrefix]
-    //public static bool Scaffold_GetActionSlotAdder_Patch(BuffDetail __instance, ref int __result)
-    //{
-    //    Log.LogFatal((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name);
-    //    int num = 3;
-
-    //    //foreach (var ps in GetPassives(bsid: bsid))
-    //    //{
-    //    //    num += ps.GetActionSlotAdder();
-    //    //}
-
-    //    //foreach (BuffModel battleUnitBuff in __instance._grantedBuffList)
-    //    //{
-    //    //    if (battleUnitBuff.IsValid(0) && !battleUnitBuff.IsDestroyed())
-    //    //    {
-    //    //        num += battleUnitBuff.GetActionSlotAdder();
-    //    //    }
-    //    //}
-    //    //__instance.CheckBuffsDestroyed();
-    //    __result = num;
-    //    return false;
-    //}
+   
 
     //[HarmonyPatch(typeof(PassiveModel), MethodType.Constructor, new Type[] { typeof(PassiveStaticData) })]
     //[HarmonyPrefix]
@@ -523,14 +357,15 @@ public class Plugin : BasePlugin
     //{
     //    foreach (var x in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
     //    {
-    //        Log.LogInfo(x.Name);
+    //        Log.LogInfo(x.FullName);
     //    }
     //    if (1 == 1)
     //    {
     //        //Type type = Type.GetType("PassiveAbility" + "_" + info.ID.ToString());
-    //        Type type = Type.GetType("PassiveAbility_9991001");
+    //        Type type = Assembly.GetExecutingAssembly().GetType("ForestForTheFlames.PassiveAbility_1");
+    //        Log.LogFatal(type == null);
+    //        //Type type = Type.GetType("PassiveAbility_9991001");
     //        Log.LogFatal(type.FullName);
-    //        Log.LogFatal(type.GetMethods().Count());
     //        if (type != null)
     //        {
     //            PassiveAbility script = (Activator.CreateInstance(type) as PassiveAbility);
@@ -557,28 +392,22 @@ public class Plugin : BasePlugin
     //{
     //    foreach (var x in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
     //    {
-    //        Log.LogInfo(x.Name);
+    //        Log.LogInfo(x.FullName);
     //    }
+
     //    {
-    //        //Type type = Type.GetType("PassiveAbility" + "_" + info.ID.ToString());
-    //        PassiveAbility type = new PassiveAbility_9991001();
+    //        Type type = Type.GetType("PassiveAbility" + "_" + info.ID.ToString());
+    //        //PassiveAbility type = new PassiveAbility_1();
     //        Log.LogFatal(type == null);
-
-    //        Log.LogFatal("Passive 3333");
-
-    //        Log.LogFatal("Passive 4444444");
-
-    //            Log.LogFatal("Passive 55555555");
-
+    //        Log.LogFatal("Passive 55555555");
     //        if (type != null)
     //        {
     //            Log.LogFatal("Passive 1111");
 
     //            PassiveAbility script = (type as PassiveAbility);
     //            __instance._script = script;
-    //            __instance._script._id = 9991001;
+    //            __instance._script._id = -1;
     //            Log.LogFatal("Passive 222222");
-
     //        }
     //        else
     //        {
@@ -637,7 +466,7 @@ public class Plugin : BasePlugin
                 //CharacterAppearance characterAppearance = SDCharacterSkinUtil.CreateSkin(__instance, model, __instance.skinPivot);
                 if (characterAppearance == null)
                 {
-                    Debug.LogError(model.GetAppearanceID() + " is not exist");
+                    UnityEngine.Debug.LogError(model.GetAppearanceID() + " is not exist");
                 }
                 else
                 {
@@ -817,7 +646,7 @@ public class Plugin : BasePlugin
 
 
             //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9004))); // Phlebotomy Pack - only works via old method
-            //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9014))); // Phlebotomy Pack - only works via old method
+            //gifts.Add(new DungeonMapEgoGift(new MHCFNLCHAEN(9014))); // Phlebotomy Pack - only works via old method
             //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9017))); // Phlebotomy Pack - only works via old method
             //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9021))); // Phlebotomy Pack - only works via old method
             //gifts.Add(new DungeonMapEgoGift(new DungeonMapEgoGiftFormat(9058))); // Phlebotomy Pack - only works via old method
@@ -832,7 +661,16 @@ public class Plugin : BasePlugin
 
 
             //gifts.Add(new DungeonMapEgoGift(9004)); // Phlebotomy Pack - only works via old method
-            //gifts.Add(new DungeonMapEgoGift(9014)); // Rusty Commemorative Coin
+
+            int[] gids = new int[]
+            {
+                9014,9017,9021,9058,9068,9118,9153,9419,9423,9710,9739,9154
+            };
+            foreach (var gid in gids)
+            {
+                gifts.Add(new DungeonMapEgoGift(new MHCFNLCHAEN(gid)));
+            }
+            //gifts.Add(new DungeonMapEgoGift(new MHCFNLCHAEN(9014))); // Rusty Commemorative Coin
             //gifts.Add(new DungeonMapEgoGift(9017)); // Lithograph
             //gifts.Add(new DungeonMapEgoGift(9021)); // Blue Zippo Lighter
             //gifts.Add(new DungeonMapEgoGift(9058)); // Disk Fragment
@@ -945,7 +783,7 @@ public class Plugin : BasePlugin
         [HarmonyPrefix]
         public static void DungeonFixer4()
         {
-            pss.Clear();
+            Scaffold.pss.Clear();
             if (_egostage)
             {
                 Log.LogInfo("DungeonFixer4");
@@ -1620,7 +1458,8 @@ public class Plugin : BasePlugin
             Singleton<StaticDataManager>.Instance.PassiveList.list.Add(new PassiveStaticData { id = -1 });
             Singleton<TextDataSet>.Instance.PassiveList._dic.Add("-1", new TextData_Passive { id = "-1", desc = "Solemn", name = "Lament" });
             AddPassive(10301, -1);
-            //AddPassive(10201, -1);
+            AddPassive(10201, -1);
+            AddPassive(10101, -1);
 
             // custom skins
             {

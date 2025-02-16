@@ -12,6 +12,12 @@ public class PassiveAbility_1 : PassiveAbility
     internal static int max = 6;
     internal static int min = 1;
 
+    public override void OnStartPhase(PHASE phase, BATTLE_EVENT_TIMING timing)
+    {
+        base.OnStartPhase(phase, timing);
+        Debug.Log(phase.ToString() + " : " + timing);
+    }
+
     public override void OnRoundEnd(BATTLE_EVENT_TIMING timing)
     {
         Debug.Log("round ended");
@@ -28,16 +34,25 @@ public class PassiveAbility_1 : PassiveAbility
         base.OnRoundEnd(timing);
     }
 
+    public override void OnRoundStart_After_Event(BATTLE_EVENT_TIMING timing)
+    {
+        Debug.Log("round started lol");
+        base.GetOwner().InitActionSlots();
+        base.OnRoundStart_After_Event(timing);
+    }
+
+
     public override int GetActionSlotAdder()
     {
 
         //MediatedBuffData x = new MediatedBuffData();
         //base.GetOwner()._buffDetail._grantedBuffList.Add(new BuffModel())
         //base.GetOwner()._buffDetail.AddBuff(base.GetOwner(), x, null, BATTLE_EVENT_TIMING.NONE);
-
+        base.GetActionSlotAdder();
         Debug.Log("get slot adder");
         Debug.Log(min);
         Debug.Log(max);
+        base.GetOwner().InitActionSlots();
         return min;
     }
 
