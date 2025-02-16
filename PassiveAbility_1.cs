@@ -8,7 +8,6 @@ public class PassiveAbility_1 : PassiveAbility
 {
     // Token: 0x170004B7 RID: 1207
     // (get) Token: 0x06001E99 RID: 7833 RVA: 0x0000BCF8 File Offset: 0x00009EF8
-
     internal static int max = 6;
     internal static int min = 1;
 
