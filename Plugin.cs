@@ -20,6 +20,7 @@ using BepInEx.Core.Logging.Interpolation;
 using static Cpp2IL.Core.Logging.Logger;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
+using static Addressable.ResourceKeyBuilder;
 
 namespace ForestForTheFlames;
 
@@ -36,23 +37,53 @@ public class Plugin : BasePlugin
     internal static bool _egostage = false;
 
 
-    [HarmonyPatch(typeof(Debug), "Log")]
-    [HarmonyPrefix]
-    public static void FancyLog(ManualLogSource __instance, LogLevel level, ref object data)
-    {
-        foreach (var x in new StackTrace().GetFrames())
-        {
-            Console.WriteLine(x.GetMethod().Name);
-        }
-        data = "hii";
-        //data = $"[{level}] {new StackTrace().GetFrame(2).GetMethod().DeclaringType.FullName + " " + new StackTrace().GetFrame(2).GetMethod().Name}: {(string)data}";
-    }
+    //[HarmonyPatch(typeof(Debug), "Log", new Type[] {typeof(Il2CppSystem.Object) })]
+    //[HarmonyPrefix]
+    //public static void FancyLog(ref Il2CppSystem.Object message)
+    //{
+    //    var st = new StackTrace();
+    //    if (st.FrameCount <= 3)
+    //    {
+    //        message = new StackTrace().GetFrame(3).GetMethod().DeclaringType.FullName + " " + new StackTrace().GetFrame(3).GetMethod().Name;
+    //    } else
+    //    {
+    //        message = new StackTrace().GetFrame(7).GetMethod().DeclaringType.FullName + " " + new StackTrace().GetFrame(7).GetMethod().Name;
+    //    }
+    //    //message = $"[idk] {new StackTrace().GetFrame(1).GetMethod().DeclaringType.FullName + " " + new StackTrace().GetFrame(1).GetMethod().Name}: {message}";
+    //}
+    //[HarmonyPatch(typeof(AddressableManager).MakeGenericType([typeof(GameObject)]), "LoadAssetSync")]
+    //[HarmonyPostfix]
+    //public static bool AssetLog(string label, string resourceId)
+    //{
+    //    Logger.Log($"LoadingAsset: {label}/{resourceId}");
+    //    return true;
+    //}
 
+    //[HarmonyPatch]
+    //public class LoadAssetSyncPatchClass
+    //{
+    //    public static System.Reflection.MethodBase TargetMethod()
+    //    {
+    //        return typeof(AddressableManager).GetMethod("LoadAssetSync").MakeGenericMethod(typeof(GameObject));
+    //    }
+
+    //    public static bool Prefix(string label, string resourceId)
+    //    {
+    //        Logger.Log($"LoadingAsset: {label}/{resourceId}");
+    //        return true;
+    //    }
+    //}
     public override void Load()
     {
-        Harmony.CreateAndPatchAll(typeof(Plugin));
+        var hr = Harmony.CreateAndPatchAll(typeof(Plugin));
         Harmony.CreateAndPatchAll(typeof(Scaffold));
+        //Harmony.CreateAndPatchAll(typeof(LoadAssetSyncPatchClass));
 
+        //var td = typeof(AddressableManager);
+        //var mr = td.GetMethod("LoadAssetSync", AccessTools.all).MakeGenericMethod([typeof(GameObject)]);
+        //hr.Patch(mr, prefix: new HarmonyMethod(typeof(Plugin), nameof(AssetLog)));
+
+        //hr.Patch(AccessTools.Method(, nameof(RetrieveOriginalMethod.PatchTarget)), prefix: AssetLog);
         Log = base.Log;
         Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
         //Log.LogInfo($"Using custom server at {SERVER_URL}");
@@ -61,6 +92,8 @@ public class Plugin : BasePlugin
         //{
         //    Log.LogInfo(x.Name);
         //}
+        //Debug.Log("hi");
+        //Logger.Log("hello");
 
         //egolist.Add("Abnormality", new System.Collections.Generic.List<(int, int)>());
         //egolist.Add("Abnormality_Part", new System.Collections.Generic.List<(int, int)>());
@@ -340,16 +373,20 @@ public class Plugin : BasePlugin
     }
 
     [HarmonyPatch(typeof(ResourceKeyBuilder), "BuildSdResourceKeyInfo")]
-    //[HarmonyPatch(new Type[] {typeof(string), typeof(string), typeof(Type), typeof(bool) })]
     [HarmonyPostfix]
     public static void ResourceLogger(ResourceKeyBuilder.SdResourceType type, string id)
     {
-        Log.LogWarning(type + ":" + id);
+       Logger.Log(type + ":" + id);
     }
 
-
+    [HarmonyPatch(typeof(ResourceKeyBuilder), "BuildUnitResourceKeyInfo", [typeof(UnitResourceType), typeof(string), typeof(bool), typeof(string)])]
+    [HarmonyPostfix]
+    public static void ResourceLogger2(ResourceKeyBuilder.UnitResourceType type, string id)
+    {
+       Logger.Log(type + ":" + id);
+    }
     //static internal System.Collections.Generic.List<object> pss = new System.Collections.Generic.List<object>();
-   
+
 
     //[HarmonyPatch(typeof(PassiveModel), MethodType.Constructor, new Type[] { typeof(PassiveStaticData) })]
     //[HarmonyPrefix]
@@ -423,13 +460,6 @@ public class Plugin : BasePlugin
     //{
     //    Log.LogInfo($"Response: {responseJson}");
     //    //Log.LogFatal($"LoadingAsset: {label}/{resourceId}");
-    //}
-
-    //[HarmonyPatch(typeof(AddressableManager), "LoadAssetSync")]
-    //[HarmonyPostfix]
-    //public static void lol(string label, string resourceId)
-    //{
-    //    Log.LogFatal($"LoadingAsset: {label}/{resourceId}");
     //}
 
     [HarmonyPatch(typeof(BattleUnitView), "Init")]
@@ -801,7 +831,11 @@ public class Plugin : BasePlugin
     {
         if (!patched)
         {
-            Log.LogFatal(JailbreakChecker.IsJailbroken());
+            foreach (var x in SingletonBehavior<AddressableManager>.Instance.labelHandles)
+            {
+                Logger.Look(x);
+            }
+                Log.LogFatal(JailbreakChecker.IsJailbroken());
             Log.LogFatal(RootJailbreakChecker.IsDeviceRootedOrJailbroken());
             Log.LogFatal(Singleton<ServerSelector>.Instance.GetServerURL());
             Log.LogFatal(Singleton<ServerSelector>.Instance.GetBattleLogServerURL());
@@ -1438,6 +1472,8 @@ public class Plugin : BasePlugin
             LoadAbnoPartUnit("br_3_1_1.json");
             LoadEgoTextAndStatic("rm_aleph.json");
 
+            Logger.Look(typeof(ResourceKeyBuilder));
+
             //LoadPersonality("theredmist.json");
             //LoadPersonality("thewavesthatwuther.json");
             //LoadBuffStatic("SlotAdder.#
@@ -1463,7 +1499,7 @@ public class Plugin : BasePlugin
 
             // custom skins
             {
-                aplist.Add(10301, ("SD_Abnormality", "8410_RealDon_2pAppearance"));
+                //aplist.Add(10301, ("SD_Abnormality", "8410_RealDon_2pAppearance"));
                 //aplist.Add(10307, ("SD_Abnormality", "8380_SanchoAppearance"));
                 
                 aplist.Add(10307, ("SD_Enemy", "1079_Sancho_BerserkAppearance"));
@@ -1482,7 +1518,12 @@ public class Plugin : BasePlugin
                 //aplist.Add(10710, ("SD_Abnormality", "8173_MaouHeathclif_RideAppearance"));
                 //aplist.Add(10101, ("SD_Abnormality", "90136_JosephineWHAppearance"));
 
-                //aplist.Add(10101, ("SD_EGO", "ErosionAppearance_20501"));
+                //aplist.Add(10101, ("SD_EGO", $"ErosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).corrosionSkillId}"));
+                aplist.Add(10101, ("SD_EGO", $"ErosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
+                aplist.Add(10201, ("SD_EGO", $"{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
+                aplist.Add(10301, ("SD_EGO", $"Appearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
+
+                // SD_DeadScene/CharacterAppearanceDeadScene_8263.prefab
                 //aplist.Add(10201, ("SD_EGO", "ErosionAppearance_2050111"));
                 //aplist.Add(10101, ("SD_EGO", "20501"));
                 //aplist.Add(10201, ("SD_EGO", "2050111"));

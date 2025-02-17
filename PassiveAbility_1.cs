@@ -14,18 +14,13 @@ public class PassiveAbility_1 : PassiveAbility
     public override void OnStartPhase(PHASE phase, BATTLE_EVENT_TIMING timing)
     {
         base.OnStartPhase(phase, timing);
-        Debug.Log(phase.ToString() + " : " + timing);
+        Logger.Log(phase.ToString() + " : " + timing);
     }
 
     public override void OnRoundEnd(BATTLE_EVENT_TIMING timing)
     {
-        Debug.Log("round ended");
-        Debug.Log(min);
-        //var bf = new BuffModel(Singleton<StaticDataManager>.Instance.BuffList.GetData("SlotAdder"), base.GetOwner().InstanceID);
-        //BuffAbilityStaticData td = new BuffAbilityStaticData { value = min };
-        //bf._abilityList[0].MergeData(td);
-        //base.GetOwner()._buffDetail._grantedBuffList.Add(bf);
-        //base.GetOwner().AddBuff_NonGiver(BUFF_UNIQUE_KEYWORD.AaCePaBa, min, 0, 0, ABILITY_SOURCE_TYPE.PASSIVE, BATTLE_EVENT_TIMING.ON_END_ROUND, null, out _, out _);
+        Logger.Log("round ended");
+        Logger.Log(min);
         if (min < max)
         {
             min += 1;
@@ -35,7 +30,7 @@ public class PassiveAbility_1 : PassiveAbility
 
     public override void OnRoundStart_After_Event(BATTLE_EVENT_TIMING timing)
     {
-        Debug.Log("round started lol");
+        Logger.Log("round started lol");
         base.GetOwner().InitActionSlots();
         base.OnRoundStart_After_Event(timing);
     }
@@ -48,9 +43,9 @@ public class PassiveAbility_1 : PassiveAbility
         //base.GetOwner()._buffDetail._grantedBuffList.Add(new BuffModel())
         //base.GetOwner()._buffDetail.AddBuff(base.GetOwner(), x, null, BATTLE_EVENT_TIMING.NONE);
         base.GetActionSlotAdder();
-        Debug.Log("get slot adder");
-        Debug.Log(min);
-        Debug.Log(max);
+        Logger.Log("get slot adder");
+        Logger.Log(min);
+        Logger.Log(max);
         base.GetOwner().InitActionSlots();
         return min;
     }
