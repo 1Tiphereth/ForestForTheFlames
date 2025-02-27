@@ -104,28 +104,57 @@ public class Plugin : BasePlugin
         egolist.Add("Player", new System.Collections.Generic.List<(int, int, int)>());
     }
 
+
+    internal static (bool, string, string) requestHeaders = (false, "-", "-");
     [HarmonyPatch(typeof(HttpApiRequester), "AddRequest")]
     [HarmonyPrefix]
-    public static bool AddRequest(HttpApiRequester __instance, NCIBNHFMPNN INGELIPCNOG, int BGJPKKBEMHH = 0)
+    public static bool AddRequest(HttpApiRequester __instance, MJOHKKGMGJJ EBKBNKFIBAE, int BJAIAMGFCBN = 0)
     {
+        //var a = new HttpApiRequester();
+        //a.AddRequest(BJAIAMGFCBN)
         //httpApiSchema._url.Replace("https://www.limbuscompanyapi.com", SERVER_URL);
-        var httpApiSchema = INGELIPCNOG;
-        var priority = BGJPKKBEMHH;
+        var httpApiSchema = EBKBNKFIBAE;
+        var priority = BJAIAMGFCBN;
+        if (!requestHeaders.Item1)
+        {
+            foreach (var fi in httpApiSchema.GetType().GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                if (fi.Name.Contains("Public_String_"))
+                {
+                    //var fin = $"get_{fi.Name.Substring(19)}";
+                    // BNNLNFAIMDD_Public_get_String_0
+                    // GGKHHBCPBLJ_Public_String_0
+                    var fin = fi.Name.Substring(20).Replace("_Public_get_String_0", "").Replace("_Public_String_0", "");
+                    //Logger.Log(fin);
+                    MethodInfo obj = null;
+                    foreach (var fm in httpApiSchema.GetType().GetRuntimeMethods())
+                    {
 
-        Log.LogInfo(httpApiSchema.PEPIMBJEMFA + " : " + httpApiSchema.OLKNGBDMFDF);
-        //Log.LogInfo("GEDGMMDKFAK: " + httpApiSchema.GEDGMMDKFAK);
-        //Log.LogInfo("KLGHBFKCAJO: " + httpApiSchema.KLGHBFKCAJO);
-        //Log.LogInfo("OLDFIAJEMFB: " + httpApiSchema.OLDFIAJEMFB);
-        //Log.LogInfo("OLKNGBDMFDF: " + httpApiSchema.OLKNGBDMFDF);
-        //Log.LogInfo("PEDEKMKJFAB: " + httpApiSchema.PEDEKMKJFAB);
-        //Log.LogInfo("PEPIMBJEMFA: " + httpApiSchema.PEPIMBJEMFA);
+                        if (fm.Name.Contains(fin))
+                        {
+                            obj = fm;
+                        }
+                    }
 
-
-        // change httpApiSchema._url you redirect it to your own host
-        // _url -> full url
-        //__instance.BMKBMAHPKNI
-        __instance.CDKBEJDBJDC.Enqueue(httpApiSchema, priority);
-            __instance.ProceedRequest();
+                    //Logger.Log($"[{fin}]: {obj == null} : + " + fi.Name);
+                    var r = (string)obj.Invoke(httpApiSchema, null);
+                    //Logger.Log($"[{fin}]: {r}");
+                    if (r.Contains("https://www.limbuscompanyapi.com"))
+                    {
+                        requestHeaders.Item2 = obj.Name;
+                    }
+                    else if (r.Contains("userAuth"))
+                    {
+                        requestHeaders.Item3 = obj.Name;
+                    }
+                }
+            }
+            requestHeaders.Item1 = true;
+        }
+        //Logger.Look(requestHeaders);
+        Log.LogInfo(httpApiSchema.GetType().GetMethod(requestHeaders.Item2).Invoke(httpApiSchema, null) + " : " + httpApiSchema.GetType().GetMethod(requestHeaders.Item3).Invoke(httpApiSchema, null));
+        __instance.LNMLKCBCNNE.Enqueue(httpApiSchema, priority);
+        __instance.ProceedRequest();
         return false;
     }
 
@@ -462,18 +491,57 @@ public class Plugin : BasePlugin
     //    //Log.LogFatal($"LoadingAsset: {label}/{resourceId}");
     //}
 
+
+    //[HarmonyPatch(typeof(BattleUnitView), "CreateBloomAppearance")]
+    //[HarmonyPostfix]
+    //public static void eelog(UnitScript_EGOTransformation unitScript)
+    //{
+    //    Logger.Log($"{unitScript.appearanceid} {unitScript.effect_egoStart_name} {unitScript.effect_egoEnd_name}");
+    //}
+    //[HarmonyPatch(typeof(BattleUnitView), "AddBloomAppearance")]
+    //[HarmonyPostfix]
+    //public static void eelog2(UnitScript_EGOTransformation unitScript)
+    //{
+    //    Logger.Log($"{unitScript.appearanceid} {unitScript.effect_egoStart_name} {unitScript.effect_egoEnd_name}");
+    //}
+    //[HarmonyPatch(typeof(BattleUnitView), "ChangeBloomAppearance")]
+    //[HarmonyPostfix]
+    //public static void eelog3(UnitScript_EGOTransformation unitScript)
+    //{
+    //    Logger.Log($"{unitScript.appearanceid} {unitScript.effect_egoStart_name} {unitScript.effect_egoEnd_name}");
+    //}
+
+    //[HarmonyPatch(typeof(SDCharacterSkinUtil), "CreateSkin", [typeof(BattleUnitView), typeof(string), typeof(Transform), typeof(DelegateEvent)])]
+    //[HarmonyPostfix]
+    //public static void egologger(BattleUnitView view, string appearanceID)
+    //{
+    //    Logger.Log(appearanceID);
+    //    //SDCharacterSkinUtil.CreateSkin
+    //    // [DefaultParameterValue(null)] BattleUnitView view, [DefaultParameterValue(null)] string appearanceID, [DefaultParameterValue(null)] Transform parent, [DefaultParameterValue(null)] out DelegateEvent handle
+    //}
+
     [HarmonyPatch(typeof(BattleUnitView), "Init")]
     [HarmonyPostfix]
     public static void UniversalSkinPatcher(BattleUnitView __instance, BattleUnitModel model, int instanceID, int level, int gaksungLevel)
     {
-
         int id = model.UnitDataModel.ClassInfo.ID;
+        foreach (var x in __instance._appearances)
+        {
+            Logger.Log($"{id}: {x.name}");
+            Logger.Log($"{id}: {x.GetScriptClassName()}");
+        }
+        foreach (var x in __instance._changedAppearanceList)
+        {
+            Logger.Log($"{id}: {x.appearance.name}");
+            Logger.Log($"{id}: {x.appearance.GetScriptClassName()}");
+        }
         if (aplist.ContainsKey(id))
         {
             (string, string) apd = aplist[id];
             {
                 CharacterAppearance characterAppearance = null;
                 string appearanceID = apd.Item2;
+
                 GameObject item = SingletonBehavior<AddressableManager>.Instance.LoadAssetSync<GameObject>(apd.Item1, apd.Item2, __instance.skinPivot, null).Item1;
                 if (item == null)
                 {
@@ -483,6 +551,7 @@ public class Plugin : BasePlugin
                 {
                     foreach (var x in __instance._appearances)
                     {
+                        //Logger.Log($"{id}: {x.name}");
                         x.gameObject.SetActive(false);
                     }
                     __instance._appearances = new Il2CppSystem.Collections.Generic.List<CharacterAppearance>();
@@ -528,10 +597,10 @@ public class Plugin : BasePlugin
         }
         else
         {
-            foreach (var x in __instance._appearances)
-            {
-                Log.LogInfo(x.name);
-            }
+            //foreach (var x in __instance._appearances)
+            //{
+            //    Log.LogInfo(x.name);
+            //}
         }
         //return true;
     }
@@ -698,7 +767,7 @@ public class Plugin : BasePlugin
             };
             foreach (var gid in gids)
             {
-                gifts.Add(new DungeonMapEgoGift(new MHCFNLCHAEN(gid)));
+                gifts.Add(new DungeonMapEgoGift(new AGIOFINBDEK(gid)));
             }
             //gifts.Add(new DungeonMapEgoGift(new MHCFNLCHAEN(9014))); // Rusty Commemorative Coin
             //gifts.Add(new DungeonMapEgoGift(9017)); // Lithograph
@@ -1473,6 +1542,8 @@ public class Plugin : BasePlugin
             LoadEgoTextAndStatic("rm_aleph.json");
 
             Logger.Look(typeof(ResourceKeyBuilder));
+            Logger.Look(typeof(BattleUnitView));
+            Logger.Look(typeof(SDCharacterSkinUtil));
 
             //LoadPersonality("theredmist.json");
             //LoadPersonality("thewavesthatwuther.json");
@@ -1519,9 +1590,12 @@ public class Plugin : BasePlugin
                 //aplist.Add(10101, ("SD_Abnormality", "90136_JosephineWHAppearance"));
 
                 //aplist.Add(10101, ("SD_EGO", $"ErosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).corrosionSkillId}"));
-                aplist.Add(10101, ("SD_EGO", $"ErosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
-                aplist.Add(10201, ("SD_EGO", $"{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
-                aplist.Add(10301, ("SD_EGO", $"Appearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
+                aplist.Add(10101, ("SD_EGO", $"ErosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).corrosionSkillId}"));
+                //aplist.Add(10201, ("SD_EGO", $"{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
+                aplist.Add(10201, ("SD_EGO", $"2120711_Gregor_DeadButterfly"));
+                aplist.Add(10301, ("SD_EGO", $"CorrosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).corrosionSkillId}"));
+                aplist.Add(10401, ("SD_EGO", $"CorrosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).awakeningSkillId}"));
+                //aplist.Add(10301, ("SD_EGO", $"Appearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
 
                 // SD_DeadScene/CharacterAppearanceDeadScene_8263.prefab
                 //aplist.Add(10201, ("SD_EGO", "ErosionAppearance_2050111"));
@@ -2600,7 +2674,7 @@ public class Plugin : BasePlugin
 
             // verg
             {
-                int vg_id = 10507;
+                int vg_id = 10501;
                 int vg_ds = 350;
                 float vg_il = 15f;
                 int vg_aggro = 100;
@@ -2609,6 +2683,9 @@ public class Plugin : BasePlugin
 
                 Singleton<TextDataSet>.Instance.PersonalityList.GetData(vg_id).title = "Vergilius";
                 Singleton<TextDataSet>.Instance.PersonalityList.GetData(vg_id).oneLineTitle = "The Red Gaze ";
+
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).initBuffList.Add(new InitBuffPerLevel { level = 3, list = new Il2CppSystem.Collections.Generic.List<InitBuff>() });
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).initBuffList[1].list.Add(new InitBuff { buff = "Agility", stack = 200 });
 
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).resistInfo.atkResistList[0].value = 0.50f;
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).resistInfo.atkResistList[1].value = 0.50f;
@@ -2642,7 +2719,8 @@ public class Plugin : BasePlugin
 
                 foreach (var skill in Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).attributeList)
                 {
-                    Singleton<StaticDataManager>.Instance.SkillList.GetData(skill.skillId).skillData[0].targetNum = 7;
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(skill.skillId).skillData[0].targetNum = 77;
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(skill.skillId).skillData[0].defaultValue += 10000;
                 }
 
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(vg_ds);
@@ -2674,15 +2752,15 @@ public class Plugin : BasePlugin
 
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedAggro = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(vg_aggro);
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMinSpeedList.Clear();
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMaxSpeedList.Clear();
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).minSpeedList.Clear();
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).maxSpeedList.Clear();
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMinSpeedList.Clear();
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMaxSpeedList.Clear();
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).minSpeedList.Clear();
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).maxSpeedList.Clear();
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMinSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(100));
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMaxSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(200));
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).minSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(100));
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).maxSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(200));
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMinSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(100));
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id)._securedMaxSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(200));
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).minSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(100));
+                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).maxSpeedList.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(200));
             }
 
             // xiao

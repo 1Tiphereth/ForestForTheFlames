@@ -36,7 +36,7 @@ namespace ForestForTheFlames
             if (obj != null)
             {
                 var fn = "";
-                foreach (var f in obj.GetType().GetRuntimeFields())
+                foreach (var f in obj.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
                     fn += $"[{f.FieldType.FullName}] {f.Name}: {f.GetValue(obj)}\n";
                 }
@@ -61,7 +61,20 @@ namespace ForestForTheFlames
                         var m = obj.GetMethod($"get_{f.Name.Substring(19)}");
                         if (m != null)
                         {
-                            fn += $"[{f.FieldType.FullName}] {f.Name}: {m.Invoke(obj, null)}\n";
+                            try
+                            {
+                                fn += $"[{f.FieldType.FullName}] {f.Name}: {m.Invoke(obj, null)}\n";
+                            }
+                            catch
+                            {
+                                try
+                                {
+
+                                    // NativeMethodInfoPtr
+                                    fn += $"[{f.FieldType.FullName}] {f.Name}: {m.Invoke(null, null)}\n";
+                                }
+                                catch { }
+                            }
                         }
 
                         //fn += $"[{f.FieldType.FullName}] {f.Name}: {f.GetValue(obj)}\n";

@@ -19,7 +19,10 @@
     <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
   </ItemGroup>
-
+	
+	<!--<Target Name="AfterBuild" AfterTargets="Build">
+		<Exec Command="$(ProjectDir)/Sunday.exe $(TargetDir)$(TargetFileName)" />
+	</Target>-->
   <ItemGroup>
     <Reference Include="ACTk.Runtime">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Limbus Company\BepInEx\interop\ACTk.Runtime.dll</HintPath>

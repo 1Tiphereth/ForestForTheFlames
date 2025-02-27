@@ -112,6 +112,14 @@ namespace ForestForTheFlames
         [HarmonyPrefix]
         public static void Scaffold_BeforeGiveAttackDamage(BattleUnitModel __instance, BattleActionModel action, CoinModel coin, BattleUnitModel target, BATTLE_EVENT_TIMING timing)
         {
+            foreach (var x in __instance.UnitScripts) {
+                Logger.Log(x);
+                foreach (var y in x._battleUnitView.ChangedAppearanceList)
+                {
+                    Logger.Log(y.appearance.name);
+                    Logger.Log(y.appearance.GetScriptClassName());
+                }
+            }
             foreach (var ps in GetPassives(__instance))
             {
                 ps.BeforeGiveAttackDamage(action, coin, target, timing);
