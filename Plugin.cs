@@ -2078,6 +2078,30 @@ public class Plugin : BasePlugin
 
             // bleed
             {
+                // ryoshu chef
+
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList.Add(Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[0]);
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList)
+                {
+                    x.scale = 5;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1040402).skillData[2].coinList)
+                {
+                    x.scale = 7;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1040401).skillData[2].coinList)
+                {
+                    x.scale = 5;
+                }
+
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[4].scale = 7;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[4].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio50", buffData = new BuffReferenceData { buffKeyword = "", target = "", buffOwner = "", stack = 0, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[3].abilityScriptList = Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[2].abilityScriptList;
+
+                // 
                 foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1030603).skillData[1].coinList)
                 {
                     x.scale = 4;
@@ -2397,6 +2421,13 @@ public class Plugin : BasePlugin
 
             // burn
             {
+                // faust
+
+
+
+                // yi sang
+
+
                 // outis burn
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList.Add(new InitBuffPerLevel { level = 3, list = new Il2CppSystem.Collections.Generic.List<InitBuff>() });
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList[1].list.Add(new InitBuff { buff = "FreischutzShotCount", stack = 2 });
@@ -2486,6 +2517,16 @@ public class Plugin : BasePlugin
 
             // etc
             {
+                // awe
+                foreach (var x in Singleton<StaticDataManager>.Instance.EgoList.GetData(20407).GetAwakeningSkill().skillData[2].coinList)
+                {
+                    x.scale = 24;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.EgoList.GetData(20407).GetAwakeningSkill().skillData[1].coinList)
+                {
+                    x.scale = 17;
+                }
 
                 // soda hong lu
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 6, turn = 2, activeRound = 0, value = 0, limit = 0 } });
