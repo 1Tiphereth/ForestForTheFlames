@@ -2097,8 +2097,31 @@ public class Plugin : BasePlugin
                     x.scale = 5;
                 }
 
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1040402).skillData[1].coinList)
+                {
+                    x.scale = 6;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1040401).skillData[1].coinList)
+                {
+                    x.scale = 4;
+                }
+
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[4].scale = 7;
-                Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[4].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio50", buffData = new BuffReferenceData { buffKeyword = "", target = "", buffOwner = "", stack = 0, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].targetNum = 3;
+
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1040402).skillData[1].coinList[2].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio25", buffData = new BuffReferenceData { buffKeyword = "", target = "", buffOwner = "", stack = 0, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1040402).skillData[2].coinList[2].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio25", buffData = new BuffReferenceData { buffKeyword = "", target = "", buffOwner = "", stack = 0, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1040402).levelList[1].coinlist[2].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Heal by 25% of damage dealt" });
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1040402).levelList[2].coinlist[2].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Heal by 25% of damage dealt" });
+
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1040403).levelList[0].coinlist.Add(Singleton<TextDataSet>.Instance.SkillList.GetData(1040403).levelList[0].coinlist[1]);
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1040403).levelList[0].coinlist.Add(Singleton<TextDataSet>.Instance.SkillList.GetData(1040403).levelList[0].coinlist[1]);
+
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1040403).levelList[0].coinlist[4].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Heal by 75% of damage dealt" });
+
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[4].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio75", buffData = new BuffReferenceData { buffKeyword = "", target = "", buffOwner = "", stack = 0, turn = 0, activeRound = 0, value = 0, limit = 0 } });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[3].abilityScriptList = Singleton<StaticDataManager>.Instance.SkillList.GetData(1040403).skillData[0].coinList[2].abilityScriptList;
 
                 // 
@@ -2421,10 +2444,82 @@ public class Plugin : BasePlugin
 
             // burn
             {
-                // faust
+                // faust burn ego!!!
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10211).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(89);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10211).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(2.7f);
 
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[0].targetNum = 3;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].targetNum = 3;
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[0].coinList)
+                {
+                    x.scale += 1;
+                }
 
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].coinList)
+                {
+                    x.scale += 2;
+                }
 
+                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].abilityScriptList)
+                //{
+                //    Logger.Log("skillScripts: " + x.scriptName);
+                //}
+
+                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].coinList)
+                //{
+                //    foreach (var y in x.abilityScriptList)
+                //    {
+                //        Logger.Log("coinScripts: " + y.scriptName);
+                //    }
+                //}
+
+                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[1].abilityScriptList)
+                //{
+                //    Logger.Log("skillScripts: " + x.scriptName);
+                //}
+
+                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[1].coinList)
+                //{
+                //    foreach (var y in x.abilityScriptList)
+                //    {
+                //        Logger.Log("coinScripts: " + y.scriptName);
+                //    }
+                //}
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].abilityScriptList.RemoveAt(0);
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[0].abilityScriptList.RemoveAt(0);
+                //Singleton<TextDataSet>.Instance.SkillList.GetData(1021105).levelList[1].rawDesc.Replace("After using this Skill, dies.", "");
+
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[0].targetNum = 5;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[0].targetNum = 7;
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[0].coinList)
+                {
+                    x.scale += 7;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[1].coinList)
+                {
+                    x.scale += 11;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021102).skillData[1].coinList)
+                {
+                    x.scale += 1;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021102).skillData[2].coinList)
+                {
+                    x.scale += 2;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021101).skillData[1].coinList)
+                {
+                    x.scale += 1;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021101).skillData[2].coinList)
+                {
+                    x.scale += 2;
+                }
                 // yi sang
 
 
