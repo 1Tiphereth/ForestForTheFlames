@@ -1,0 +1,152 @@
+[
+  {
+    "keyword": "RailBuffForLine2_A_ENEMY",
+    "ally": "",
+    "enemy": "RailBuffForLine2_A_ENEMY"
+  },
+  {
+    "keyword": "RailBuffForLine2_B_ENEMY",
+    "ally": "",
+    "enemy": "RailBuffForLine2_B_ENEMY"
+  },
+  {
+    "keyword": "RailBuffForLine2_C_ENEMY",
+    "ally": "",
+    "enemy": "RailBuffForLine2_C_ENEMY"
+  },
+  {
+    "keyword": "RailBuffForLine2_D_ENEMY",
+    "ally": "",
+    "enemy": "RailBuffForLine2_D_ENEMY"
+  },
+  {
+    "keyword": "RailBuffForLine2_E_ENEMY",
+    "ally": "",
+    "enemy": "RailBuffForLine2_E_ENEMY"
+  },
+  {
+    "keyword": "RailBuffForLine2_F_ENEMY",
+    "ally": "",
+    "enemy": "RailBuffForLine2_F_ENEMY"
+  },
+  {
+    "keyword": "RailBuffForLine2_A_ALLY",
+    "ally": "RailBuffForLine2_A_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_B_ALLY",
+    "ally": "RailBuffForLine2_B_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_C_ALLY",
+    "ally": "RailBuffForLine2_C_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_D_ALLY",
+    "ally": "RailBuffForLine2_D_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_E_ALLY",
+    "ally": "RailBuffForLine2_E_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_F_ALLY",
+    "ally": "RailBuffForLine2_F_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_G_ALLY",
+    "ally": "RailBuffForLine2_G_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_H_ALLY",
+    "ally": "RailBuffForLine2_H_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_I_ALLY",
+    "ally": "RailBuffForLine2_I_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_J_ALLY",
+    "ally": "RailBuffForLine2_J_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_M_ALLY",
+    "ally": "RailBuffForLine2_M_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_N_ALLY",
+    "ally": "RailBuffForLine2_N_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_O_ALLY",
+    "ally": "RailBuffForLine2_O_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_P_ALLY",
+    "ally": "RailBuffForLine2_P_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_Q_ALLY",
+    "ally": "RailBuffForLine2_Q_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_R_ALLY",
+    "ally": "RailBuffForLine2_R_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "RailBuffForLine2_S_ALLY",
+    "ally": "RailBuffForLine2_S_ALLY",
+    "enemy": ""
+  },
+  {
+    "keyword": "85560101CRIMSON",
+    "ally": "FullBloomRose_Crimson",
+    "enemy": "FullBloomRose_Crimson"
+  },
+  {
+    "keyword": "85560101SCARLET",
+    "ally": "FullBloomRose_Scarlet",
+    "enemy": "FullBloomRose_Scarlet"
+  },
+  {
+    "keyword": "85560101AMBER",
+    "ally": "FullBloomRose_Amber",
+    "enemy": "FullBloomRose_Amber"
+  },
+  {
+    "keyword": "85560101SHAMROCK",
+    "ally": "FullBloomRose_Shamrock",
+    "enemy": "FullBloomRose_Shamrock"
+  },
+  {
+    "keyword": "85560101AZURE",
+    "ally": "FullBloomRose_Azure",
+    "enemy": "FullBloomRose_Azure"
+  },
+  {
+    "keyword": "85560101INDIGO",
+    "ally": "FullBloomRose_Indigo",
+    "enemy": "FullBloomRose_Indigo"
+  },
+  {
+    "keyword": "85560101VIOLET",
+    "ally": "FullBloomRose_Violet",
+    "enemy": "FullBloomRose_Violet"
+  }
+]

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace ForestForTheFlames
 {
-    internal class Logger
+    public static class Logger
     {
-        internal enum LEVEL
+        public enum LEVEL
         {
             DEBUG,
             INFO,
@@ -19,16 +19,48 @@ namespace ForestForTheFlames
             FATAL
         }
 
-        public static readonly Logger Instance = new Logger();
+        public enum BACKEND
+        {
+            NONE,
+            CONSOLE,
+            //BEPINEX,
+            //CUSTOM
+        }
 
+
+        //public static Logger()
+        //{
+        //    backend = bd;
+        //}
+
+        //Logger(BACKEND bd, [NotNull] object cl)
+        //{
+        //    backend = bd;
+        //    callback = cl;
+        //}
+
+        public static BACKEND backend = BACKEND.CONSOLE;
         public static void Log(LEVEL level, string caller, object msg)
         {
-            Console.WriteLine($"[{level}] {caller}: {msg}");
+            switch (backend)
+            {
+                case BACKEND.NONE:
+                    break;
+                case BACKEND.CONSOLE:
+                    Console.WriteLine($"[{level}] {caller}: {msg}");
+                    break;
+                //case BACKEND.BEPINEX:
+                //    callback.Log($"[{level}] {caller}: {msg}");
+                //    break;
+                //case BACKEND.CUSTOM:
+                //    callback(
+            }
+            //Console.WriteLine($"[{level}] {caller}: {msg}");
         }
 
         public static void Log(object msg)
         {
-            Log(LEVEL.INFO, new StackTrace().GetFrame(1).GetMethod().DeclaringType.FullName + "::" +  new StackTrace().GetFrame(1).GetMethod().Name, msg);
+            Log(LEVEL.INFO, new StackTrace().GetFrame(1).GetMethod().DeclaringType.FullName + "::" + new StackTrace().GetFrame(1).GetMethod().Name, msg);
         }
 
         public static void Look(object obj)

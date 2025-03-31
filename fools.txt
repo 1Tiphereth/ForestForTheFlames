@@ -1,0 +1,86 @@
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10101
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10101
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10101
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10101
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:1:10101: Fools_10101_YiSang_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10201
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10201
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10201
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10201
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:2:10201: Fools_10201_Faust_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10301
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10301
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10301
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10301
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:3:10301: Fools_10301_Donquixote_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10401
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10401
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10401
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10401
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:4:10401: Fools_10401_Ryoshu_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10501
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10501
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10501
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10501
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:5:10501: Fools_10501_Meursault_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10601
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10601
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10601
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10601
+[Warning:     Unity] Not Find Mesh
+[Warning:     Unity] <color=#0099bc><b>DOTWEEN Ôû║ </b></color>Max Tweens reached: capacity has automatically been increased from 200/50 to 200/125. Use DOTween.SetTweensCapacity to set it manually at startup
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:6:10601: Fools_10601_Honglu_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10701
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10701
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10701
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10701
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:7:10701: Fools_10701_Heathclif_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10801
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10801
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10801
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10801
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:8:10801: Fools_10801_Ishmael_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10901
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10901
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10901
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 10901
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:9:10901: Fools_10901_Rodion_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11001
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11001
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11001
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11001
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:10:11001: Fools_11001_Sinclair_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11101
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11101
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11101
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11101
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:11:11101: Fools_11101_Outis_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11201
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11201
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11201
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 11201
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:False:12:11201: Fools_11201_Gregor_BaseAppearance(Clone)
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 8999
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 8999
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 8999
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 8999
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 899901
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 8999
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 899901
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 8999
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 899901
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 8999
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 899901
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 8999
+[Info   :   Console] [INFO] ForestForTheFlames.Scaffold::GetPassives: 1
+[Warning:     Unity] Not Find Mesh
+[Info   :   Console] [INFO] ForestForTheFlames.Plugin::UniversalSkinPatcher: Il2CppSystem.Collections.Generic.List`1[SkillModel]:True:-1:8999: Fools_9999_VergiliusAppearance(Clone)

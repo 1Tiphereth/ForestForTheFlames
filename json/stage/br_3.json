@@ -19,20 +19,19 @@
   "attributeType": "NONE",
   "attackType": "",
   "abnormalityEventList": [],
-  "stageScriptList": ["a1c7Abnormality"],
+    "stageScriptList": [ "a1c7Abnormality", "8363" ],
   "eventScriptName": "",
-  "participantInfo": { "min": 7, "max": 7, "mustIncludeIdList": [] },
+  "participantInfo": { "min": 1, "max": 12, "mustIncludeIdList": [] },
   "waveList": [
     {
       "battleMapInfo": { "mapName": "Cp7_DonquixoteMansion", "mapSize": 28.0 },
       "unitList": [
-          {
-            "unitID": -3003,
-            "unitLevel": 40,
+        {
+            "unitID": 8127,
+            "unitLevel": 50,
             "unitCount": 1,
-            "unitSyncLevel": 4,
             "isHide": false
-          }
+        }
       ],
       "subUnitList": [],
       "supportUnitList": [],
@@ -61,15 +60,22 @@
     },
     {
       "battleMapInfo": { "mapName": "Cp7_DonquixoteMansion", "mapSize": 28.0 },
-      "unitList": [
-          {
-            "unitID": -3002,
-            "unitLevel": 50,
-            "unitCount": 1,
-            "unitSyncLevel": 4,
-            "isHide": false
-          }
-      ],
+        "unitList": [
+            {
+                "unitID": -3002,
+                "unitLevel": 50,
+                "unitCount": 1,
+                "unitSyncLevel": 4,
+                "isHide": false
+            },
+            {
+                "unitID": -3003,
+                "unitLevel": 40,
+                "unitCount": 1,
+                "unitSyncLevel": 4,
+                "isHide": false
+            }
+        ],
       "subUnitList": [],
       "supportUnitList": [],
       "isBatonPassOn": false,

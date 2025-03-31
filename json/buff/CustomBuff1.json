@@ -1,0 +1,39 @@
+{
+    "id": "CustomBuff1",
+    "subIdList": [],
+    "iconId": "Nail",
+    "typoIconId": "",
+    "buffClass": "SinBuff",
+    "buffType": "Negative",
+    "attributeType": "AZURE",
+    "totalStack": -1,
+    "maxStack": 99,
+    "maxTurn": 99,
+    "destroyableOnZero": true,
+    "destroyableOnZeroTurn": true,
+    "destroyableOnDie": false,
+    "destroyableOnRetreat": true,
+    "canBeDespelled": true,
+    "canBeDuplicated": false,
+    "list": [
+        {
+            "ability": "CustomBuff1",
+            "value": 0.0,
+            "coinOperator": "NONE",
+            "attribute": "NONE",
+            "atk": "NONE",
+            "buffData": {
+                "buffKeyword": "",
+                "target": "",
+                "buffOwner": "",
+                "stack": 0,
+                "turn": 0,
+                "activeRound": 0,
+                "value": 0.0,
+                "limit": 0
+            }
+        }
+    ],
+    "categoryKeywordList": [ "SIN", "SINKING" ],
+    "canIgnoreGiveAdder": false
+}

@@ -10,16 +10,8 @@ using SimpleJSON;
 using System.IO;
 using BattleUI;
 using SD;
-using ServerConfig;
 using Dungeon;
-using Il2CppSystem.Collections.Generic;
-using Utils;
-using System;
 using System.Reflection;
-using BepInEx.Core.Logging.Interpolation;
-using static Cpp2IL.Core.Logging.Logger;
-using System.Diagnostics;
-using Debug = UnityEngine.Debug;
 using static Addressable.ResourceKeyBuilder;
 
 namespace ForestForTheFlames;
@@ -28,6 +20,7 @@ namespace ForestForTheFlames;
 public class Plugin : BasePlugin
 {
     internal static new ManualLogSource Log;
+    //internal static new Logger Logger = new(Logger.BACKEND.BEPINEX, Log);
     protected static string SERVER_URL = " http://127.0.0.1:21000";
     internal static string DATA_PATH = BepInEx.Paths.PluginPath + "\\ForestForTheFlames";
     internal static bool patched = false;
@@ -36,70 +29,14 @@ public class Plugin : BasePlugin
     internal static bool _skip1 = false;
     internal static bool _egostage = false;
 
-
-    //[HarmonyPatch(typeof(Debug), "Log", new Type[] {typeof(Il2CppSystem.Object) })]
-    //[HarmonyPrefix]
-    //public static void FancyLog(ref Il2CppSystem.Object message)
-    //{
-    //    var st = new StackTrace();
-    //    if (st.FrameCount <= 3)
-    //    {
-    //        message = new StackTrace().GetFrame(3).GetMethod().DeclaringType.FullName + " " + new StackTrace().GetFrame(3).GetMethod().Name;
-    //    } else
-    //    {
-    //        message = new StackTrace().GetFrame(7).GetMethod().DeclaringType.FullName + " " + new StackTrace().GetFrame(7).GetMethod().Name;
-    //    }
-    //    //message = $"[idk] {new StackTrace().GetFrame(1).GetMethod().DeclaringType.FullName + " " + new StackTrace().GetFrame(1).GetMethod().Name}: {message}";
-    //}
-    //[HarmonyPatch(typeof(AddressableManager).MakeGenericType([typeof(GameObject)]), "LoadAssetSync")]
-    //[HarmonyPostfix]
-    //public static bool AssetLog(string label, string resourceId)
-    //{
-    //    Logger.Log($"LoadingAsset: {label}/{resourceId}");
-    //    return true;
-    //}
-
-    //[HarmonyPatch]
-    //public class LoadAssetSyncPatchClass
-    //{
-    //    public static System.Reflection.MethodBase TargetMethod()
-    //    {
-    //        return typeof(AddressableManager).GetMethod("LoadAssetSync").MakeGenericMethod(typeof(GameObject));
-    //    }
-
-    //    public static bool Prefix(string label, string resourceId)
-    //    {
-    //        Logger.Log($"LoadingAsset: {label}/{resourceId}");
-    //        return true;
-    //    }
-    //}
     public override void Load()
     {
-        var hr = Harmony.CreateAndPatchAll(typeof(Plugin));
+        Harmony.CreateAndPatchAll(typeof(Plugin));
         Harmony.CreateAndPatchAll(typeof(Scaffold));
-        //Harmony.CreateAndPatchAll(typeof(LoadAssetSyncPatchClass));
 
-        //var td = typeof(AddressableManager);
-        //var mr = td.GetMethod("LoadAssetSync", AccessTools.all).MakeGenericMethod([typeof(GameObject)]);
-        //hr.Patch(mr, prefix: new HarmonyMethod(typeof(Plugin), nameof(AssetLog)));
-
-        //hr.Patch(AccessTools.Method(, nameof(RetrieveOriginalMethod.PatchTarget)), prefix: AssetLog);
         Log = base.Log;
-        Log.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-        //Log.LogInfo($"Using custom server at {SERVER_URL}");
+        Logger.Log($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded! + " + "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\");
 
-        //foreach (var x in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
-        //{
-        //    Log.LogInfo(x.Name);
-        //}
-        //Debug.Log("hi");
-        //Logger.Log("hello");
-
-        //egolist.Add("Abnormality", new System.Collections.Generic.List<(int, int)>());
-        //egolist.Add("Abnormality_Part", new System.Collections.Generic.List<(int, int)>());
-        //egolist.Add("Ally", new System.Collections.Generic.List<(int, int)>());
-        //egolist.Add("Assistant", new System.Collections.Generic.List<(int, int)>());
-        //egolist.Add("Opponent", new System.Collections.Generic.List<(int, int)>());
         egolist.Add("Enemy", new System.Collections.Generic.List<(int, int, int)>());
         egolist.Add("Player", new System.Collections.Generic.List<(int, int, int)>());
     }
@@ -108,24 +45,20 @@ public class Plugin : BasePlugin
     internal static (bool, string, string) requestHeaders = (false, "-", "-");
     [HarmonyPatch(typeof(HttpApiRequester), "AddRequest")]
     [HarmonyPrefix]
-    public static bool AddRequest(HttpApiRequester __instance, MJOHKKGMGJJ EBKBNKFIBAE, int BJAIAMGFCBN = 0)
+    public static bool AddRequest(HttpApiRequester __instance, JIMKEFOFIME NEKAOPOFEOI, int KGHBFJENODO = 0)
     {
         //var a = new HttpApiRequester();
-        //a.AddRequest(BJAIAMGFCBN)
+        //a.AddRequest()
         //httpApiSchema._url.Replace("https://www.limbuscompanyapi.com", SERVER_URL);
-        var httpApiSchema = EBKBNKFIBAE;
-        var priority = BJAIAMGFCBN;
+        var httpApiSchema = NEKAOPOFEOI;
+        var priority = KGHBFJENODO;
         if (!requestHeaders.Item1)
         {
             foreach (var fi in httpApiSchema.GetType().GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
             {
                 if (fi.Name.Contains("Public_String_"))
                 {
-                    //var fin = $"get_{fi.Name.Substring(19)}";
-                    // BNNLNFAIMDD_Public_get_String_0
-                    // GGKHHBCPBLJ_Public_String_0
                     var fin = fi.Name.Substring(20).Replace("_Public_get_String_0", "").Replace("_Public_String_0", "");
-                    //Logger.Log(fin);
                     MethodInfo obj = null;
                     foreach (var fm in httpApiSchema.GetType().GetRuntimeMethods())
                     {
@@ -136,10 +69,8 @@ public class Plugin : BasePlugin
                         }
                     }
 
-                    //Logger.Log($"[{fin}]: {obj == null} : + " + fi.Name);
                     var r = (string)obj.Invoke(httpApiSchema, null);
-                    //Logger.Log($"[{fin}]: {r}");
-                    if (r.Contains("https://www.limbuscompanyapi.com"))
+                    if (r.Contains("http")) // https://www.limbuscompanyapi.com
                     {
                         requestHeaders.Item2 = obj.Name;
                     }
@@ -150,17 +81,17 @@ public class Plugin : BasePlugin
                 }
             }
             requestHeaders.Item1 = true;
+            Logger.Look(requestHeaders);
         }
-        //Logger.Look(requestHeaders);
-        Log.LogInfo(httpApiSchema.GetType().GetMethod(requestHeaders.Item2).Invoke(httpApiSchema, null) + " : " + httpApiSchema.GetType().GetMethod(requestHeaders.Item3).Invoke(httpApiSchema, null));
-        __instance.LNMLKCBCNNE.Enqueue(httpApiSchema, priority);
+        Logger.Log(httpApiSchema.GetType().GetMethod(requestHeaders.Item2).Invoke(httpApiSchema, null) + " : " + httpApiSchema.GetType().GetMethod(requestHeaders.Item3).Invoke(httpApiSchema, null));
+        __instance.CIIDJFEEBCC.Enqueue(httpApiSchema, priority);
         __instance.ProceedRequest();
         return false;
     }
 
     public static void Callback(object any)
     {
-        Log.LogInfo((string)any);
+        Logger.Log((string)any);
     }
 
     public static void ReplaceSkill(SkillStaticData x, SkillStaticData y)
@@ -180,14 +111,14 @@ public class Plugin : BasePlugin
 
     public static void PrepareSkillFromLocalJson(string path)
     {
-        Log.LogInfo($"Skill: Preparing to load {path}");
+        Logger.Log($"Skill: Preparing to load {path}");
         string contents = File.ReadAllText($@"{DATA_PATH}\json\{path}");
         jlist.Add(JSONNode.Parse(contents));
     }
 
     public static void InitSkills()
     {
-        Log.LogInfo("Loading skills");
+        Logger.Log("Loading skills");
         foreach (var x in jlist)
         {
             var y = JsonUtility.FromJson<SkillStaticData>(x.ToString());
@@ -203,22 +134,22 @@ public class Plugin : BasePlugin
             }
 
         }
-        Log.LogInfo("Finished loading skills");
-        //Log.LogInfo("Clearing [jlist]");
+        Logger.Log("Finished loading skills");
+        //Logger.Log("Clearing [jlist]");
         //jlist.Clear();
     }
 
     public static void PrepareLocalize(string path)
     {
-        Log.LogInfo($"Localize: Preparing to load {path}");
-        var p = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        Logger.Log($"Localize: Preparing to load {path}");
+        var p = Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\");
         string contents = File.ReadAllText($@"{DATA_PATH}\json\{path}");
         jlist.Add(JSONNode.Parse(contents));
     }
 
     public static void InitLocalize()
     {
-        Log.LogInfo("Loading localization");
+        Logger.Log("Loading localization");
         foreach (var x in jlist)
         {
             var y = JsonUtility.FromJson<TextData_Skill>(x.ToString());
@@ -231,8 +162,8 @@ public class Plugin : BasePlugin
                 Singleton<TextDataSet>.Instance.SkillList._dic.Add(y.ID, y);
             }
         }
-        Log.LogInfo("Finished loading localization");
-        //Log.LogInfo("Clearing [lclist]");
+        Logger.Log("Finished loading localization");
+        //Logger.Log("Clearing [lclist]");
         //lclist.Clear();
     }
 
@@ -245,7 +176,7 @@ public class Plugin : BasePlugin
 
     public static void AddPassive(int id, int pid, int level = -1)
     {
-        Log.LogInfo($"Adding passive {pid} to {id}");
+        Logger.Log($"Adding passive {pid} to {id}");
         foreach (var x in Singleton<StaticDataManager>.Instance.PersonalityPassiveList.list)
         {
             if (x.personalityID == id)
@@ -270,7 +201,7 @@ public class Plugin : BasePlugin
 
     public static void RemovePassive(int id, int pid)
     {
-        Log.LogInfo($"Removing passive {pid} from {id}");
+        Logger.Log($"Removing passive {pid} from {id}");
         foreach (var x in Singleton<StaticDataManager>.Instance.PersonalityPassiveList.list)
         {
             if (x.personalityID == id)
@@ -288,16 +219,16 @@ public class Plugin : BasePlugin
 
     public static void LoadAbnoUnit(string path)
     {
-        Log.LogInfo($"AbnoUnit: Loading {path}");
-        var p = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        Logger.Log($"AbnoUnit: Loading {path}");
+        var p = Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\");
         string contents = File.ReadAllText($@"{DATA_PATH}\json\unit\Abno\{path}");
         var y = JsonUtility.FromJson<AbnormalityStaticData>(contents.ToString());
         Singleton<StaticDataManager>.Instance.AbnormalityUnitList.list.Add(y);
     }
     public static void LoadAbnoPartUnit(string path)
     {
-        Log.LogInfo($"AbnoUnitPart: Loading {path}");
-        var p = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        Logger.Log($"AbnoUnitPart: Loading {path}");
+        var p = Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\");
         string contents = File.ReadAllText($@"{DATA_PATH}\json\unit\Abno\{path}");
         var y = JsonUtility.FromJson<AbnormalityPartStaticData>(contents.ToString());
         Singleton<StaticDataManager>.Instance.AbnormalityPartList.list.Add(y);
@@ -305,8 +236,8 @@ public class Plugin : BasePlugin
 
     public static void LoadBuffStatic(string path)
     {
-        Log.LogInfo($"BuffStatic: Loading {path}");
-        var p = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        Logger.Log($"BuffStatic: Loading {path}");
+        var p = Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\");
         string contents = File.ReadAllText($@"{DATA_PATH}\json\buff\{path}");
         var y = JsonUtility.FromJson<BuffStaticData>(contents.ToString());
         Singleton<StaticDataManager>.Instance.BuffList.list.Add(y);
@@ -314,8 +245,8 @@ public class Plugin : BasePlugin
 
     public static void LoadPersonality(string path)
     {
-        Log.LogInfo($"Personality: Loading {path}");
-        var p = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        Logger.Log($"Personality: Loading {path}");
+        var p = Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\");
         {
             string contents = File.ReadAllText($@"{DATA_PATH}\json\unit\Sinners\{path}");
             var y = JsonUtility.FromJson<PersonalityStaticData>(contents.ToString());
@@ -333,8 +264,8 @@ public class Plugin : BasePlugin
 
     public static void LoadEgoTextAndStatic(string path)
     {
-        Log.LogInfo($"EgoLoaderAndTextPlusStatic: Loading {path}");
-        var p = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        Logger.Log($"EgoLoaderAndTextPlusStatic: Loading {path}");
+        var p = Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\");
         {
             string contents = File.ReadAllText($@"{DATA_PATH}\json\ego\{path}");
             var y = JsonUtility.FromJson<EgoStaticData>(contents.ToString());
@@ -351,22 +282,23 @@ public class Plugin : BasePlugin
 
     public static void PrepareExpStage(int id, string path)
     {
-        Log.LogInfo($"ExpStage: Preparing to load {path}");
-        var p = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        Logger.Log($"ExpStage: Preparing to load {path}");
+        var p = Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\");
         string contents = File.ReadAllText($@"{DATA_PATH}\json\stage\{path}");
         eslist.Add(id, JSONNode.Parse(contents));
     }
 
     public static void InitExpStage()
     {
-        Log.LogInfo("Loading ExpStages");
+        Logger.Log("Loading ExpStages");
         foreach (var x in eslist)
         {
             var y = JsonUtility.FromJson<StageStaticData>(x.Value.ToString());
             var i = x.Key;
-            Log.LogInfo($"ExpStage: Loading id:{i}");
+            Logger.Log($"ExpStage: Loading id:{i}");
 
             Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.GetStage(i).hasGoldenBough = y.hasGoldenBough;
+            Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.GetStage(i).stageScriptList = y.stageScriptList;
             Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.GetStage(i).hasGoldenBoughGray = y.hasGoldenBoughGray;
             Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.GetStage(i).stageLevel = y.stageLevel;
             Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.GetStage(i).stageType = y.stageType;
@@ -396,8 +328,8 @@ public class Plugin : BasePlugin
             Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.GetStage(i).libraryOfRuinaStageType = y.libraryOfRuinaStageType;
             Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.GetStage(i).sprName = y.sprName;
         }
-        Log.LogInfo("Finished loading ExpStages");
-        //Log.LogInfo("Clearing [jlist]");
+        Logger.Log("Finished loading ExpStages");
+        //Logger.Log("Clearing [jlist]");
         //jlist.Clear();
     }
 
@@ -423,7 +355,7 @@ public class Plugin : BasePlugin
     //{
     //    foreach (var x in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
     //    {
-    //        Log.LogInfo(x.FullName);
+    //        Logger.Log(x.FullName);
     //    }
     //    if (1 == 1)
     //    {
@@ -458,7 +390,7 @@ public class Plugin : BasePlugin
     //{
     //    foreach (var x in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
     //    {
-    //        Log.LogInfo(x.FullName);
+    //        Logger.Log(x.FullName);
     //    }
 
     //    {
@@ -487,7 +419,7 @@ public class Plugin : BasePlugin
     //[HarmonyPostfix]
     //public static void ResponseLogger(string responseJson)
     //{
-    //    Log.LogInfo($"Response: {responseJson}");
+    //    Logger.Log($"Response: {responseJson}");
     //    //Log.LogFatal($"LoadingAsset: {label}/{resourceId}");
     //}
 
@@ -527,13 +459,13 @@ public class Plugin : BasePlugin
         int id = model.UnitDataModel.ClassInfo.ID;
         foreach (var x in __instance._appearances)
         {
-            Logger.Log($"{id}: {x.name}");
-            Logger.Log($"{id}: {x.GetScriptClassName()}");
+            Logger.Log($"{model.IsAbnormalityOrPart}:{model.GetCharacterID()}:{id}: {x.name}");
+            //Logger.Log($"{id}: {x.GetScriptClassName()}");
         }
         foreach (var x in __instance._changedAppearanceList)
         {
-            Logger.Log($"{id}: {x.appearance.name}");
-            Logger.Log($"{id}: {x.appearance.GetScriptClassName()}");
+            Logger.Log($"Changed: {model.GetCharacterID()}:{id}: {x.appearance.name}");
+            //Logger.Log($"Changed: {id}: {x.appearance.GetScriptClassName()}");
         }
         if (aplist.ContainsKey(id))
         {
@@ -599,7 +531,7 @@ public class Plugin : BasePlugin
         {
             //foreach (var x in __instance._appearances)
             //{
-            //    Log.LogInfo(x.name);
+            //    Logger.Log(x.name);
             //}
         }
         //return true;
@@ -726,6 +658,7 @@ public class Plugin : BasePlugin
     [HarmonyPrefix]
     public static void DungeonFixer(StageController __instance)
     {
+        return;
         if (__instance.StageModel.ClassInfo.ID == 1 || __instance.StageModel.ClassInfo.ID == 2 || __instance.StageModel.ClassInfo.ID == 3)
         {
             DungeonProgressManager._isOnDungeon = true;
@@ -767,7 +700,7 @@ public class Plugin : BasePlugin
             };
             foreach (var gid in gids)
             {
-                gifts.Add(new DungeonMapEgoGift(new AGIOFINBDEK(gid)));
+                gifts.Add(new DungeonMapEgoGift(new FBHBFFIGHHK(gid)));
             }
             //gifts.Add(new DungeonMapEgoGift(new MHCFNLCHAEN(9014))); // Rusty Commemorative Coin
             //gifts.Add(new DungeonMapEgoGift(9017)); // Lithograph
@@ -837,7 +770,7 @@ public class Plugin : BasePlugin
         //[HarmonyPrefix]
         //public static bool DungeonFixer77(Il2CppSystem.Collections.Generic.List<EgoGiftAbilityNameData> __result)
         //{
-        //    Log.LogInfo("DungeonFixer77");
+        //    Logger.Log("DungeonFixer77");
         //    __result = new Il2CppSystem.Collections.Generic.List<EgoGiftAbilityNameData>();
         //    __result.Add(new EgoGiftAbilityNameData("hi lol", EGO_GIFT_ABILITY_NAME_TYPES.ITEM));
         //    return true;
@@ -849,7 +782,7 @@ public class Plugin : BasePlugin
         {
             if (_egostage)
             {
-                Log.LogInfo("DungeonFixer1");
+                Logger.Log("DungeonFixer1");
                 DungeonProgressManager._isOnDungeon = false;
             }
             //return false;
@@ -861,7 +794,7 @@ public class Plugin : BasePlugin
         {
             if (_egostage)
             {
-                Log.LogInfo("DungeonFixer2");
+                Logger.Log("DungeonFixer2");
                 DungeonProgressManager._isOnDungeon = false;
             }
             //return false;
@@ -873,7 +806,7 @@ public class Plugin : BasePlugin
         {
             if (_egostage)
             {
-                Log.LogInfo("DungeonFixer3");
+                Logger.Log("DungeonFixer3");
                 DungeonProgressManager._isOnDungeon = true;
             }
             //return false;
@@ -885,14 +818,574 @@ public class Plugin : BasePlugin
             Scaffold.pss.Clear();
             if (_egostage)
             {
-                Log.LogInfo("DungeonFixer4");
+                Logger.Log("DungeonFixer4");
                 DungeonProgressManager._isOnDungeon = false;
                 DungeonProgressManager.ClearData();
                 _egostage = false;
             }
             //return false;
         }
-       
+
+
+
+    //[HarmonyPatch(typeof(PassiveModel), new[] { typeof(PassiveStaticData) })]
+    //[HarmonyPatch(MethodType.Constructor)]
+    //[HarmonyPostfix]
+    //public static void PassiveModel_Constructor(PassiveModel __instance, PassiveStaticData info)
+    //{
+    //    Logger.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    //    try
+    //    {
+    //        if (info.ID < 0)
+    //        {
+    //            Logger.Log("found <0 passive");
+    //            __instance._script = (PassiveAbility)Activator.CreateInstance(System.Type.GetType($"ForestForTheFlames.PassiveAbility_{System.Math.Abs(info.id)}"));
+    //            __instance._classInfo = info;
+    //            __instance._classInfo.id = info.id;
+    //            Logger.Log("done lolll +" + __instance.Script == null);
+    //        }
+    //    } catch
+    //    {
+    //        Logger.Log("passive broke lmao");
+    //    }
+    //}
+
+    //[HarmonyPatch(typeof(BuffAbilityManager), "GetType", [typeof(string)])]
+    //[HarmonyPrefix]
+    //public static void BuffAbilityManager_GetType(string abilityName)
+    //{
+    //    Logger.Log(abilityName);
+    //    //try
+    //    //{
+    //    //    Logger.Log(abilityName);
+    //    //    foreach (var x in BuffAbilityManager._abilityMap)
+    //    //    {
+    //    //        Logger.Log($"{x.key}:{x.value.FullName}");
+    //    //    }
+    //    //    if (abilityName == "CustomBuff1" || abilityName == "Sinking")
+    //    //    {
+    //    //        abilityName = "CustomBuff1";
+    //    //        Il2CppSystem.Type cached;
+    //    //        if (BuffAbilityManager._abilityMap.TryGetValue(abilityName, out cached))
+    //    //        {
+    //    //            Logger.Log("cached " + abilityName);
+    //    //            __result = cached;
+    //    //            return false;
+    //    //        }
+    //    //        else
+    //    //        {
+    //    //            var buf = Il2CppSystem.Type.GetType($"ForestForTheFlames.{BuffAbilityManager.GenerateClassName(abilityName)}");
+    //    //            Logger.Log(abilityName + " is null? " + buf == null);
+    //    //            if (buf != null)
+    //    //            {
+    //    //                BuffAbilityManager._abilityMap.Add(abilityName, buf);
+    //    //                __result = buf;
+    //    //                return false;
+    //    //            }
+    //    //        }
+    //    //    }
+    //    //    return true;
+    //    //} catch
+    //    //{
+    //    //    Logger.Log("gt broke lol");
+    //    //    return true;
+    //    //}
+    //}
+
+    internal static void DumpFiles()
+    {
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.EgoGiftData.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_EgoGiftData.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.EgoGiftCategory.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_EgoGiftCategory.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.MirrorDungeonEgoGiftLockedDescList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_MirrorDungeonEgoGiftLockedDescList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.list)
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_ExpDungeonBattleList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.ExpDungeonDataList.list)
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_ExpDungeonDataList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.ThreadDungeonBattleList.list)
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_ThreadDungeonBattleList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.ThreadDungeonDataList.list)
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_ThreadDungeonDataList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.EnemyUnitList.list)
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_EnemyUnitList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.EnemyList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_EnemyList.json", total);
+        }
+
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_AbnormalityUnitList.json", total);
+        }
+
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.AbnormalityContentData.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_AbnormalityContentData.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_SkillList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.SkillList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_SkillList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.EgoList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_EgoList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.EgoList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_EgoList.json", total);
+        }
+
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.storyBattleStageList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_storyBattleStageList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.StoryTheater.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_StoryTheater.json", total);
+        }
+
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_PersonalityStaticDataList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.PersonalityList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_PersonalityList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.AssistantUnitList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_AssistantUnitList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.PassiveList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_PassiveList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_PersonalityPassiveList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.PassiveList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_PassiveList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.RailwayDungeonBattleList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_RailwayDungeonBattleList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.RailwayDungeonBuffDataList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_RailwayDungeonBuffDataList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.RailwayDungeonDataList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_RailwayDungeonDataList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.AbnormalityPartList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_AbnormalityPartList.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.partList.list)
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_partList.json", total);
+        }
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.RailwayDungeonBuffText.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_RailwayDungeonBuffText.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.RailwayDungeonNodeText.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_RailwayDungeonNodeText.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.RailwayDungeonStationName.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_RailwayDungeonStationName.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.RailwayDungeonText.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_RailwayDungeonText.json", total);
+        }
+
+
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.stageChapter.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_stageChapter.json", total);
+        }
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.stagePart.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_stagePart.json", total);
+        }
+
+        Log.LogFatal(1);
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.StageNodeText.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_StageNodeText.json", total);
+        }
+        Log.LogFatal(2);
+        Log.LogFatal(1);
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.StageNodeRewardList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_StageNodeRewardList.json", total);
+        }
+        Log.LogFatal(1);
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.abBattleStageList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_abBattleStageList.json", total);
+        }
+        Log.LogFatal(1);
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.dungeonBattleStageList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_dungeonBattleStageList.json", total);
+        }
+        Log.LogFatal(1);
+        //{
+        //    var total = "[";
+        //    foreach (var x in Singleton<StaticDataManager>.Instance.MainStageMapSettingList.GetList())
+        //    {
+        //        total += JsonUtility.ToJson(x);
+        //        total += ",";
+        //    }
+        //    total += "]";
+        //    File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_MainStageMapSettingList.json", total);
+        //}
+        Log.LogFatal(1);
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.mirrorDungeonBattleStageList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_mirrorDungeonBattleStageList.json", total);
+        }
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.storyBattleStageList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_storyBattleStageList.json", total);
+        }
+
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.BuffList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_BuffList.json", total);
+        }
+
+
+
+        {
+            var total = "[";
+            foreach (var x in Singleton<StaticDataManager>.Instance.DoubleBuffList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_DoubleBuffList.json", total);
+        }
+        {
+            var total = "[";
+            foreach (var x in Singleton<TextDataSet>.Instance.BuffAbilityList.GetList())
+            {
+                total += JsonUtility.ToJson(x);
+                total += ",";
+            }
+            total += "]";
+            File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_BuffAbilityList.json", total);
+        }
+    }
 
     [HarmonyPatch(typeof(MainLobbyUIPanel), "Initialize")]
     [HarmonyPostfix]
@@ -900,516 +1393,29 @@ public class Plugin : BasePlugin
     {
         if (!patched)
         {
-            foreach (var x in SingletonBehavior<AddressableManager>.Instance.labelHandles)
+            //Logger.Look(SingletonBehavior<AddressableManager>.Instance);
+            //Logger.Look(Singleton<ServerSelector>.Instance.GEAKHAIBAKM);
+
+            Logger.Look(typeof(ResourceKeyBuilder));
+            Logger.Look(typeof(BattleUnitView));
+            Logger.Look(typeof(SDCharacterSkinUtil));
+            try
             {
-                Logger.Look(x);
+                //DumpFiles();
+            } catch
+            {
+                Logger.Log("dump failed");
             }
-                Log.LogFatal(JailbreakChecker.IsJailbroken());
-            Log.LogFatal(RootJailbreakChecker.IsDeviceRootedOrJailbroken());
-            Log.LogFatal(Singleton<ServerSelector>.Instance.GetServerURL());
-            Log.LogFatal(Singleton<ServerSelector>.Instance.GetBattleLogServerURL());
-            Log.LogFatal(Singleton<ServerSelector>.Instance.IsEnablePacketCrypt());
-            Log.LogFatal(Singleton<ServerSelector>.Instance.IsEnableBattleLogPacketCrypt());
-
-
-            //var nd = new EnemyData { 
-            // isHide = false,
-            //  unitCount = 1,
-            //   unitID = 97712,
-            //    unitLevel = 45,
-            //};
-            //var nd1 = new EnemyData
-            //{
-            //    isHide = false,
-            //    unitCount = 1,
-            //    unitID = 71012,
-            //    unitLevel = 45,
-            //};
-
-            //Singleton<StaticDataManager>.Instance.GetStage(10718).waveList[0].GetEnemyDataList().Add(nd);
-            //Singleton<StaticDataManager>.Instance.GetStage(10718).waveList[0].GetEnemyDataList().Add(nd1);
-
-
             //{
             //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.EgoGiftData.GetList())
+            //    foreach (var x in Singleton<TextDataSet>.Instance.BufList.GetList())
             //    {
             //        total += JsonUtility.ToJson(x);
             //        total += ",";
             //    }
             //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_EgoGiftData.json", total);
+            //    File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Text_BufList.json", total);
             //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.EgoGiftCategory.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_EgoGiftCategory.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.MirrorDungeonEgoGiftLockedDescList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_MirrorDungeonEgoGiftLockedDescList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.list)
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_ExpDungeonBattleList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.ExpDungeonDataList.list)
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_ExpDungeonDataList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.ThreadDungeonBattleList.list)
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_ThreadDungeonBattleList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.ThreadDungeonDataList.list)
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_ThreadDungeonDataList.json", total);
-            //}
-
-
-            ////var nd3 = new EnemyData
-            ////{
-            ////    isHide = false,
-            ////    unitCount = 1,
-            ////    unitID = 8742,
-            ////    unitLevel = 45,
-            ////};
-            ////var nd4 = new EnemyData
-            ////{
-            ////    isHide = false,
-            ////    unitCount = 1,
-            ////    unitID = 8012,
-            ////    unitLevel = 45,
-            ////};
-
-            ////Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.list[0].stageType = "Abnormality";
-            ////Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.list[0].waveList[0].GetEnemyDataList().Clear();
-            ////Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.list[0].waveList[1].GetEnemyDataList().Clear();
-            ////Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.list[0].waveList[0].GetEnemyDataList().Add(nd3);
-            ////Singleton<StaticDataManager>.Instance.ExpDungeonBattleList.list[0].waveList[1].GetEnemyDataList().Add(nd4);
-
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.EnemyUnitList.list)
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_EnemyUnitList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.EnemyList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_EnemyList.json", total);
-            //}
-
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_AbnormalityUnitList.json", total);
-            //}
-
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.AbnormalityContentData.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_AbnormalityContentData.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_SkillList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.SkillList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_SkillList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.EgoList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_EgoList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.EgoList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_EgoList.json", total);
-            //}
-
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.storyBattleStageList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_storyBattleStageList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.StoryTheater.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_StoryTheater.json", total);
-            //}
-
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_PersonalityStaticDataList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.PersonalityList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_PersonalityList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.AssistantUnitList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_AssistantUnitList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.PassiveList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_PassiveList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_PersonalityPassiveList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.PassiveList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_PassiveList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.RailwayDungeonBattleList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_RailwayDungeonBattleList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.RailwayDungeonBuffDataList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_RailwayDungeonBuffDataList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.RailwayDungeonDataList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_RailwayDungeonDataList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.AbnormalityPartList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_AbnormalityPartList.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.partList.list)
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_partList.json", total);
-            //}
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.RailwayDungeonBuffText.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_RailwayDungeonBuffText.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.RailwayDungeonNodeText.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_RailwayDungeonNodeText.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.RailwayDungeonStationName.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_RailwayDungeonStationName.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.RailwayDungeonText.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_RailwayDungeonText.json", total);
-            //}
-
-
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.stageChapter.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_stageChapter.json", total);
-            //}
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.stagePart.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_stagePart.json", total);
-            //}
-
-            //Log.LogFatal(1);
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.StageNodeText.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_StageNodeText.json", total);
-            //}
-            //Log.LogFatal(2);
-            //Log.LogFatal(1);
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.StageNodeRewardList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_StageNodeRewardList.json", total);
-            //}
-            //Log.LogFatal(1);
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.abBattleStageList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_abBattleStageList.json", total);
-            //}
-            //Log.LogFatal(1);
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.dungeonBattleStageList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_dungeonBattleStageList.json", total);
-            //}
-            //Log.LogFatal(1);
-            ////{
-            ////    var total = "[";
-            ////    foreach (var x in Singleton<StaticDataManager>.Instance.MainStageMapSettingList.GetList())
-            ////    {
-            ////        total += JsonUtility.ToJson(x);
-            ////        total += ",";
-            ////    }
-            ////    total += "]";
-            ////    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_MainStageMapSettingList.json", total);
-            ////}
-            //Log.LogFatal(1);
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.mirrorDungeonBattleStageList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_mirrorDungeonBattleStageList.json", total);
-            //}
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.storyBattleStageList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_storyBattleStageList.json", total);
-            //}
-
 
             //{
             //    var total = "[";
@@ -1419,30 +1425,7 @@ public class Plugin : BasePlugin
             //        total += ",";
             //    }
             //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_BuffList.json", total);
-            //}
-
-
-
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<StaticDataManager>.Instance.DoubleBuffList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Static_DoubleBuffList.json", total);
-            //}
-            //{
-            //    var total = "[";
-            //    foreach (var x in Singleton<TextDataSet>.Instance.BuffAbilityList.GetList())
-            //    {
-            //        total += JsonUtility.ToJson(x);
-            //        total += ",";
-            //    }
-            //    total += "]";
-            //    File.WriteAllText(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "Text_BuffAbilityList.json", total);
+            //    File.WriteAllText(Path.GetDirectoryName("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Limbus Company\\BepInEx\\plugins\\") + "Static_BuffList.json", total);
             //}
 
             Log.LogMessage("Running MainUI Patches");
@@ -1541,9 +1524,9 @@ public class Plugin : BasePlugin
             LoadAbnoPartUnit("br_3_1_1.json");
             LoadEgoTextAndStatic("rm_aleph.json");
 
-            Logger.Look(typeof(ResourceKeyBuilder));
-            Logger.Look(typeof(BattleUnitView));
-            Logger.Look(typeof(SDCharacterSkinUtil));
+            //LoadBuffStatic("CustomBuff1.json");
+            //Singleton<TextDataSet>.Instance.BuffAbilityList._dic.Add("CustomBuff1", new TextData_BuffAbility { id = "CustomBuff1", desc = "custom buff 1 lol" });
+            //Singleton<TextDataSet>.Instance.BufList._dic.Add("CustomBuff1", new TextData_Buf { id = "CustomBuff1", name = "Custom buff from code (1)", desc = "why are you reading this?? {0}:{1}"});
 
             //LoadPersonality("theredmist.json");
             //LoadPersonality("thewavesthatwuther.json");
@@ -1563,23 +1546,46 @@ public class Plugin : BasePlugin
             Singleton<TextDataSet>.Instance.EnemyList._dic.Add("-3003", new TextData_Enemy { name = "Don Quixote (real)", desc = "Core (teehee~)", id = "-3003" });
 
             Singleton<StaticDataManager>.Instance.PassiveList.list.Add(new PassiveStaticData { id = -1 });
-            Singleton<TextDataSet>.Instance.PassiveList._dic.Add("-1", new TextData_Passive { id = "-1", desc = "Solemn", name = "Lament" });
+            Singleton<StaticDataManager>.Instance.PassiveList.list.Add(new PassiveStaticData { id = -100 });
+            Singleton<TextDataSet>.Instance.PassiveList._dic.Add("-1", new TextData_Passive { id = "-1", desc = "Probably does something fun", name = "Custom Passive (-1)" });
+            Singleton<TextDataSet>.Instance.PassiveList._dic.Add("-100", new TextData_Passive { id = "-100", desc = "Take 5 less HP damage from attacks", name = "Nuovo Fabric" });
+
             AddPassive(10301, -1);
             AddPassive(10201, -1);
             AddPassive(10101, -1);
+            AddPassive(10112, -1);
+            AddPassive(10101, -1);
+
+            //Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(8127).PassiveSetInfo.AddBattlePassive(-1);
+
+            // Nuovo Fabric
+            AddPassive(10608, -100);
+            AddPassive(10211, -100);
+            AddPassive(11009, -100);
+            AddPassive(10112, -100);
+            AddPassive(10110, -100);
+            AddPassive(10404, -100);
+            AddPassive(10410, -100);
+            AddPassive(10605, -100);
+            AddPassive(11108, -100);
+            AddPassive(11107, -100);
+            AddPassive(11005, -100);
+            AddPassive(11010, -100);
+            AddPassive(11002, -100);
 
             // custom skins
             {
                 //aplist.Add(10301, ("SD_Abnormality", "8410_RealDon_2pAppearance"));
                 //aplist.Add(10307, ("SD_Abnormality", "8380_SanchoAppearance"));
-                
-                aplist.Add(10307, ("SD_Enemy", "1079_Sancho_BerserkAppearance"));
+
+                aplist.Add(10301, ("SD_Enemy", "1079_Sancho_BerserkAppearance"));
 
                 aplist.Add(10204, ("SD_Abnormality", "8029_CromerAppearance"));
                 aplist.Add(10104, ("SD_Abnormality", "8044_Camellia_AwakenAppearance"));
                 //aplist.Add(10601, ("SD_Personality", "400001_JiashichunAppearance"));
                 aplist.Add(10508, ("SD_Abnormality", "8153_KimSatGat_ErodeAppearance"));
                 aplist.Add(-3001, ("SD_Personality", "10410_Ryoshu_SpiderBudAppearance"));
+                aplist.Add(10601, ("SD_Enemy", "Fools_9999_VergiliusAppearance"));
 
                 // 1079
 
@@ -1590,11 +1596,11 @@ public class Plugin : BasePlugin
                 //aplist.Add(10101, ("SD_Abnormality", "90136_JosephineWHAppearance"));
 
                 //aplist.Add(10101, ("SD_EGO", $"ErosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).corrosionSkillId}"));
-                aplist.Add(10101, ("SD_EGO", $"ErosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).corrosionSkillId}"));
+                //aplist.Add(10101, ("SD_EGO", $"ErosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).corrosionSkillId}"));
                 //aplist.Add(10201, ("SD_EGO", $"{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
-                aplist.Add(10201, ("SD_EGO", $"2120711_Gregor_DeadButterfly"));
-                aplist.Add(10301, ("SD_EGO", $"CorrosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).corrosionSkillId}"));
-                aplist.Add(10401, ("SD_EGO", $"CorrosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).awakeningSkillId}"));
+                //aplist.Add(10201, ("SD_EGO", $"2120711_Gregor_DeadButterfly"));
+                //aplist.Add(10301, ("SD_EGO", $"CorrosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).corrosionSkillId}"));
+                //aplist.Add(10401, ("SD_EGO", $"CorrosionAppearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(21207).awakeningSkillId}"));
                 //aplist.Add(10301, ("SD_EGO", $"Appearance_{Singleton<StaticDataManager>.Instance.EgoList.GetData(20106).AwakeningSkillId}"));
 
                 // SD_DeadScene/CharacterAppearanceDeadScene_8263.prefab
@@ -1664,6 +1670,28 @@ public class Plugin : BasePlugin
                 egolist["Enemy"].Add((9083, 0, 8013));
                 egolist["Enemy"].Add((9083, 0, 8014));
 
+            }
+
+
+            {
+                int vv_id = 10601;
+                int real_vv_id = 8999;
+                Logger.Log(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(real_vv_id)));
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vv_id).attributeList.Clear();
+                foreach (var x in Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(real_vv_id).attributeList)
+                {
+                    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vv_id).attributeList.Add(x);
+                }
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vv_id).resistInfo = Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(real_vv_id).resistInfo;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vv_id).hp = Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(real_vv_id).hp;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vv_id).initBuffList = Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(real_vv_id).initBuffList;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vv_id).panicType = Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(real_vv_id).panicType;
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vv_id)._securedDefenseSkillIDList = Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(real_vv_id)._securedDefenseSkillIDList;
+
+                foreach (var ps in Singleton<StaticDataManager>.Instance.AbnormalityUnitList.GetData(real_vv_id).PassiveSetInfo.PassiveIdList)
+                {
+                    AddPassive(vv_id, ps);
+                }
             }
 
             // exp3
@@ -1742,7 +1770,7 @@ public class Plugin : BasePlugin
             // sancho
             {
                 //aplist.Add(10301, ("SD_Abnormality", "8390_RealDon_1pAppearance"));
-                int sh_id = 10307;
+                int sh_id = 10301;
                 int sh_ds = 132;
                 float sh_il = 1.1f;
                 int sh_aggro = 0;
@@ -1797,78 +1825,69 @@ public class Plugin : BasePlugin
             }
 
             // don quixote
-            {
-                int dq_id = 10301;
-                int dq_ds = 205;
-                float dq_il = 5f;
-                int dq_aggro = 0;
+            //{
+            //    int dq_id = 10301;
+            //    int dq_ds = 205;
+            //    float dq_il = 5f;
+            //    int dq_aggro = 0;
 
-                Singleton<TextDataSet>.Instance.PersonalityList.GetData(dq_id).title = "Don Quixote";
-                Singleton<TextDataSet>.Instance.PersonalityList.GetData(dq_id).oneLineTitle = "First Kindred ";
+            //    Singleton<TextDataSet>.Instance.PersonalityList.GetData(dq_id).title = "Don Quixote";
+            //    Singleton<TextDataSet>.Instance.PersonalityList.GetData(dq_id).oneLineTitle = "First Kindred ";
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).resistInfo.atkResistList[0].value = 0.75f;
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).resistInfo.atkResistList[1].value = 0.75f;
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).resistInfo.atkResistList[2].value = 1f;
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).resistInfo.atkResistList[0].value = 0.75f;
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).resistInfo.atkResistList[1].value = 0.75f;
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).resistInfo.atkResistList[2].value = 1f;
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).panicType = 1034;
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).panicType = 1034;
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Clear();
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841001, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841002, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841003, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841004, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841005, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841006, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841007, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841008, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841009, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841010, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841011, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841012, number = 1 });
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841013, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Clear();
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841001, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841002, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841003, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841004, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841005, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841006, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841007, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841008, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841009, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841010, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841011, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841012, number = 1 });
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).attributeList.Add(new UnitAttribute { skillId = 841013, number = 1 });
 
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838001, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838002, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838003, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838004, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838005, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838006, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838007, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838008, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838009, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838010, number = 1 });
-                //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838011, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838001, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838002, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838003, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838004, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838005, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838006, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838007, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838008, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838009, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838010, number = 1 });
+            //    //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(sh_id).attributeList.Add(new UnitAttribute { skillId = 838011, number = 1 });
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(dq_ds);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(dq_il);
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(dq_ds);
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(dq_il);
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).breakSection = new BreakSectionInfo
-                {
-                    sectionList = new Il2CppSystem.Collections.Generic.List<int>()
-                };
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).breakSection.sectionList.Add(35);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).breakSection.sectionList.Add(25);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).breakSection.sectionList.Add(10);
-                var dss = new Il2CppSystem.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>();
-                dss.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(9990304));
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).breakSection = new BreakSectionInfo
+            //    {
+            //        sectionList = new Il2CppSystem.Collections.Generic.List<int>()
+            //    };
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).breakSection.sectionList.Add(35);
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).breakSection.sectionList.Add(25);
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id).breakSection.sectionList.Add(10);
+            //    var dss = new Il2CppSystem.Collections.Generic.List<CodeStage.AntiCheat.ObscuredTypes.ObscuredInt>();
+            //    dss.Add(new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(9990304));
 
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id)._securedAggro = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(dq_aggro);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id)._securedDefenseSkillIDList = dss;
-            }
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id)._securedAggro = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(dq_aggro);
+            //    Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(dq_id)._securedDefenseSkillIDList = dss;
+            //}
 
 
-            Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetBattlePassiveIDList(10601, 3).Add(1040101);
-            Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetBattlePassiveIDList(10601, 3).Add(1030101);
-            Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetBattlePassiveIDList(10601, 3).Add(1030401);
-
-            //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList.Add(new InitBuffPerLevel { level = 3, list = new Il2CppSystem.Collections.Generic.List<InitBuff>() });
-            //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList[0].list.Add(new InitBuff { buff = "HonorableDuel_Don", stack = 1 });
-            //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList[0].list.Add(new InitBuff { buff = "RecklessDuel", stack = 1 });
-            //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList[0].list.Add(new InitBuff { buff = "RighteousFeeling", stack = 1 });
-            //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList[0].list.Add(new InitBuff { buff = "FragmentOfHopeTwo", stack = 4 });
-            //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList[0].list.Add(new InitBuff { buff = "UnfinishedDream", stack = 1 });
-            //Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10301).initBuffList[0].list.Add(new InitBuff { buff = "Precarious", stack = 1 });
-
+            //Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetBattlePassiveIDList(10601, 3).Add(1040101);
+            //Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetBattlePassiveIDList(10601, 3).Add(1030101);
+            //Singleton<StaticDataManager>.Instance.PersonalityPassiveList.GetBattlePassiveIDList(10601, 3).Add(1030401);
 
 
             //Singleton<StaticDataManager>.Instance.PassiveList.list.Add(new PassiveStaticData { id = 9991001 });
@@ -1902,18 +1921,32 @@ public class Plugin : BasePlugin
 
             // yi sang solemn
             {
-                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1011001).skillData[1].coinList.Add(Singleton<StaticDataManager>.Instance.SkillList.GetData(1011001).skillData[0].coinList[1]);
-                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1011001).skillData[2].coinList.Add(Singleton<StaticDataManager>.Instance.SkillList.GetData(1011001).skillData[0].coinList[1]);
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1011001).skillData[2].coinList.Add(Singleton<StaticDataManager>.Instance.SkillList.GetData(1011001).skillData[2].coinList[0]);
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1011002).skillData[2].coinList.Add(Singleton<StaticDataManager>.Instance.SkillList.GetData(1011002).skillData[2].coinList[1]);
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1011004).skillData[1].coinList.Add(Singleton<StaticDataManager>.Instance.SkillList.GetData(1011004).skillData[1].coinList[0]);
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1011003).skillData[1].targetNum = 3;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1011002).skillData[2].targetNum = 2;
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1011003).skillData[1].defaultValue = 2;
 
-                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1011003).skillData[1].coinList)
-                //{
-                //    x.operatorType = "MUL";
-                //    x._operatorType = OPERATOR_TYPE.MUL;
-                //    x.scale = 2;
-                //}
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1011001).skillData[2].coinList)
+                {
+                    x.scale += 1;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1011002).skillData[2].coinList)
+                {
+                    x.scale += 2;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1011003).skillData[1].coinList)
+                {
+                    x.scale += 4;
+                }
+                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1011003).skillData[1].coinList[3].abilityScriptList.Add(new )
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10110).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(103);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10110).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(2.3f);
+
             }
 
             // solemn lament ego
@@ -1941,13 +1974,13 @@ public class Plugin : BasePlugin
                     x.prob = 0.8f;
                 }
             }
-
+            Logger.Log("W Corp");
             // w corp stuff
             {
                 // don
 
-                //Log.LogInfo(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.SkillList.GetData(1040504)));
-                //Log.LogInfo(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.SkillList.GetData(1111003)));
+                //Logger.Log(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.SkillList.GetData(1040504)));
+                //Logger.Log(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.SkillList.GetData(1111003)));
 
 
 
@@ -1970,6 +2003,7 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1111003).skillData[1].defaultValue = 5;
             }
 
+            Logger.Log("Poise");
             // poise
             {
                 // ishamel
@@ -2076,6 +2110,7 @@ public class Plugin : BasePlugin
                 }
             }
 
+            Logger.Log("Bleed");
             // bleed
             {
                 // ryoshu chef
@@ -2158,7 +2193,7 @@ public class Plugin : BasePlugin
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].coinList[0].operatorType = "MUL";
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[1].coinList[0].scale = 2;
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[2].coinList[0].operatorType = "MUL";
-                //Log.LogInfo(9);
+                //Logger.Log(9);
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010902).skillData[2].coinList[0].scale = 2;
 
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1010903).skillData[0].coinList[0].scale = 4;
@@ -2288,10 +2323,41 @@ public class Plugin : BasePlugin
                 {
                     x.scale += 3;
                 }
+
+                // ishamel ink over
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1081102).skillData[1].targetNum = 2;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1081103).skillData[1].targetNum = 3;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1081103).skillData[1].defaultValue = 11;
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1081101).skillData[1].coinList)
+                {
+                    x.scale += 1;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1081102).skillData[1].coinList)
+                {
+                    x.scale += 2;
+                }
+
+                foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1081103).skillData[1].coinList)
+                {
+                    x.scale += 6;
+                }
             }
 
+            Logger.Log("Sinking");
             // sinking
             {
+                // 10104 - yi sang flower
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010401).skillData[2].targetNum = 3;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1010403).skillData[1].targetNum = 3;
+
+                // ishamel
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1080901).skillData[2].targetNum = 3;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1080902).skillData[2].targetNum = 3;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1080903).skillData[0].targetNum = 3;
+                Singleton<StaticDataManager>.Instance.SkillList.GetData(1080903).skillData[1].targetNum = 5;
+
                 // Heatcliff S3 - Normal
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10710).hp._securedIncrementByLevel += new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(0.75f);
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10710).hp._securedDefaultStat += new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(21);
@@ -2315,8 +2381,8 @@ public class Plugin : BasePlugin
 
                 // heir gregor
 
-                //Log.LogInfo(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.SkillList.GetData(1120903)));
-                //Log.LogInfo(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.SkillList.GetData(1060801)));
+                //Logger.Log(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.SkillList.GetData(1120903)));
+                //Logger.Log(JsonUtility.ToJson(Singleton<StaticDataManager>.Instance.SkillList.GetData(1060801)));
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1120904).skillData[0].defaultValue = 5;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1120904).skillData[1].defaultValue = 6;
 
@@ -2356,15 +2422,141 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10608).resistInfo.atkResistList[1].value = 1.5f;
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10608).resistInfo.atkResistList[2].value = 0.5f;
 
-
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1060801).skillData[0].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Sinking", target = "", buffOwner = "", stack = 1, turn = 0, activeRound = 0, value = 0, limit = 0 } });
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1060803).skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Sinking", target = "", buffOwner = "", stack = 2, turn = 1, activeRound = 0, value = 0, limit = 0 } });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1060803).skillData[1].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Sinking", target = "", buffOwner = "", stack = 2, turn = 1, activeRound = 0, value = 0, limit = 0 } });
+
+                // outis
+                AddPassive(11108, 1020901);
+
+                foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1110803).skillData[1].coinList) {
+                    coin.scale += 2;
+                }
             }
 
+            Logger.Log("Rupture");
             // rupture
             {
+                // dao outis 112604
+                try
+                {
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(1111203).skillData[0].targetNum = 3;
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(1111203).skillData[1].targetNum = 3;
+
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1111202).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Heal by 50% of damage dealt" });
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(1111202).skillData[1].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio50", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "", buffOwner = "", limit = 0, stack = 0, target = "", turn = 0, value = 0 }, conditionalData = new ConditionalData() });
+
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1111202).levelList[1].coinlist[1].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Heal by 70% of damage dealt" });
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(1111202).skillData[1].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio70", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "", buffOwner = "", limit = 0, stack = 0, target = "", turn = 0, value = 0 }, conditionalData = new ConditionalData() });
+
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1111202).levelList[2].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Heal by 50% of damage dealt" });
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(1111202).skillData[2].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio50", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "", buffOwner = "", limit = 0, stack = 0, target = "", turn = 0, value = 0 }, conditionalData = new ConditionalData() });
+
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1111202).levelList[2].coinlist[1].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Heal by 70% of damage dealt" });
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(1111202).skillData[2].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio70", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "", buffOwner = "", limit = 0, stack = 0, target = "", turn = 0, value = 0 }, conditionalData = new ConditionalData() });
+
+                    foreach (var script in Singleton<StaticDataManager>.Instance.SkillList.GetData(1110403).skillData[0].coinList[2].abilityScriptList)
+                    {
+                        Singleton<StaticDataManager>.Instance.SkillList.GetData(1111203).skillData[0].coinList[2].abilityScriptList.Insert(1, script);
+                        Singleton<StaticDataManager>.Instance.SkillList.GetData(1111203).skillData[1].coinList[2].abilityScriptList.Insert(1, script);
+                    }
+
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1111201).skillData[1].coinList)
+                    {
+                        coin.scale += 1;
+                    }
+
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1111201).skillData[2].coinList)
+                    {
+                        coin.scale += 1;
+                    }
+
+                    // {"scriptName":"RerollOnSAIfSelfSpeedNotLessThan10Upto1","value":0.0,"turnLimit":0,"buffData":{"buffKeyword":"","target":"","buffOwner":"","stack":0,"turn":0,"activeRound":0,"value":0.0,"limit":0},"conditionalData":{"category":"","value":"","conditionBuffData":{"buffKeyword":"","target":"","buffOwner":"","stack":0,"turn":0,"activeRound":0,"value":0.0,"limit":0},"type":"","resultValue":"","resultBuffData":{"buffKeyword":"","target":"","buffOwner":"","stack":0,"turn":0,"activeRound":0,"value":0.0,"limit":0}}}
+
+                    //foreach (var script in Singleton<StaticDataManager>.Instance.SkillList.GetData(1111203).skillData[1].coinList[2].abilityScriptList)
+                    //{
+                    //    Logger.Log(script.ScriptName);
+                    //    Logger.Log(script.value);
+
+                    //    Logger.Log(script.buffData.Limit);
+                    //    Logger.Log(script.buffData.value);
+
+                    //    Logger.Log(JsonUtility.ToJson(script));
+                    //    Logger.Log(JsonUtility.ToJson(script.buffData));
+                    //    Logger.Log(JsonUtility.ToJson(script.conditionalData));
+
+
+                    //}
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1111203).skillData[0].coinList)
+                    {
+                        coin.scale += 2;
+                    }
+
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1111203).skillData[1].coinList)
+                    {
+                        coin.scale += 3;
+                    }
+
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1111203).levelList[0].coinlist[^1].GetDescs().Insert(1, new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Deal bonus Slash damage by 15% of damage dealt" });
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1111203).levelList[0].coinlist[^1].GetDescs().Insert(1, new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Inflict [WeaknessAnalysis] next turn" });
+
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1111203).levelList[1].coinlist[^1].GetDescs().Insert(1, new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Deal bonus Slash damage by 15% of damage dealt" });
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1111203).levelList[1].coinlist[^1].GetDescs().Insert(1, new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Inflict [WeaknessAnalysis] next turn" });
+                    AddPassive(112604, 10102);
+                }
+                catch
+                {
+                    Logger.Log(Logger.LEVEL.FATAL,"patching function","dao outis failed!!");
+                }
+
+                // ryoshu 10411
+                try
+                {
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(1041103).skillData[0].targetNum = 3;
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(1041103).skillData[1].targetNum = 3;
+                    
+                    foreach (var script in Singleton<StaticDataManager>.Instance.SkillList.GetData(1110403).skillData[0].coinList[2].abilityScriptList)
+                    {
+                        Singleton<StaticDataManager>.Instance.SkillList.GetData(1041103).skillData[0].coinList[2].abilityScriptList.Insert(1, script);
+                        Singleton<StaticDataManager>.Instance.SkillList.GetData(1041103).skillData[1].coinList[2].abilityScriptList.Insert(1, script);
+                    }
+
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1041101).skillData[1].coinList)
+                    {
+                        coin.scale += 1;
+                    }
+
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1041101).skillData[2].coinList)
+                    {
+                        coin.scale += 1;
+                    }
+
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1041103).skillData[0].coinList)
+                    {
+                        coin.scale += 4;
+                    }
+
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(1041103).skillData[1].coinList)
+                    {
+                        coin.scale += 7;
+                    }
+
+                    //Singleton<TextDataSet>.Instance.SkillList.GetData(1041101).levelList[1].coinlist[1].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Inflict +1 [Burst] Count" });
+                    //Singleton<StaticDataManager>.Instance.SkillList.GetData(1041101).skillData[1].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttack", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "Burst", buffOwner = "", limit = 0, stack = 0, target = "Target", turn = 1, value = 0 }, conditionalData = new ConditionalData() });
+
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1041103).levelList[0].coinlist[^1].GetDescs().Insert(1, new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Deal bonus Slash damage by 15% of damage dealt" });
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1041103).levelList[0].coinlist[^1].GetDescs().Insert(1, new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Inflict [WeaknessAnalysis] next turn" });
+
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1041103).levelList[1].coinlist[^1].GetDescs().Insert(1, new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Deal bonus Slash damage by 15% of damage dealt" });
+                    Singleton<TextDataSet>.Instance.SkillList.GetData(1041103).levelList[1].coinlist[^1].GetDescs().Insert(1, new TextData_Skill_CoinDesc { desc = "[OnSucceedAttack] Inflict [WeaknessAnalysis] next turn" });
+                    AddPassive(10411, 10102);
+                }
+                catch
+                {
+                    Logger.Log(Logger.LEVEL.FATAL, "patching function", "dao ryoshu failed!!");
+                }
+
                 // lce yi sang
                 AddPassive(10111, 2050111);
 
@@ -2389,7 +2581,6 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1030703).skillData[1].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttack", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "Burst", buffOwner = "", limit = 0, stack = 3, target = "Target", turn = 0, value = 0 }, conditionalData = new ConditionalData() });
 
                 // amazon rodya
-
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1091003).skillData[0].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio70", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "", buffOwner = "", limit = 0, stack = 0, target = "", turn = 0, value = 0 }, conditionalData = new ConditionalData() });
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1091003).skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio100", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "", buffOwner = "", limit = 0, stack = 0, target = "", turn = 0, value = 0 }, conditionalData = new ConditionalData() });
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1091001).skillData[2].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio50", buffData = new BuffReferenceData { activeRound = 0, buffKeyword = "", buffOwner = "", limit = 0, stack = 0, target = "", turn = 0, value = 0 }, conditionalData = new ConditionalData() });
@@ -2442,11 +2633,12 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1061004).skillData[1].defaultValue = 22;
             }
 
+            Logger.Log("Burn");
             // burn
             {
                 // faust burn ego!!!
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10211).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(89);
-                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10211).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(2.7f);
+                Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(10211).hp._securedIncrementByLevel = new CodeStage.AntiCheat.ObscuredTypes.ObscuredFloat(2.9f);
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[0].targetNum = 3;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].targetNum = 3;
@@ -2459,35 +2651,6 @@ public class Plugin : BasePlugin
                 {
                     x.scale += 2;
                 }
-
-                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].abilityScriptList)
-                //{
-                //    Logger.Log("skillScripts: " + x.scriptName);
-                //}
-
-                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].coinList)
-                //{
-                //    foreach (var y in x.abilityScriptList)
-                //    {
-                //        Logger.Log("coinScripts: " + y.scriptName);
-                //    }
-                //}
-
-                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[1].abilityScriptList)
-                //{
-                //    Logger.Log("skillScripts: " + x.scriptName);
-                //}
-
-                //foreach (var x in Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[1].coinList)
-                //{
-                //    foreach (var y in x.abilityScriptList)
-                //    {
-                //        Logger.Log("coinScripts: " + y.scriptName);
-                //    }
-                //}
-                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[1].abilityScriptList.RemoveAt(0);
-                //Singleton<StaticDataManager>.Instance.SkillList.GetData(1021103).skillData[0].abilityScriptList.RemoveAt(0);
-                //Singleton<TextDataSet>.Instance.SkillList.GetData(1021105).levelList[1].rawDesc.Replace("After using this Skill, dies.", "");
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[0].targetNum = 5;
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1021105).skillData[0].targetNum = 7;
@@ -2522,7 +2685,6 @@ public class Plugin : BasePlugin
                 }
                 // yi sang
 
-
                 // outis burn
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList.Add(new InitBuffPerLevel { level = 3, list = new Il2CppSystem.Collections.Generic.List<InitBuff>() });
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(11107).initBuffList[1].list.Add(new InitBuff { buff = "FreischutzShotCount", stack = 2 });
@@ -2532,25 +2694,15 @@ public class Plugin : BasePlugin
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110704).skillData[1].defaultValue = 15;
 
-                Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[2].mpUsage = 5;
-                try
-                {
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[2].mpUsage = 17;
                     Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].targetNum = 7;
-                    Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].defaultValue = 44;
-                    Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].coinList[0].operatorType = "NONE";
-                }
-                catch
-                {
-                    Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].targetNum = 7;
-                }
+                    Singleton<StaticDataManager>.Instance.EgoList.GetData(21108).GetAwakeningSkill().skillData[1].defaultValue = 37;
 
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110704).skillData[1].abilityScriptList[0].scriptName = "GiveBuffOnBattleStart(limit:1)";
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1110702).skillData[2].coinList[1].abilityScriptList.Insert(0, new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "DarkFlame", target = "Target", buffOwner = "", stack = 2, turn = 0, activeRound = 0, value = 0, limit = 0 } });
 
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1110702).skillData[2].coinList[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 3, turn = 0, activeRound = 0, value = 0, limit = 0 } });
                 //Singleton<StaticDataManager>.Instance.SkillList.GetData(1110703).skillData[1].coinList[0].abilityScriptList.Insert(0, new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 0, turn = 3, activeRound = 0, value = 0, limit = 0 } });
-
-
 
                 Singleton<TextDataSet>.Instance.SkillList.GetData(1110704).levelList[1].desc.Replace("[WhenUse] Gain 1", "[StartBattle] Gain 1");
                 //Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs.Insert(0, Singleton<TextDataSet>.Instance.SkillList.GetData(1110702).levelList[2].coinlist[1].coindescs[0]);
@@ -2591,6 +2743,7 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.SkillList.GetData(1100902).skillData[1].coinList[2].abilityScriptList.Insert(0, new AbilityData { scriptName = "GiveBuffOnSucceedAttack", buffData = new BuffReferenceData { buffKeyword = "Combustion", target = "Target", buffOwner = "", stack = 2, turn = 0, activeRound = 1, value = 0, limit = 0 } });
             }
 
+            Logger.Log("Tremor");
             // tremor
             {
                 //{
@@ -2610,8 +2763,16 @@ public class Plugin : BasePlugin
             }
 
 
+            Logger.Log("Etc");
             // etc
             {
+                // ardor blossom star
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20803).GetAwakeningSkill().skillData[1].coinList[0].scale = 27;
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20803).GetCorrosionSkill().skillData[1].defaultValue = 57;
+
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20803).GetAwakeningSkill().skillData[2].coinList[0].scale = 32;
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20803).GetCorrosionSkill().skillData[2].defaultValue = 63;
+
                 // awe
                 foreach (var x in Singleton<StaticDataManager>.Instance.EgoList.GetData(20407).GetAwakeningSkill().skillData[2].coinList)
                 {
@@ -2624,11 +2785,28 @@ public class Plugin : BasePlugin
                 }
 
                 // soda hong lu
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[1].coinList[0]._coinColorType = COIN_COLOR_TYPE.GREY;
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[2].coinList[0]._coinColorType = COIN_COLOR_TYPE.GREY;
+
+                Logger.Log(1);
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 6, turn = 2, activeRound = 0, value = 0, limit = 0 } });
                 Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningSkillId).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttackHead] Inflict 6 [Smoke] and +2 [Smoke] Count" });
                 
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[2].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "Smoke", target = "Target", buffOwner = "", stack = 7, turn = 3, activeRound = 0, value = 0, limit = 0 } });
                 Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningSkillId).levelList[2].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttackHead] Inflict 7 [Smoke] and +3 [Smoke] Count" });
+                Logger.Log(1111111);
+
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "BurstAgility", target = "Target", buffOwner = "", stack = 0, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningSkillId).levelList[1].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttackHead] Inflict [BurstAgility]" });
+
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[2].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnSucceedAttackHead", buffData = new BuffReferenceData { buffKeyword = "BurstAgility", target = "Target", buffOwner = "", stack = 0, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningSkillId).levelList[2].coinlist[0].coindescs.Add(new TextData_Skill_CoinDesc { desc = "[OnSucceedAttackHead] Inflict [BurstAgility]" });
+
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[1].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnUse", buffData = new BuffReferenceData { buffKeyword = "Persistent", target = "Self", buffOwner = "", stack = 4, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningSkillId).levelList[1].desc += "\n[WhenUse] Gain 4 [Persistent]";
+
+                Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).GetAwakeningSkill().skillData[2].abilityScriptList.Add(new AbilityData { scriptName = "GiveBuffOnUse", buffData = new BuffReferenceData { buffKeyword = "Persistent", target = "Self", buffOwner = "", stack = 4, turn = 0, activeRound = 0, value = 0, limit = 0 } });
+                Singleton<TextDataSet>.Instance.SkillList.GetData(Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningSkillId).levelList[2].desc += "\n[WhenUse] Gain 4 [Persistent]";
 
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningPassiveList.Add(2050311);
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(20604).awakeningPassiveList.Add(2050111);
@@ -2656,6 +2834,7 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.EgoList.GetData(20105).GetAwakeningSkill().skillData[1].coinList[0].abilityScriptList.Add(new AbilityData { scriptName = "HealSelfOnSuccessAttackByRatio50", buffData = new BuffReferenceData { buffKeyword = "", target = "", buffOwner = "", stack = 0, turn = 0, activeRound = 0, value = 0, limit = 0 } });
             }
 
+            Logger.Log("Base ego");
             // base ego
             {
                 // crow's eye view
@@ -2767,7 +2946,7 @@ public class Plugin : BasePlugin
             }
 
             patched = true;
-            Log.LogInfo("Patching sucessful!");
+            Logger.Log("Patching sucessful!");
         
         }
     }
@@ -2776,8 +2955,60 @@ public class Plugin : BasePlugin
     [HarmonyPrefix]
     public static bool AskSettingsPopup_OpenSettingsPopup_Pre()
     {
-        Log.LogInfo("Settings patch");
+        Logger.Log("Settings patch");
+        //Singleton<FileDownloadManager>.Instance;
+        foreach (var x in Singleton<SynchronousDataManager>.Instance.NoticeSynchronousDataList.notices)
+        {
+            x.title = "Hong Lu bought this ad spot";
+            x.contentFormatList.list.Clear();
+            x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "Text", formatValue = "Hi there, this post was brought to you by the International Hong K. Lu Corporation LLC>" });
+            x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "SubTitle", formatValue = "don't listen to ryoshu" });
+            x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "HyperLink", formatValue = "https://lcbcountdown.carrd.co/" });
+            x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "HyperLink", formatValue = "file:///C:/Windows/assembly/Desktop.ini" });
+            x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "HyperLink", formatValue = "hi no, go fuck yourself btw" });
+            x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "Text", formatValue = "<script>alert(1)</script>" });
+            x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "SubTittle", formatValue = "<script>alert(1)</script>" });
+            x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "HyperLink", formatValue = "<script>alert(1)</script>" });
 
+
+
+            //x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "Text", formatValue = "Hi there, this post was brought to you by the International Hong K. Lu Corporation LLC>" });
+            //x.contentFormatList.list.Add(new IDPHPJPKLJA { formatKey = "Text", formatValue = "Hi there, this post was brought to you by the International Hong K. Lu Corporation LLC>" });
+
+
+            //Logger.Log($"{JsonUtility.ToJson(x.contentFormatList)}");
+            //Logger.Log($"{JsonUtility.ToJson(x.contentFormatList.list)}");
+            //foreach (var y in x.contentFormatList.list._items)
+            //{
+            //    Logger.Log($"{JsonUtility.ToJson(y)}");
+            //}
+            //x.content = "Hi there, this post was bought by Hong K. Lu, {\"list\":[{\"formatKey\":\"Text\",\"formatValue\":\"Ryoshu was also here fyi\"},{\"formatKey\":\"SubTitle\",\"formatValue\":\"<Official Sex>\"},{\"formatKey\":\"Text\",\"formatValue\":\"ÔùÅ Sex company\"},{\"formatKey\":\"HyperLink\",\"formatValue\":\"https://lcbcountdown.carrd.co/\"},{\"formatKey\":\"Text\",\"formatValue\":\"ÔùÅ Project Noon\"},{\"formatKey\":\"HyperLink\",\"formatValue\":\"file:///C:/Windows/assembly/Desktop.ini\"},{\"formatKey\":\"Text\",\"formatValue\":\"Fuck you.\"}]}";
+        }
+
+        //foreach (var x in Singleton<SynchronousDataManager>.Instance.NoticeSynchronousDataList.noticeFormats)
+        //{
+        //    x.title_EN = "Hong Lu bought this post (2)";
+        //    x.content_EN = "Hi there, this post was bought by Hong K. Lu, {\"list\":[{\"formatKey\":\"Text\",\"formatValue\":\"Ryoshu was also here fyi\"},{\"formatKey\":\"SubTitle\",\"formatValue\":\"<Official Sex>\"},{\"formatKey\":\"Text\",\"formatValue\":\"ÔùÅ Sex company\"},{\"formatKey\":\"HyperLink\",\"formatValue\":\"https://lcbcountdown.carrd.co/\"},{\"formatKey\":\"Text\",\"formatValue\":\"ÔùÅ Project Noon\"},{\"formatKey\":\"HyperLink\",\"formatValue\":\"file:///C:/Windows/assembly/Desktop.ini\"},{\"formatKey\":\"Text\",\"formatValue\":\"Fuck you.\"}]}";
+        //}
+        //foreach (var x in Singleton<SynchronousDataManager>.Instance.NoticeSynchronousDataList.noticeFormats)
+        //{
+        //    Logger.Log($"noticeFormats: {JsonUtility.ToJson(x)}");
+        //}
+
+        ////foreach (var x in Singleton<SynchronousDataManager>.Instance.NoticeSynchronousDataList.notices)
+        ////{
+        ////    Logger.Log($"notices: {JsonUtility.ToJson(x)}");
+        ////}
+
+        //foreach (var x in Singleton<StaticDataManager>.Instance.NewlyUpdatedContentStaticDataList.conentIdList)
+        //{
+        //    Logger.Log($"1:{x}");
+        //}
+
+        //foreach (var x in Singleton<StaticDataManager>.Instance.NewlyUpdatedContentStaticDataList._contentIdMap)
+        //{
+        //    Logger.Log($"2:{x.key}:{JsonUtility.ToJson(x.Value)}");
+        //}
         //var stage = Singleton<StaticDataManager>.Instance.GetStage(10733);
         //Formation formation = Singleton<FormationList>.Instance.GetData(0);
         //PlayerUnitFormation fm = new PlayerUnitFormation(formation, null, false, 0, null, null);
@@ -2792,7 +3023,7 @@ public class Plugin : BasePlugin
 
         if (!_asPatched)
         {
-            Log.LogInfo("patching...");
+            Logger.Log("patching...");
 
             // Debug stick
             {
@@ -2817,6 +3048,7 @@ public class Plugin : BasePlugin
                 //aplist.Add(vg_id, ("SD_Personality", "9999_VergiliusAppearance"));
                 aplist.Add(vg_id, ("SD_Personality", "9999_Vergilius_EgoAppearance"));
 
+                AddPassive(vg_id, -1);
                 Singleton<TextDataSet>.Instance.PersonalityList.GetData(vg_id).title = "Vergilius";
                 Singleton<TextDataSet>.Instance.PersonalityList.GetData(vg_id).oneLineTitle = "The Red Gaze ";
 
@@ -2856,7 +3088,10 @@ public class Plugin : BasePlugin
                 foreach (var skill in Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).attributeList)
                 {
                     Singleton<StaticDataManager>.Instance.SkillList.GetData(skill.skillId).skillData[0].targetNum = 77;
-                    Singleton<StaticDataManager>.Instance.SkillList.GetData(skill.skillId).skillData[0].defaultValue += 10000;
+                    Singleton<StaticDataManager>.Instance.SkillList.GetData(skill.skillId).skillData[0].defaultValue += 1000000;
+                    foreach (var coin in Singleton<StaticDataManager>.Instance.SkillList.GetData(skill.skillId).skillData[0].coinList) {
+                        coin.scale = 9999999;
+                    }
                 }
 
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(vg_id).hp._securedDefaultStat = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(vg_ds);
@@ -2944,7 +3179,7 @@ public class Plugin : BasePlugin
                 Singleton<StaticDataManager>.Instance.PersonalityStaticDataList.GetData(xi_id)._securedAggro = new CodeStage.AntiCheat.ObscuredTypes.ObscuredInt(xi_aggro);
             }
 
-            Log.LogInfo("Patch done!");
+            Logger.Log("Patch done!");
             _asPatched = true;
             return false;
         }
@@ -2968,7 +3203,7 @@ public class Plugin : BasePlugin
     //{
     //    // Your logic after the original method executes
     //    //Console.WriteLine("After Execute method");
-    //    Log.LogInfo("login patch");
+    //    Logger.Log("login patch");
     //    SoundGenerator.Init();
     //    Debug.Log("dev login");
     //    //GlobalGameManager.Instance.Login_DEV();
@@ -2984,8 +3219,8 @@ public class Plugin : BasePlugin
     //{
     //    // Your logic after the original method executes
     //    //Console.WriteLine("After Execute method");
-    //    Log.LogInfo("funny patch rn: " + hex);
-    //    //Log.LogInfo("Server response: " + responseJson);
+    //    Logger.Log("funny patch rn: " + hex);
+    //    //Logger.Log("Server response: " + responseJson);
     //    return false;
     //}
 
@@ -2995,9 +3230,9 @@ public class Plugin : BasePlugin
     //{
     //    // Your logic after the original method executes
     //    //Console.WriteLine("After Execute method");
-    //    Log.LogInfo("funny patch rn 2: " + encryptedTime);
-    //    Log.LogInfo("funny patch rn 2: " + bytes);
-    //    //Log.LogInfo("Server response: " + responseJson);
+    //    Logger.Log("funny patch rn 2: " + encryptedTime);
+    //    Logger.Log("funny patch rn 2: " + bytes);
+    //    //Logger.Log("Server response: " + responseJson);
     //    return false;
     //}
 
@@ -3007,8 +3242,8 @@ public class Plugin : BasePlugin
     //{
     //    // Your logic after the original method executes
     //    //Console.WriteLine("After Execute method");
-    //    Log.LogInfo("funny patch rn 3: " + bytes);
-    //    //Log.LogInfo("Server response: " + responseJson);
+    //    Logger.Log("funny patch rn 3: " + bytes);
+    //    //Logger.Log("Server response: " + responseJson);
     //    return false;
     //}
 
